@@ -15,8 +15,14 @@ using System.Net;
 
 [assembly: AssemblyTitle("Neverwinter Parsing Plugin")]
 [assembly: AssemblyDescription("A basic parser that reads the combat logs in Neverwinter.")]
-[assembly: AssemblyCopyright("oracleNW, jicama, dragonsbite, designedbyrng, nils.brummond@gmail.com based on: Antday <Unique> based on STO Plugin from Hilbert@mancom, Pirye@ucalegon")]
-[assembly: AssemblyVersion("1.2.8.0")]
+[assembly: AssemblyCopyright("doublecarlos, oracleNW, jicama, dragonsbite, designedbyrng, nils.brummond@gmail.com based on: Antday <Unique> based on STO Plugin from Hilbert@mancom, Pirye@ucalegon")]
+[assembly: AssemblyVersion("1.2.8.1")]
+
+/*
+ * Version History - doublecarlos
+ * 1.2.8.1 2025-05-03
+ * - Simplify OwnerRegistery code to avoid "key already exists" exceptions on Alt-Tab
+ */
 
 /*
  * Version History - oracleNW
@@ -3358,48 +3364,20 @@ namespace NWParsing_Plugin
             // "13:07:09:11:01:08.4::Correk,P[201028460@1546238 Correk@Gleyvien],Target Dummy,C[265291 Entity_Targetdummy],,*,Doom!,Pn.F1j0yx1,Radiant,Critical,10557.2,8445.78"
             // "13:07:09:11:01:59.5::Nasus king,P[201132249@7587600 Nasus king@portazorras],SerGay,C[265715 Pet_Clericdisciple],Target Dummy,C[265291 Entity_Targetdummy],Sacred Flame,Pn.Tegils,Physical,Flank,59.7605,0"
 
-            bool add = false;
             OwnerInfo OwnerInfo = null;
 
             // Record owner of all pets we see.
             if (line.srcEntityType == EntityType.Pet)
             {
-                if (petPlayerCache.TryGetValue(line.srcInt, out OwnerInfo))
-                {
-                    if (OwnerInfo.ownerInt != line.ownInt)
-                    {
-                        // Pet Owner changed...  Not sure if possible... but just in case.
-                        petPlayerCache.Remove(OwnerInfo.petInt);
-                        playerPetCache.Remove(OwnerInfo.ownerInt);
-                        add = true;
-                    }
-                }
-                else
-                {
-                    // Check if this player had another pet registered and clean up.
-                    // Only one pet is allowed.
-                    // TODO how does Alpha Compy show up in the logs with other compys summoned?
-                    if (playerPetCache.TryGetValue(line.ownInt, out OwnerInfo))
-                    {
-                        playerPetCache.Remove(line.ownInt);
-                        petPlayerCache.Remove(OwnerInfo.petInt);
-                    }
+                OwnerInfo = new OwnerInfo();
+                OwnerInfo.ownerDsp = line.ownDsp;
+                OwnerInfo.ownerInt = line.ownInt;
+                OwnerInfo.ownerEntityType = line.ownEntityType;
+                OwnerInfo.petDsp = line.srcDsp;
+                OwnerInfo.petInt = line.srcInt;
 
-                    add = true;
-                }
-
-                if (add)
-                {
-                    OwnerInfo = new OwnerInfo();
-                    OwnerInfo.ownerDsp = line.ownDsp;
-                    OwnerInfo.ownerInt = line.ownInt;
-                    OwnerInfo.ownerEntityType = line.ownEntityType;
-                    OwnerInfo.petDsp = line.srcDsp;
-                    OwnerInfo.petInt = line.srcInt;
-
-                    petPlayerCache.Add(line.srcInt, OwnerInfo);
-                    playerPetCache.Add(line.ownInt, OwnerInfo);
-                }
+                petPlayerCache[line.srcInt] = OwnerInfo;
+                playerPetCache[line.ownInt] = OwnerInfo;
             }
         }
 
@@ -3429,38 +3407,19 @@ namespace NWParsing_Plugin
 
         public void Register(ParsedLine line)
         {
-            bool add = false;
             OwnerInfo OwnerInfo = null;
 
             // Record owner of all entities we see.
             if (line.srcEntityType == EntityType.Entity)
             {
-                if (entityPlayerCache.TryGetValue(line.srcInt, out OwnerInfo))
-                {
-                    if (OwnerInfo.ownerInt != line.ownInt)
-                    {
-                        // Pet Owner changed...  Not sure if possible... but just in case.
-                        entityPlayerCache.Remove(OwnerInfo.petInt);
-                        add = true;
-                    }
-                }
-                else
-                {
-                    // Multiple entities may be owned by same owner.
-                    add = true;
-                }
+                OwnerInfo = new OwnerInfo();
+                OwnerInfo.ownerDsp = line.ownDsp;
+                OwnerInfo.ownerInt = line.ownInt;
+                OwnerInfo.ownerEntityType = line.ownEntityType;
+                OwnerInfo.petDsp = line.srcDsp;
+                OwnerInfo.petInt = line.srcInt;
 
-                if (add)
-                {
-                    OwnerInfo = new OwnerInfo();
-                    OwnerInfo.ownerDsp = line.ownDsp;
-                    OwnerInfo.ownerInt = line.ownInt;
-                    OwnerInfo.ownerEntityType = line.ownEntityType;
-                    OwnerInfo.petDsp = line.srcDsp;
-                    OwnerInfo.petInt = line.srcInt;
-
-                    entityPlayerCache.Add(line.srcInt, OwnerInfo);
-                }
+                entityPlayerCache[line.srcInt] = OwnerInfo;
             }
         }
 
