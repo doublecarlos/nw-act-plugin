@@ -16,12 +16,18 @@ using System.Net;
 [assembly: AssemblyTitle("Neverwinter Parsing Plugin")]
 [assembly: AssemblyDescription("A basic parser that reads the combat logs in Neverwinter.")]
 [assembly: AssemblyCopyright("doublecarlos, oracleNW, jicama, dragonsbite, designedbyrng, nils.brummond@gmail.com based on: Antday <Unique> based on STO Plugin from Hilbert@mancom, Pirye@ucalegon")]
-[assembly: AssemblyVersion("1.2.8.1")]
+[assembly: AssemblyVersion("1.2.8.2")]
+
+/*
+ * Version History - doublecarlos
+ * 1.2.8.2 2025-05-07
+ * - Damage from entities created by Blue Fire Eye and Tutor are correctly added to their DamageType views instead of the player's when merging is disabled.
+ */
 
 /*
  * Version History - doublecarlos
  * 1.2.8.1 2025-05-03
- * - Simplify OwnerRegistery code to avoid "key already exists" exceptions on Alt-Tab
+ * - Simplify OwnerRegistery code to avoid "key already exists" exceptions on Alt-Tab.
  */
 
 /*
@@ -416,6 +422,12 @@ namespace NWParsing_Plugin
 
         private int parsedLineCount = 0;
         private int errorLineCount = 0;
+
+        public static readonly string[] companionEntityPowers = {
+            "Pn.Prookc1", // "Hexed earth" from Blue Fire Eye
+            "Pn.Bdzbls", // "Instructional Aid" from Tutor
+            "Pn.3kzn9w1", // "Instructional Aid" from Tutor
+        };
 
         public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
         {
@@ -2269,9 +2281,24 @@ namespace NWParsing_Plugin
             line.encAttackerName = line.ownDsp;
             line.unitAttackerName = line.ownDsp;
 
-            // We assume the owner is the owner of the source for this processing.
+            if (Array.IndexOf(NW_Parser.companionEntityPowers, line.evtInt) != -1)
+            {
+                OwnerInfo info = petOwnerRegistery.ResolveByPlayer(line.ownInt);
+                string attackerName = unk;
 
-            if (line.srcEntityType == EntityType.Pet)
+                if (info != null) {
+                    attackerName = info.petDsp + " [" + info.ownerDsp + "'s Pet]";
+                }
+
+                line.encAttackerName = line.ownDsp;
+                line.unitAttackerName = attackerName;
+                if (this.checkBox_mergePets.Checked)
+                {
+                    line.unitAttackerName = line.ownDsp;
+                }
+            }
+            // We assume the owner is the owner of the source for this processing.
+            else if (line.srcEntityType == EntityType.Pet)
             {
                 // Use the pet owner name for encounter name and filtering.
                 line.encAttackerName = line.ownDsp;
@@ -3367,7 +3394,7 @@ namespace NWParsing_Plugin
             OwnerInfo OwnerInfo = null;
 
             // Record owner of all pets we see.
-            if (line.srcEntityType == EntityType.Pet)
+            if (line.srcEntityType == EntityType.Pet && Array.IndexOf(NW_Parser.companionEntityPowers, line.evtInt) == -1)
             {
                 OwnerInfo = new OwnerInfo();
                 OwnerInfo.ownerDsp = line.ownDsp;
@@ -3394,6 +3421,16 @@ namespace NWParsing_Plugin
             return null;
         }
 
+        public OwnerInfo ResolveByPlayer(string nameInt)
+        {
+            OwnerInfo petOwner = null;
+            if (playerPetCache.TryGetValue(nameInt, out petOwner))
+            {
+                return petOwner;
+            }
+
+            return null;
+        }
     }
 
     internal class EntityOwnerRegistery : OwnerRegistery
