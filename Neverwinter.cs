@@ -148,6 +148,7 @@ namespace NWParsing_Plugin
             this.checkBox_mergeNPC = new System.Windows.Forms.CheckBox();
             this.checkBox_mergePets = new System.Windows.Forms.CheckBox();
             this.checkBox_flankSkill = new System.Windows.Forms.CheckBox();
+            this.checkBox_splitDot = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.button_clearAll = new System.Windows.Forms.Button();
@@ -206,6 +207,18 @@ namespace NWParsing_Plugin
             this.checkBox_flankSkill.MouseEnter += new System.EventHandler(this.checkBox_flankSkill_MouseEnter);
             this.checkBox_flankSkill.MouseLeave += new System.EventHandler(this.control_MouseLeave);
             // 
+            // checkBox_splitDot
+            // 
+            this.checkBox_splitDot.AutoSize = true;
+            this.checkBox_splitDot.Location = new System.Drawing.Point(6, 90);
+            this.checkBox_splitDot.Name = "checkBox_splitDot";
+            this.checkBox_splitDot.Size = new System.Drawing.Size(213, 17);
+            this.checkBox_splitDot.TabIndex = 4;
+            this.checkBox_splitDot.Text = "Split skills into DoT/Non-DoT";
+            this.checkBox_splitDot.UseVisualStyleBackColor = true;
+            this.checkBox_splitDot.MouseEnter += new System.EventHandler(this.checkBox_splitDot_MouseEnter);
+            this.checkBox_splitDot.MouseLeave += new System.EventHandler(this.control_MouseLeave);
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label2);
@@ -214,7 +227,7 @@ namespace NWParsing_Plugin
             this.groupBox1.Controls.Add(this.button_add);
             this.groupBox1.Controls.Add(this.textBox_player);
             this.groupBox1.Controls.Add(this.listBox_players);
-            this.groupBox1.Location = new System.Drawing.Point(15, 147);
+            this.groupBox1.Location = new System.Drawing.Point(15, 170);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(362, 188);
             this.groupBox1.TabIndex = 5;
@@ -296,9 +309,10 @@ namespace NWParsing_Plugin
             this.groupBox2.Controls.Add(this.checkBox_mergeNPC);
             this.groupBox2.Controls.Add(this.checkBox_mergePets);
             this.groupBox2.Controls.Add(this.checkBox_flankSkill);
+            this.groupBox2.Controls.Add(this.checkBox_splitDot);
             this.groupBox2.Location = new System.Drawing.Point(15, 41);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(362, 100);
+            this.groupBox2.Size = new System.Drawing.Size(362, 123);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Options";
@@ -325,6 +339,7 @@ namespace NWParsing_Plugin
         private System.Windows.Forms.CheckBox checkBox_mergeNPC;
         private System.Windows.Forms.CheckBox checkBox_mergePets;
         private System.Windows.Forms.CheckBox checkBox_flankSkill;
+        private System.Windows.Forms.CheckBox checkBox_splitDot;
         private GroupBox groupBox1;
         private TextBox textBox_player;
         private ListBox listBox_players;
@@ -3146,9 +3161,10 @@ namespace NWParsing_Plugin
             // Use encounter names attacker and target here.  This allows filtering
             if (ActGlobals.oFormActMain.SetEncounter(line.logInfo.detectedTime, line.encAttackerName, line.encTargetName))
             {
-                // add Flank to AttackType if setting is set
+                // add Flank and Dot to AttackType if setting is set
                 string tempAttack = theAttackType;
                 if (line.flank && this.checkBox_flankSkill.Checked) tempAttack = theAttackType + ": Flank";
+                if (line.dot && this.checkBox_splitDot.Checked) tempAttack = theAttackType + ": DoT";
 
                 if (line.srcInt.Contains("Artifact_Weapon_Illusion_Clone"))
                 {
@@ -3230,6 +3246,7 @@ namespace NWParsing_Plugin
             xmlSettings.AddControlSetting(checkBox_mergeNPC.Name, checkBox_mergeNPC);
             xmlSettings.AddControlSetting(checkBox_mergePets.Name, checkBox_mergePets);
             xmlSettings.AddControlSetting(checkBox_flankSkill.Name, checkBox_flankSkill);
+            xmlSettings.AddControlSetting(checkBox_splitDot.Name, checkBox_splitDot);
             xmlSettings.AddControlSetting(listBox_players.Name, listBox_players);
 
             if (File.Exists(settingsFile))
@@ -3351,7 +3368,12 @@ namespace NWParsing_Plugin
 
         private void checkBox_flankSkill_MouseEnter(object sender, EventArgs e)
         {
-            ActGlobals.oFormActMain.SetOptionsHelpText("Separate flank hits in to separate abilities named \"<ability-name> : Flank\"");
+            ActGlobals.oFormActMain.SetOptionsHelpText("Separate flank hits into separate abilities named \"<ability-name> : Flank\"");
+        }
+
+        private void checkBox_splitDot_MouseEnter(object sender, EventArgs e)
+        {
+            ActGlobals.oFormActMain.SetOptionsHelpText("Separate DoT hits into separate abilities named \"<ability-name> : DoT\"");
         }
     }
 
@@ -3627,7 +3649,7 @@ namespace NWParsing_Plugin
         public String ownDsp, ownInt, srcDsp, srcInt, tgtDsp, tgtInt, evtDsp, evtInt;
         public String type, attackType, special, flags;
         public int swingType, ts;
-        public bool critical, flank, dodge, immune, kill, showPowerDisplayName;
+        public bool critical, flank, dodge, immune, kill, showPowerDisplayName, dot;
         public float mag, magBase;
         public bool error;
 
@@ -3730,6 +3752,9 @@ namespace NWParsing_Plugin
                             break;
                         case "ShowPowerDisplayName":
                             showPowerDisplayName = true;
+                            break;
+                        case "DoT":
+                            dot = true;
                             break;
 
                         default:
