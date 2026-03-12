@@ -1,0 +1,18 @@
+# .NET build artifacts
+bin/
+obj/
+
+# Claude Code local settings
+.claude/
+
+# Visual Studio / Rider
+.vs/
+*.user
+*.suo
+.idea/
+
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+project.lock.json
