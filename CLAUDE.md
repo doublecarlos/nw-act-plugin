@@ -20,17 +20,33 @@ ACT loads `.cs` plugin files by compiling them at runtime. This imposes strict c
 ## Repository Structure
 ```
 /
-├── Neverwinter.cs          ← the plugin (the only deliverable)
+├── Neverwinter.cs              ← the plugin (the only deliverable)
 ├── README.md
-├── CLAUDE.md               ← this file
-└── TestHarness/            ← planned; does not exist yet
-    ├── TestHarness.csproj  (net48, LangVersion 5)
-    ├── ActMocks.cs         (stub implementations of ACT interfaces)
-    ├── Tests.cs            (test cases)
+├── CLAUDE.md                   ← this file
+└── TestHarness/
+    ├── TestHarness.csproj      (net48, LangVersion 5)
+    ├── ActMocks.cs             (stub implementations of ACT interfaces)
+    ├── ParserTests.cs          (NUnit test cases)
     └── fixtures/
-        ├── sample.log      (known combat log snippets)
-        └── expected.json   (expected parse output snapshots)
+        ├── sample.log                    (hand-crafted log snippets, one per scenario)
+        ├── golden-log-generator.py       (splits combatlog.log and runs the .NET generator)
+        ├── golden_logs/
+        │   └── encounter-N.log           (real combat sessions split from combatlog.log)
+        └── golden_logs_parsed/
+            └── encounter-N-parsed.json   (expected damage_out totals per combatant)
 ```
+
+### Fixture tooling
+`TestHarness/fixtures/golden-log-generator.py` is the full pipeline to (re)generate all golden files:
+1. Splits a raw `combatlog.log` into `golden_logs/encounter-N.log` on gaps ≥ 20 s (drops ≤ 10-line noise)
+2. Runs the .NET `GoldenFileGenerator` test to write `golden_logs_parsed/encounter-N-parsed.json`
+
+```
+python golden-log-generator.py [input.log]
+```
+
+Default input: `combatlog.log` in the same directory.
+`combatlog.log`, `golden_logs/`, and `golden_logs_parsed/` are all gitignored — run the script to regenerate them.
 
 ## Log Line Format
 The Neverwinter combat log uses `::` and `,` as separators (split on `["::","," ]`).

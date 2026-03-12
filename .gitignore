@@ -11,6 +11,9 @@ obj/
 *.suo
 .idea/
 
+# Generated fixture data (recreate with golden-log-generator.py)
+TestHarness/fixtures/combatlog.log
+
 # NuGet
 packages/
 *.nupkg
