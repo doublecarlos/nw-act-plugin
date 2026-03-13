@@ -373,7 +373,7 @@ namespace NWParsing_Plugin
         private const string IncCleanseName = "Cure/Dispel (Inc)";
         private const string OutCleanseName = "Cure/Dispel (Out)";
 
-        private static readonly Dictionary<string, bool> injuryTypes = new Dictionary<string, bool>()
+        internal static readonly Dictionary<string, bool> injuryTypes = new Dictionary<string, bool>()
         {
             // Minor Body Injury
             // 13:10:13:14:39:55.0::,,,,Lady Shiva,P[401878470@8454371 Lady Shiva@pombetitha],Minor Body Injury,Pn.Snckuc1,HitPointsMax,ShowPowerDisplayName,0.3,0
@@ -2142,683 +2142,84 @@ namespace NWParsing_Plugin
             logInfo.detectedType = pl.detectedType;
         }
 
-        private void ProcessActionHeals(ParsedLine l)
-        {
-            int magAdj = (int)Math.Round(l.mag);
-            int magBaseAdj = (int)Math.Round(l.magBase);
-
-            l.detectedType = l.critical ? Color.Green.ToArgb() : Color.DarkGreen.ToArgb();
-
-            // NOTE: Do NOT use SetEncounter() on heals (i.e Non-Hostile Actions)
-
-            // Heals can not start an encounter.
-            if (ActGlobals.oFormActMain.InCombat)
-            {
-                combatLogParser.ResolveOwnerSourceTarget(l, GetCurrentOptions());
-
-                // PVP Rune Heal - Needs some cleanup.  Use the player as the source since they grabbed it.
-                // Does 'Pn.R0jdk' == PVP RUNE HEAL???
-                // 13:07:09:14:00:23.2::Rune,C[317 Pvp_Rune_Heal],,*,Mus'Mugen Uhlaalaa,P[201045055@5998737 Mus'Mugen Uhlaalaa@bupfen],Heal,Pn.R0jdk,HitPoints,,-1136.92,0
-
-                if (l.evtInt == "Pn.R0jdk") // Assume this is PVP Rune Heal for now...
-                {
-                    AddCombatActionNW(
-                        (int)SwingTypeEnum.Healing, l.critical, false, false, l.special, l.unitTargetName,
-                        "PVP Heal Rune", new Dnum(-magAdj), -l.mag, -l.magBase, l.time,
-                        l.ts, l.unitTargetName, l.type);
-                }
-                else if (l.evtInt == "Pn.Hemuxg") // PvP Kill downed player
-                {
-                    // PVP finish off
-                    // 13:07:10:09:13:09.2::CamierDerWeisse,P[200083978@5783571 CamierDerWeisse@faru2],,*,FIVEFINGERZ,P[200862049@7260841 FIVEFINGERZ@fivefingerz],Kill,Pn.Hemuxg,HitPoints,,0,0
-
-                    // TODO:  Should this be recorded or ignored...
-                }
-                else if (l.evtInt == "Pn.Qiwkdx1") // Pretty sure this is end of pvp auto heal.
-                {
-                    // TODO: Make sure this is really only an end of pvp match auto heal.
-                    // 13:07:10:11:03:42.1::Nephylia Necromon,P[201238857@7793332 Nephylia Necromon@nephodin],,*,,*,,Pn.Qiwkdx1,HitPoints,,-7240.66,0
-                    // Ignore it.
-                }
-                else if (l.evtInt == "Pn.Dbm4um1") // Campfire
-                {
-                    // Camp fire.
-                    // Give credit to the player for standing in it.
-                    // Note: Trying to eliminate the [unknown] source.
-                    // 13:07:10:11:02:20.6::,,,,Brandeor,P[201267923@5148411 Brandeor@brandeor],Campfire,Pn.Dbm4um1,HitPoints,,-525.321,0
-
-                    AddCombatActionNW(
-                        (int)SwingTypeEnum.Healing, l.critical, false, false, l.special, l.unitTargetName,
-                        l.evtDsp, new Dnum(-magAdj), -l.mag, -l.magBase, l.time,
-                        l.ts, l.unitTargetName, l.type);
-                }
-                else if (l.evtInt == "Pn.Zrqjy1") // Chaotic Growth
-                {
-                    // Chaotic Growth - Proc debuff from CW Magic Missile.  Debuffed target AOE heals casters allies.
-                    // But the log shows the debuffed target as the healer...
-                    // Credit should go to the CW that casted the MM, but that is not clear in the logs.
-
-                    // 13:07:09:20:52:51.5::Rassler,P[200973822@6215544 Rassler@lendal4],,*,Rhiyan Torr,P[200010914@5686857 Rhiyan Torr@wyvernonenine],Chaotic Growth,Pn.Zrqjy1,HitPoints,,-215,0
-
-                    // NOTE:  Track the last person to hit each target with magic missile.  Give healing credit to that person.
-                    //        IF that fails then it is a self heal...  Keeps it on the same team in pvp at least.
-
-                    bool handled = false;
-                    ChaoticGrowthInfo cgi = null;
-                    if (combatLogParser.magicMissileLastHit.TryGetValue(l.srcInt, out cgi))
-                    {
-                        if (!cgi.triggered)
-                        {
-                            cgi.triggered = true;
-                            cgi.ts = l.time;
-                        }
-
-                        // Use encounter names attacker and target here.  This allows filtering
-                        // NOTE: Use SetEncounter() as this heal is part of a hostile action.
-                        if (ActGlobals.oFormActMain.SetEncounter(l.time, cgi.encName, l.encTargetName))
-                        {
-                            AddCombatActionNW(
-                                (int)SwingTypeEnum.Healing, l.critical, l.flank, l.dodge, l.unitAttackerName, cgi.unitName,
-                                l.evtDsp, new Dnum(-magAdj), -l.mag, -l.magBase, l.time,
-                                l.ts, l.unitTargetName, l.type);
-                        }
-
-                        handled = true;
-                    }
-
-                    if (!handled)
-                    {
-                        // Use encounter names attacker and target here.  This allows filtering
-                        // NOTE: Use SetEncounter() as this heal is part of a hostile action.
-                        if (ActGlobals.oFormActMain.SetEncounter(l.time, l.encTargetName, l.encTargetName))
-                        {
-                            AddCombatActionNW(
-                                (int)SwingTypeEnum.Healing, l.critical, l.flank, l.dodge, l.unitAttackerName, unk,
-                                l.evtDsp, new Dnum(-magAdj), -l.mag, -l.magBase, l.time,
-                                l.ts, l.unitTargetName, l.type);
-                        }
-                    }
-                }
-                else if (l.evtInt == "Pn.R1tsg4")
-                {
-                    // Shocking execution
-                    // There is a HitPoints of value zero that is assioatied with shocking execution.
-                    // Note that the <EvtInt> is different from the actual damaging log entry.
-                    // Just ignore it...
-                    // 13:07:17:10:33:02.1::Lodur,P[201093074@7545190 Lodur@lodur42],,*,KingOfSwordsx2,P[201247997@5290133 KingOfSwordsx2@sepherosrox],Shocking Execution,Pn.R1tsg4,HitPoints,,0,0
-
-                }
-                else
-                {
-                    // Default heal.
-
-                    AddCombatActionNW(
-                        (int)SwingTypeEnum.Healing, l.critical, l.flank, l.dodge, l.special, l.unitAttackerName,
-                        l.attackType, new Dnum(-magAdj), -l.mag, -l.magBase, l.time,
-                        l.ts, l.unitTargetName, l.type);
-                }
-            }
-        }
-
-        private void ProcessActionShields(ParsedLine l)
-        {
-            // TODO try to improve shield detection (shield/overshield/temp HP), determine if it works on all shield-carrying paragons/songward/etc. Would be good if we can consistently detect overall effectiveness in all cases of shields
-
-            // Blue overshields:
-            // Fully shielded, Physical is damage absorbed:
-            // 20:06:10:15:39:10.1::Halaster,C[64 M17_Trial_Boss_Halaster],,*,Character, P[513125329@28357045 Character@user], Arcane Blast,Pn.Zu6srm,Shield,,-190600,0
-            // 20:06:10:15:39:10.1::Halaster,C[64 M17_Trial_Boss_Halaster],,*,Character, P[513125329@28357045 Character@user], Arcane Blast,Pn.Zu6srm,Physical,,190600,381200
-            // Partially shielded, Physical is total damage:
-            // 20:06:10:10:25:20.9::Halaster,C[10 M17_Trial_Boss_Halaster],,*,Character,P[513125329@28357045 Character@user],Duumvirate,Pn.T3r6sh,Shield,ShieldBreak,-388515,0
-            // 20:06:10:10:25:20.9::Halaster,C[10 M17_Trial_Boss_Halaster],,*,Character, P[513125329@28357045 Character@user], Duumvirate, Pn.T3r6sh,Physical,ShieldBreak,668405,1.33681e+06
-
-            // Tank shields:
-            // Fully shielded, no way to determine base damage:
-            // 20:03:13:22:14:10.7::Pillar Fire,C[24305 M18_Dungeon_Boss_2_Pillar_Fire],,*,Character,P[513125329@28357045 Character@user],Pool of Fire,Pn.Yg7mkc1,Shield,,-43312.5,0
-            // Partially shielded, Physical is damage to HP:
-            // 20:06:10:10:45:25.3::Halaster,C[539 M17_Trial_Boss_Halaster],,*,Character,P[513125329@28357045 Character@user],Duumvirate,Pn.T3r6sh,Shield,ShieldBreak,-540850,0
-            // 20:06:10:10:45:25.3::Halaster,C[539 M17_Trial_Boss_Halaster],,*,Character, P[513125329@28357045 Character@user], Duumvirate, Pn.T3r6sh,Physical,Dodge | ShieldBreak,355223,3.98255e+06
-            // Half shielded by Paladin Divine Champion:
-            // 20:06:10:15:29:43.0::Halaster,C[40 M17_Trial_Boss_Halaster],,*,Character, P[513125329@28357045 Character@user], Arcane Blast,Pn.Zu6srm,Shield,,-49459.2,0
-            // 20:06:10:15:29:43.0::Halaster,C[40 M17_Trial_Boss_Halaster],,*,Character, P[513125329@28357045 Character@user], Arcane Blast,Pn.Zu6srm,Physical,Dodge,49459.2,395673
-            // Notice that this looks identical to the fully blue-shielded case above apart from the effectiveness.
-
-            // Fully absorbed by both types of Shield, Physical is damage absorbed:
-            // 20:03:13:22:14:53.8::Pillar Fire,C[24308 M18_Dungeon_Boss_2_Pillar_Fire],,*,Character, P[513125329@28357045 Character@user], Pool of Fire, Pn.Yg7mkc1,Shield,,-21284.9,0
-            // 20:03:13:22:14:53.8::Pillar Fire,C[24308 M18_Dungeon_Boss_2_Pillar_Fire],,*,Character, P[513125329@28357045 Character@user], Pool of Fire, Pn.Yg7mkc1,Shield,,-21284.9,0
-            // 20:03:13:22:14:53.8::Pillar Fire,C[24308 M18_Dungeon_Boss_2_Pillar_Fire],,*,Character, P[513125329@28357045 Character@user], Pool of Fire, Pn.Yg7mkc1,Physical,,42569.9,86625
-            // There's no way to tell which line is which type of shield.
-
-            // Fully absorbed, breaking tank shield but not overshield, Physical damage number is the damage absorbed:
-            // 20:06:10:10:17:34.7::Halaster,C[10 M17_Trial_Boss_Halaster],,*,Character, P[513125329@28357045 Character@user], Duumvirate, Pn.6h4go6,Shield,ShieldBreak,-286873,0
-            // 20:06:10:10:17:34.7::Halaster,C[10 M17_Trial_Boss_Halaster],,*,Character, P[513125329@28357045 Character@user], Duumvirate, Pn.6h4go6,Shield,ShieldBreak,-158627,0
-            // 20:06:10:10:17:34.7::Halaster,C[10 M17_Trial_Boss_Halaster],,*,Character, P[513125329@28357045 Character@user], Duumvirate, Pn.6h4go6,Physical,ShieldBreak,445500,891000
-
-            // Not quite fully absorbed, breaking both shields, so Physical damage number is the damage to HP:
-            // 20:06:10:10:17:34.8::Halaster,C[10 M17_Trial_Boss_Halaster],,*,Barbarian,P[514242424@5215280 Barbarian@other],Duumvirate,Pn.T3r6sh,Shield,ShieldBreak,-402401,0
-            // 20:06:10:10:17:34.8::Halaster,C[10 M17_Trial_Boss_Halaster],,*,Barbarian,P[514242424@5215280 Barbarian@other],Duumvirate,Pn.T3r6sh,Shield,ShieldBreak,-448137,0
-            // 20:06:10:10:17:34.8::Halaster,C[10 M17_Trial_Boss_Halaster],,*,Barbarian,P[514242424@5215280 Barbarian@other],Duumvirate,Pn.T3r6sh,Physical,ShieldBreak,49144.1,1.79936e+06
-
-            // So it seems that we need to collect up to two shield lines per Physical line.  If they add up to the same amount as Physical, it's fully shielded; otherwise it's partial.
-            // There's no obvious way to distinguish the two partially shielded cases; I guess we need to distinguish them based on whether adding the absorbed damage would make effectiveness
-            // improbably high.  See ProcessActionDamage for the implementation.
-
-            // For some reason we sometimes get an extra line blocking 0 damage, ignore it:
-            // 19:05:21:11:35:43.8::Arcturia,C[13942 M16_Boss_Arcturia_Dungeon],,*,Third,P[512369627@6638553 Third@third],Arcturia's Wail,Pn.Be1dij1,Shield,,-0,0
-            // 19:05:21:11:35:43.8::Arcturia,C[13942 M16_Boss_Arcturia_Dungeon],,*,Third,P[512369627@6638553 Third@third],Arcturia's Wail,Pn.Be1dij1,Shield,ShieldBreak,-18267,0
-            // 19:05:21:11:35:43.8::Arcturia,C[13942 M16_Boss_Arcturia_Dungeon],,*,Third,P[512369627@6638553 Third@third],Arcturia's Wail,Pn.Be1dij1,Physical,ShieldBreak,215063,333000
-            if (l.mag == -0 && l.magBase == 0)
-                return;
-
-            l.detectedType = l.critical ? Color.Green.ToArgb() : Color.DarkGreen.ToArgb();
-
-            combatLogParser.ResolveOwnerSourceTarget(l, GetCurrentOptions());
-
-            // Use encounter names attacker and target here.  This allows filtering
-            // Hostile action triggered.  Use SetEncounter().
-            if (ActGlobals.oFormActMain.SetEncounter(l.time, l.encAttackerName, l.encTargetName))
-            {
-                // Put the attacker and the attack type in the special field.
-                string special = l.unitAttackerName + " : " + l.attackType;
-
-                Dnum shielded = null;
-                float mag = 0;
-                float magBase = 0;
-
-                if (l.magBase == 0) // Don't use magBaseAdj here.  Rounded to zero is not zero.
-                {
-                    mag = -l.mag;
-                    magBase = -l.magBase;
-                }
-                else
-                {
-                    mag = -l.magBase;
-                    magBase = -l.mag;
-                }
-                l.mag = mag;
-                l.magBase = magBase;
-                shielded = new Dnum((int)mag);
-
-                // SwingType = Heal
-                // special = attacker
-                // attacker & victim = target
-                MasterSwing ms = new MasterSwing(
-                    (int)SwingTypeEnum.Healing,
-                    l.critical, special, shielded, l.time, l.ts, l.type, l.unitTargetName, l.type, l.unitTargetName);
-
-                ms.Tags.Add("DamageF", mag);
-                ms.Tags.Add("Flank", l.flank);
-
-                ActGlobals.oFormActMain.AddCombatAction(ms);
-
-                // Queue the shield data for matching against the upcoming physical damage line.
-                ShieldData sd = new ShieldData();
-                sd.evtInt = l.evtInt;
-                sd.ownInt = l.ownInt;
-                sd.tgtInt = l.tgtInt;
-                sd.time = l.time;
-                sd.mag = mag;
-                sd.magBase = magBase;
-                sd.critical = l.critical;
-                sd.flank = l.flank;
-                sd.dodge = l.dodge;
-                sd.attackType = l.attackType;
-                sd.encAttackerName = l.encAttackerName;
-                sd.encTargetName = l.encTargetName;
-                sd.unitAttackerName = l.unitAttackerName;
-                sd.unitTargetName = l.unitTargetName;
-                sd.timeSorter = l.ts;
-                pendingShieldMasterSwings[sd] = ms;
-                combatLogParser.shieldQueue.AddShield(sd);
-            }
-        }
-
-        private void ProcessActionCleanse(ParsedLine l)
-        {
-            l.detectedType = Color.Blue.ToArgb();
-
-            // Cleanse
-            // 13:07:17:10:37:53.5::righteous,P[201081445@5908801 righteous@r1ghteousg],,*,KingOfSwordsx2,P[201247997@5290133 KingOfSwordsx2@sepherosrox],Cleanse,Pn.H8hm3x1,AttribModExpire,ShowPowerDisplayName,0,0
-
-            if (ActGlobals.oFormActMain.InCombat)
-            {
-                if (l.evtDsp == "Cleanse")
-                {
-                    combatLogParser.ResolveOwnerSourceTarget(l, GetCurrentOptions());
-
-                    AddCombatActionNW(
-                        (int)SwingTypeEnum.CureDispel, l.critical, l.flank, l.dodge, l.special,
-                        l.unitAttackerName, l.attackType, Dnum.NoDamage, l.mag, l.magBase,
-                        l.time, l.ts, l.unitTargetName, l.type);
-                }
-                else
-                {
-                    // ignore the rest as they're only expire messages
-                }
-            }
-        }
-
-        private void ProcessActionPower(ParsedLine l)
-        {
-            int magAdj = (int)Math.Round(l.mag);
-            //int magBaseAdj = (int)Math.Round(l.magBase * 10);
-
-            l.detectedType = Color.Black.ToArgb();
-
-            // NOTE: Do NOT use SetEncounter() on power (i.e Non-Hostile Actions)
-
-            if (ActGlobals.oFormActMain.InCombat)
-            {
-                if (l.evtInt == "Pn.Ygyxld") // Critical Power
-                {
-                    // Critical Power
-                    // 13:07:18:10:40:48.3::Tifa,P[200500793@6707245 Tifa@liliiith],Shard,C[2006 Entity_Shardoftheendlessavalanche],,*,Critical Power,Pn.Ygyxld,Power,,-0,0
-                    // This power can trigger on CW's entities... These triggers should be ignored as they are zero effect.
-
-                    if (l.ownInt != l.srcInt)
-                    {
-                        l.detectedType = Color.Gray.ToArgb();
-                        return;
-                    }
-                }
-
-                if (l.evtInt == "Pn.He9xu") // Bait and Switch
-                {
-                    // TR - Bait and Switch Trigger
-                    // special case: Bait and Switch
-                    // 13:07:09:20:53:00.9::Lodur,C[835 Trickster_Baitandswitch],,*,Lodur,P[201093074@7545190 Lodur@lodur42],Trigger,Pn.He9xu,Power,,-0.521139,0
-                    // 13:07:09:21:43:30.3::Lodur,C[152 Trickster_Baitandswitch],,*,Lodur,P[201093074@7545190 Lodur@lodur42],Trigger,Pn.He9xu,Power,Immune,0,0
-                    // 13:07:10:09:11:08.8::Lodur,C[178 Trickster_Baitandswitch],,*,Lodur,P[201093074@7545190 Lodur@lodur42],Trigger,Pn.He9xu,Power,Immune,0,0
-
-                    combatLogParser.ResolveTargetOnly(l, GetCurrentOptions());
-
-                    // Target is the source as well.
-
-                    AddCombatActionNW(
-                        (int)SwingTypeEnum.PowerHealing, l.critical, false, false, "", "Trickster [" + l.tgtDsp + "]",
-                        "Bait and Switch", new Dnum(-magAdj), -l.mag, 0, l.time,
-                        l.ts, l.tgtDsp, l.type);
-
-                }
-                else if (l.evtInt == "Pn.Jy04um1") // Guard Break
-                {
-                    // Guard Break
-                    // 13:07:18:10:50:08.7::Largoevo,P[201228983@6531604 Largoevo@largoevo],Bodyguard,C[2175 Mindflayer_Thoonhulk_Eventbodyguard],Largoevo,P[201228983@6531604 Largoevo@largoevo],Guard Break,Pn.Jy04um1,Power,,-28.8571,0
-                    // Owner    = Guardian Fighter  [Attacker]
-                    // source   = Target enemy      [Special]
-                    // target   = Guardian Fighter  [Victim]
-                    // 
-                    // NOTE: Do not assume source is a pet of owner.  Source could be a pet or fake pet.  Resolve fake pet to owner.
-
-                    combatLogParser.ResolveSourceTarget(l, GetCurrentOptions());
-
-                    AddCombatActionNW(
-                        (int)SwingTypeEnum.PowerHealing, l.critical, false, false, l.unitAttackerName, l.unitTargetName,
-                        l.evtDsp, new Dnum(-magAdj), -l.mag, 0, l.time,
-                        l.ts, l.unitTargetName, l.type);
-                }
-                else if (l.evtInt == "Pn.Wxao05") // Maelstrom of Chaos
-                {
-                    // Maelstrom of Chaos
-                    // 13:07:18:10:37:50.5::Tifa,P[200500793@6707245 Tifa@liliiith],,*,,*,Maelstrom of Chaos,Pn.Wxao05,Power,,500,0
-                    // Canceling this power early will cost half of your Action Points.
-
-                    // Ignore this for now.
-                }
-                else
-                {
-                    // Normal Power case...
-                    combatLogParser.ResolveOwnerSourceTarget(l, GetCurrentOptions());
-                    //  Trying to not end combat via power
-                    AddCombatActionNW(
-                    (int)SwingTypeEnum.PowerHealing, l.critical, false, l.dodge, l.special,
-                    l.unitAttackerName, l.attackType, new Dnum(-magAdj), -l.mag, -l.magBase,
-                    l.time, l.ts, l.unitTargetName, l.type);
-                }
-            }
-        }
-
-        private void ProcessActionSPDN(ParsedLine l)
-        {
-            // Handle all the buff and proc buffs/debuffs
-            int magAdj = (int)Math.Round(l.mag);
-            int magBaseAdj = (int)Math.Round(l.magBase);
-            // type: PowerRecharge, Null, Alacrity, CombatAdvantage, Lightning(Storm Spell), CritSeverity, ...
-
-            l.detectedType = Color.DarkTurquoise.ToArgb();
-
-            if (l.evtInt == "Pn.Fwolu") // Chaotic Growth
-            {
-                // Chaotic Growth (Fixed in latest NW patch)
-                // 13:07:18:10:51:58.2::Tifa,P[200500793@6707245 Tifa@liliiith],,*,Guard,C[2205 Mindflayer_Duergarguardthrall],Chaotic Growth,Pn.Fwolu,Null,ShowPowerDisplayName,0,0
-
-                l.detectedType = Color.DarkOliveGreen.ToArgb();
-
-                combatLogParser.ResolveOwnerSourceTarget(l, GetCurrentOptions());
-
-                ChaoticGrowthInfo cgi = null;
-                if (combatLogParser.magicMissileLastHit.TryGetValue(l.tgtInt, out cgi))
-                {
-                    cgi.triggered = true;
-                    cgi.ts = l.time;
-                    cgi.encName = l.encAttackerName;
-                    cgi.unitName = l.unitAttackerName;
-                }
-
-                if (ActGlobals.oFormActMain.InCombat)
-                {
-                    AddCombatActionHostile(l, (int)SwingTypeEnum.NonMelee, l.critical, l.special, l.attackType, Dnum.NoDamage, 0, l.type);
-                }
-            }
-            else if (l.evtInt == "Pn.Zh5vu")
-            {
-                // Storm Spell
-                // 13:07:18:10:49:10.1::Tifa,P[200500793@6707245 Tifa@liliiith],,*,Scourge,C[2143 Mindflayer_Scourge],Storm Spell,Pn.Zh5vu,Lightning,ShowPowerDisplayName,583.917,0
-
-                // Ignore this as there is a damage log line to go with it.
-            }
-            else if (injuryTypes.ContainsKey(l.evtInt))
-            {
-                // Injure...
-
-                // Ignore this as it is not reall part of combat.
-            }
-            else
-            {
-                // Default
-
-                if (ActGlobals.oFormActMain.InCombat)
-                {
-                    combatLogParser.ResolveOwnerSourceTarget(l, GetCurrentOptions());
-                    //   AddCombatActionHostile(l, (int)SwingTypeEnum.NonMelee, l.critical, l.special, l.attackType, Dnum.NoDamage, 0, l.type);
-                    AddCombatActionNW(
-                    (int)SwingTypeEnum.NonMelee, l.critical, l.flank, l.dodge, l.special,
-                    l.unitAttackerName, l.attackType, new Dnum(-magAdj), -l.mag, -l.magBase,
-                    l.time, l.ts, l.unitTargetName, l.type);
-                }
-            }
-        }
-
-        private void ProcessActionDamage(ParsedLine l)
-        {
-            int magAdj = (int)Math.Round(l.mag);
-            int magBaseAdj = (int)Math.Round(l.magBase);
-
-            l.detectedType = l.critical ? Color.Red.ToArgb() : Color.DarkRed.ToArgb();
-
-            string special = l.special;
-
-            // Match pending shield lines against this damage line.
-            // Any shields that timed out during the scan are flushed as unmatched damage records.
-            ShieldMatchResult shieldResult = combatLogParser.shieldQueue.MatchDamage(l);
-            FlushPendingShields(shieldResult.ExpiredShields);
-
-            MasterSwing msShielded = null;
-            if (shieldResult.HasMatch)
-            {
-                ShieldData primarySd = shieldResult.MatchedShields[0];
-                pendingShieldMasterSwings.TryGetValue(primarySd, out msShielded);
-                if (msShielded != null && shieldResult.MatchedShields.Count > 1)
-                {
-                    // Multiple shields matched — merge their magnitudes into the primary MasterSwing's
-                    // DamageF tag so downstream tag math uses the combined value.
-                    msShielded.Tags["DamageF"] = shieldResult.TotalShieldMag;
-                }
-                foreach (ShieldData matched in shieldResult.MatchedShields)
-                    pendingShieldMasterSwings.Remove(matched);
-            }
-
-            if (msShielded != null)
-            {
-                // Fix up the shield MasterSwing that was already submitted to ACT.
-                // Tags are the only thing that can be altered on a MasterSwing after AddCombatAction.
-
-                // Shield line:  add column for attack damage and % blocked.
-                // Attack line:  add amount shielded to the 'special' column.
-
-                object val;
-                if (msShielded.Tags.TryGetValue("DamageF", out val))
-                {
-                    float df = (float)val;
-                    string shieldSpecialText = "Shield(" + df.ToString("F1") + ")";
-
-                    if (special == "None")
-                    {
-                        special = shieldSpecialText;
-                    }
-                    else
-                    {
-                        special = l.special + " | " + shieldSpecialText;
-                    }
-
-                    // FIXME ~~Track whether a player is a tank?  We only ever need to add if they are.~~
-                    // Disagree. Non-tanks have shields (dreadnought, both bard paragons with Song Ward class feature)
-                    if ((int)df == (int)l.mag)
-                    {
-                        // If absorbed == magnitude, it was probably fully absorbed and we don't want to add them.
-                        // But it might have been half-absorbed by Paladin Divine Champion, so check iff effectiveness is too low.
-                        // Add if the effectiveness is lower than half what we expect (~50% normally, ~25% with deflect).
-                        // This can wrongly add if DR is buffed to over 74% (max is 80%), but that's rare even in heal checks.
-                        float dr = (float)(l.dodge ? 0.13 : 0.26);
-                        if (l.mag < l.magBase * dr)
-                            l.mag += df;
-                    }
-                    else
-                    {
-                        // If absorbed != magnitude, we want to add iff the attack broke a tank's shield.
-                        // Add unless the effectiveness with it added is higher than we expect.
-                        // This can wrongly add if the absorbed amount is small compared to the attack size, but that doesn't make much difference.
-                        // This can wrongly fail to add if the player has uncapped defense, but that's unlikely for a tank.
-                        float dr = (float)(l.dodge ? 0.26 : 0.51); // Expect at least 50% DR and 50% deflect severity.
-                        float sum = l.mag + df;
-                        if (sum < l.magBase * dr)
-                            l.mag = sum;
-                    }
-                    magAdj = (int)l.mag;
-                    float shielded = df / l.mag;
-                    msShielded.Tags.Add("ShieldDmgF", l.mag);
-                    msShielded.Tags.Add("ShieldP", shielded);
-                }
-            }
-
-            if (l.evtInt == "Pn.Wypyjw1") // Knight's Valor,
-            {
-                // "13:07:18:10:30:48.3::Largoevo,P[201228983@6531604 Largoevo@largoevo],Ugan the Abominable,C[1469 Mindflayer_Miniboss_Ugan],Largoevo,P[201228983@6531604 Largoevo@largoevo],Knight's Valor,Pn.Wypyjw1,Physical,,449.42,1195.48
-                // Attack goes SRC -> TRG and ignore the owner.  The SRC is not the owner's pet.
-
-                combatLogParser.ResolveSourceTarget(l, GetCurrentOptions());
-                AddCombatActionHostile(l, (int)SwingTypeEnum.Melee, l.critical, special, l.attackType, magAdj, l.mag, l.type, l.magBase);
-            }
-            else if (l.evtInt == "Pn.Q3o7t91") // Bloodletter self-damage
-            {
-                // this needs special processing so that it doesn't process names in a way that tries to attribute someone else's companion to the player, when using Bloodletter on them
-                // example: Barbarian taking damage from Bloodletter while attacking another player's companion. The player is not the owner of the companion.
-                // Attack goes OWN -> TRG, and SRC is just informational
-                // 23:07:07:17:11:40.0::Stof,P[509567510@19259169 Stof@stof#0000],Tutor,C[39688 Pet_Tutor],Stof,P[509567510@19259169 Stof@stof#0000],Bloodletter,Pn.Q3o7t91,Physical,,22160.4,29897
-                combatLogParser.ResolveTargetOnly(l, GetCurrentOptions()); // don't use OwnerSource or OST, only one entity is really relevant with this action (the hostile inter-target damage hit is recorded separately)
-                AddCombatActionNW((int)SwingTypeEnum.Melee, l.critical, l.flank, l.dodge, l.special, l.unitTargetName, l.attackType, new Dnum(magAdj), l.mag, l.magBase, l.time, l.ts, l.unitTargetName, l.type);
-            }
-            else
-            {
-                combatLogParser.ResolveOwnerSourceTarget(l, GetCurrentOptions());
-
-                if ((l.evtInt == "Pn.3t6cw8") && (magAdj > 0)) // Magic Missile
-                {
-                    ChaoticGrowthInfo cgi = null;
-                    if (combatLogParser.magicMissileLastHit.TryGetValue(l.tgtInt, out cgi))
-                    {
-                        if (cgi.triggered)
-                        {
-                            TimeSpan t = l.time - cgi.ts;
-                            if (t.TotalSeconds > 10.0)
-                            {
-                                cgi.triggered = false;
-                            }
-                        }
-
-                        if (!cgi.triggered)
-                        {
-                            cgi.encName = l.encAttackerName;
-                            cgi.unitName = l.unitAttackerName;
-                            cgi.ts = l.time;
-                        }
-                    }
-                    else
-                    {
-                        cgi = new ChaoticGrowthInfo();
-                        cgi.encName = l.encAttackerName;
-                        cgi.unitName = l.unitAttackerName;
-                        cgi.triggered = false;
-                        cgi.ts = l.time;
-
-                        combatLogParser.magicMissileLastHit.Add(l.tgtInt, cgi);
-                    }
-                }
-
-                //
-                // Note:  There seems to be many cases where dmgBase == 0 while damage is applied.
-                //
-
-                /*
-                if (l.flags.Contains("Miss"))
-                {
-                    // TODO:  Not sure I have ever seen a "miss" in a log.  This actually valid?
-                    AddCombatActionHostile(l, (int)SwingTypeEnum.Melee, l.critical, l.special, l.attackType, Dnum.Miss, l.type, magBaseAdj);
-                }
-                else 
-                */
-
-                if (l.immune)
-                {
-                    if ((magAdj == 0) && (magBaseAdj == 0))
-                    {
-                        // 13:07:18:10:49:21.6::Tristan,C[2120 Pet_Dog],,*,Oll'noth the Dominator,C[1997 Mindflayer_Eventboss],Takedown,Pn.Ebxsjf,KnockBack,Immune,0,0
-
-                        // Ignore CC immunity for now...
-                        l.detectedType = Color.Gray.ToArgb();
-                    }
-                    else
-                    {
-                        // Generally damaging attacks have mag=0 and magBase > 0 when Immune.
-                        l.detectedType = Color.Maroon.ToArgb();
-                        AddCombatActionHostile(l, (int)SwingTypeEnum.Melee, l.critical, special, l.attackType, Dnum.NoDamage, l.mag, l.type, l.magBase);
-                    }
-                }
-                else if (l.dodge)
-                {
-                    // "Dodge" in the log means that the attack was Deflected
-                    l.detectedType = Color.Maroon.ToArgb();
-                    AddCombatActionHostile(l, (int)SwingTypeEnum.Melee, l.critical, special, l.attackType, magAdj, l.mag, l.type, l.magBase);
-                }
-                else
-                {
-                    if ((magAdj == 0) && (magBaseAdj == 0))
-                    {
-                        // Ignore it...  This is generally a Non-Target entity getting AOE'd...
-                        l.detectedType = Color.Gray.ToArgb();
-                    }
-                    else
-                    {
-                        // NOT All attacks have a magBase (anymore).
-                        AddCombatActionHostile(l, (int)SwingTypeEnum.Melee, l.critical, special, l.attackType, magAdj, l.mag, l.type, l.magBase);
-                    }
-                }
-            }
-        }
-
         private void ProcessAction(ParsedLine l)
         {
-            l.detectedType = Color.Gray.ToArgb();
+            ParseResult pr = combatLogParser.RouteAction(l, ActGlobals.oFormActMain.InCombat, GetCurrentOptions());
+            l.detectedType = pr.DetectedTypeColor;
 
-            if (!ActGlobals.oFormActMain.InCombat
-                && (l.evtInt == "Autodesc.Combatevent.Falling"
-                    || l.evtInt == "Pn.Mlg6n01" // Poison Spike Trap
-                    || l.evtInt == "Pn.Sv2m0c1" // Spike Trap
-                    || l.evtInt == "Pn.Rjmxw51" // Arrow Trap
-                    || l.evtInt == "Pn.O4hc6g1")) // Fall damage
+            if (pr.SpellTimerTarget != null)
             {
-                // Ignore, environmental damage shouldn't start an encounter.
+                ActGlobals.oFormSpellTimers.RemoveTimerMods(pr.SpellTimerTarget);
+                ActGlobals.oFormSpellTimers.DispellTimerMods(pr.SpellTimerTarget);
+            }
+
+            foreach (CombatAction ca in pr.Actions)
+                ApplyCombatAction(ca);
+        }
+
+        // Applies one CombatAction returned by NWCombatLogParser.RouteAction to the ACT state.
+        private void ApplyCombatAction(CombatAction ca)
+        {
+            if (ca.IsKill)
+            {
+                if (ActGlobals.oFormActMain.SetEncounter(ca.Time, ca.EncounterAttacker, ca.EncounterTarget))
+                {
+                    MasterSwing ms = new MasterSwing(
+                        (int)SwingTypeEnum.Melee, ca.Critical, ca.Special, Dnum.Death,
+                        ca.Time, ca.TimeSorter, "Killing", ca.Attacker, "Death", ca.Victim);
+                    ms.Tags.Add("Flank", ca.Flank);
+                    ActGlobals.oFormActMain.AddCombatAction(ms);
+                }
                 return;
             }
 
-            if (l.type == "AttribModExpire") // Cleanse
+            // Update shield MasterSwing tags when this damage action matched a pending shield.
+            if (ca.MatchedShield != null && ca.MatchedShield.HasMatch)
             {
-                ProcessActionCleanse(l);
-            }
-            else if (l.showPowerDisplayName)
-            {
-                // Non-damaging effects.
-                ProcessActionSPDN(l);
-            }
-            else if (l.type == "Power")
-            {
-                ProcessActionPower(l);
-            }
-            else if (l.type == "HitPoints")
-            {
-                ProcessActionHeals(l);
-            }
-            else if (l.type == "Shield")
-            {
-                ProcessActionShields(l);
-            }
-            else
-            {
-                // What is left should all be damage.
-                ProcessActionDamage(l);
-            }
-
-            // add action Killing
-            if (l.kill)
-            {
-                l.detectedType = Color.Fuchsia.ToArgb();
-
-                // Clean from last MM hit.
-                // The Kill can come right before a proc.  Ordering isssue.
-                // magicMissileLastHit.Remove(l.tgtInt);
-
-                // TODO: use tgtDsp or unitTargetName?
-                ActGlobals.oFormSpellTimers.RemoveTimerMods(l.tgtDsp);
-                ActGlobals.oFormSpellTimers.DispellTimerMods(l.tgtDsp);
-
-                // No "Killing : Flank" ever.  Doesn't make sense since there is no damage in the kill tracking.
-                // And it messes up the kill counts.
-                // AddCombatActionHostile(l, (int)SwingTypeEnum.Melee, l.critical, l.special, "Killing", Dnum.Death, l.type);
-
-                // Use encounter names attacker and target here.  This allows filtering
-                if (ActGlobals.oFormActMain.SetEncounter(l.time, l.encAttackerName, l.encTargetName))
+                MasterSwing msShielded = null;
+                ShieldData primarySd = ca.MatchedShield.MatchedShields[0];
+                pendingShieldMasterSwings.TryGetValue(primarySd, out msShielded);
+                if (msShielded != null && ca.MatchedShield.MatchedShields.Count > 1)
+                    msShielded.Tags["DamageF"] = ca.MatchedShield.TotalShieldMag;
+                foreach (ShieldData matched in ca.MatchedShield.MatchedShields)
+                    pendingShieldMasterSwings.Remove(matched);
+                if (msShielded != null)
                 {
-                    MasterSwing ms =
-                        new MasterSwing((int)SwingTypeEnum.Melee, l.critical, l.special, Dnum.Death, l.time, l.ts,
-                            "Killing", l.unitAttackerName, "Death", l.unitTargetName);
-                    ms.Tags.Add("Flank", l.flank);
+                    msShielded.Tags.Add("ShieldDmgF", ca.ShieldTagDmgF);
+                    msShielded.Tags.Add("ShieldP", ca.ShieldTagP);
+                }
+            }
+
+            if (ca.IsShield)
+            {
+                if (ActGlobals.oFormActMain.SetEncounter(ca.Time, ca.EncounterAttacker, ca.EncounterTarget))
+                {
+                    MasterSwing ms = new MasterSwing(
+                        (int)SwingTypeEnum.Healing, ca.Critical, ca.Special,
+                        new Dnum(ca.DnumValue), ca.Time, ca.TimeSorter,
+                        ca.AttackType, ca.Attacker, ca.DamageType, ca.Victim);
+                    ms.Tags.Add("DamageF", ca.RealDamage);
+                    ms.Tags.Add("Flank", ca.Flank);
                     ActGlobals.oFormActMain.AddCombatAction(ms);
+                    pendingShieldMasterSwings[ca.ShieldSourceData] = ms;
                 }
+                return;
             }
-        }
 
-        // For hostile actions only.  Handles the SetEncounter().
-        internal void AddCombatActionHostile(
-            ParsedLine line, int swingType, bool critical, string special, string theAttackType, Dnum Damage, float realDamage, string theDamageType, float baseDamage = 0)
-        {
-            // Use encounter names attacker and target here.  This allows filtering
-            if (ActGlobals.oFormActMain.SetEncounter(line.time, line.encAttackerName, line.encTargetName))
+            // Expired shield: remove from pending dict before submitting as a normal damage record.
+            if (ca.ExpiredShieldData != null)
+                pendingShieldMasterSwings.Remove(ca.ExpiredShieldData);
+
+            if (ca.IsHostile)
             {
-                // add Flank to AttackType if setting is set
-                string tempAttack = theAttackType;
-                if (line.flank && this.checkBox_flankSkill.Checked) tempAttack = theAttackType + ": Flank";
-
-                if (line.srcInt.Contains("Artifact_Weapon_Illusion_Clone"))
-                {
-                    // if merging with player
-                    line.unitAttackerName = line.srcDsp;
-                    tempAttack = theAttackType + " (Mirage Weapon)";
-                }
-                AddCombatActionNW(
-                    swingType, line.critical, line.flank, line.dodge, special, line.unitAttackerName,
-                    tempAttack, Damage, realDamage, baseDamage, line.time,
-                    line.ts, line.unitTargetName, theDamageType);
+                if (!ActGlobals.oFormActMain.SetEncounter(ca.Time, ca.EncounterAttacker, ca.EncounterTarget))
+                    return;
             }
+
+            Dnum dmg = ca.NoDamage ? Dnum.NoDamage : new Dnum(ca.DnumValue);
+            AddCombatActionNW(
+                ca.SwingType, ca.Critical, ca.Flank, ca.Deflect, ca.Special, ca.Attacker, ca.AttackType,
+                dmg, ca.RealDamage, ca.BaseDamage, ca.Time, ca.TimeSorter, ca.Victim, ca.DamageType);
         }
 
         // Wrapper around AddCombatAction to add extra Tags that are used in the NW plugin.
@@ -3364,6 +2765,552 @@ namespace NWParsing_Plugin
                     break;
             }
         }
+
+        // ---------------------------------------------------------------------------
+        // Action handler helpers
+        // ---------------------------------------------------------------------------
+
+        // Builds a non-hostile CombatAction from a fully-resolved ParsedLine.
+        private CombatAction MakeAction(
+            ParsedLine line, int swingType, string special, string attacker, string attackType,
+            bool noDamage, float realDamage, float baseDamage, string victim, string damageType, int color)
+        {
+            CombatAction ca = new CombatAction();
+            ca.SwingType = swingType;
+            ca.Critical = line.critical;
+            ca.Flank = line.flank;
+            ca.Deflect = line.dodge;
+            ca.Special = special;
+            ca.Attacker = attacker;
+            ca.AttackType = attackType;
+            ca.NoDamage = noDamage;
+            ca.DnumValue = (int)Math.Round(realDamage);
+            ca.RealDamage = realDamage;
+            ca.BaseDamage = baseDamage;
+            ca.Time = line.time;
+            ca.TimeSorter = line.ts;
+            ca.Victim = victim;
+            ca.DamageType = damageType;
+            ca.DetectedTypeColor = color;
+            ca.EncounterAttacker = line.encAttackerName;
+            ca.EncounterTarget = line.encTargetName;
+            return ca;
+        }
+
+        // Like MakeAction but marks IsHostile=true and applies flank-skill and mirage-weapon rules.
+        private CombatAction MakeHostileAction(
+            ParsedLine line, int swingType, string special, string attackType,
+            bool noDamage, float realDamage, float baseDamage, string damageType, int color, ParserOptions opts)
+        {
+            string finalAttackType = attackType;
+            if (line.flank && opts.FlankSkill)
+                finalAttackType = attackType + ": Flank";
+            string attacker = line.unitAttackerName;
+            if (line.srcInt.Contains("Artifact_Weapon_Illusion_Clone"))
+            {
+                attacker = line.srcDsp;
+                finalAttackType = attackType + " (Mirage Weapon)";
+            }
+            CombatAction ca = MakeAction(line, swingType, special, attacker, finalAttackType,
+                noDamage, realDamage, baseDamage, line.unitTargetName, damageType, color);
+            ca.IsHostile = true;
+            return ca;
+        }
+
+        // ---------------------------------------------------------------------------
+        // Action handlers — return (color, actions); no ACT API calls
+        // ---------------------------------------------------------------------------
+
+        public HandlerResult HandleCleanse(ParsedLine line, bool inCombat, ParserOptions opts)
+        {
+            HandlerResult result = new HandlerResult(Color.Blue.ToArgb());
+            if (inCombat && line.evtDsp == "Cleanse")
+            {
+                ResolveOwnerSourceTarget(line, opts);
+                result.Actions.Add(MakeAction(
+                    line, (int)SwingTypeEnum.CureDispel,
+                    line.special, line.unitAttackerName, line.attackType,
+                    true, line.mag, line.magBase, line.unitTargetName, line.type,
+                    Color.Blue.ToArgb()));
+            }
+            return result;
+        }
+
+        public HandlerResult HandlePower(ParsedLine line, bool inCombat, ParserOptions opts)
+        {
+            HandlerResult result = new HandlerResult(Color.Black.ToArgb());
+            if (!inCombat)
+                return result;
+
+            if (line.evtInt == "Pn.Ygyxld") // Critical Power — ignore if triggered by entity
+            {
+                if (line.ownInt != line.srcInt)
+                {
+                    result.DetectedTypeColor = Color.Gray.ToArgb();
+                    return result;
+                }
+            }
+
+            if (line.evtInt == "Pn.He9xu") // Bait and Switch
+            {
+                ResolveTargetOnly(line, opts);
+                result.Actions.Add(MakeAction(
+                    line, (int)SwingTypeEnum.PowerHealing,
+                    "", "Trickster [" + line.tgtDsp + "]", "Bait and Switch",
+                    false, -line.mag, 0, line.tgtDsp, line.type,
+                    Color.Black.ToArgb()));
+            }
+            else if (line.evtInt == "Pn.Jy04um1") // Guard Break
+            {
+                ResolveSourceTarget(line, opts);
+                result.Actions.Add(MakeAction(
+                    line, (int)SwingTypeEnum.PowerHealing,
+                    line.unitAttackerName, line.unitTargetName, line.evtDsp,
+                    false, -line.mag, 0, line.unitTargetName, line.type,
+                    Color.Black.ToArgb()));
+            }
+            else if (line.evtInt == "Pn.Wxao05") // Maelstrom of Chaos — ignore
+            {
+            }
+            else // Normal power
+            {
+                ResolveOwnerSourceTarget(line, opts);
+                result.Actions.Add(MakeAction(
+                    line, (int)SwingTypeEnum.PowerHealing,
+                    line.special, line.unitAttackerName, line.attackType,
+                    false, -line.mag, -line.magBase, line.unitTargetName, line.type,
+                    Color.Black.ToArgb()));
+            }
+            return result;
+        }
+
+        public HandlerResult HandleBuffsAndProcs(ParsedLine line, bool inCombat, ParserOptions opts)
+        {
+            HandlerResult result = new HandlerResult(Color.DarkTurquoise.ToArgb());
+
+            if (line.evtInt == "Pn.Fwolu") // Chaotic Growth
+            {
+                result.DetectedTypeColor = Color.DarkOliveGreen.ToArgb();
+                ResolveOwnerSourceTarget(line, opts);
+
+                ChaoticGrowthInfo cgi = null;
+                if (magicMissileLastHit.TryGetValue(line.tgtInt, out cgi))
+                {
+                    cgi.triggered = true;
+                    cgi.ts = line.time;
+                    cgi.encName = line.encAttackerName;
+                    cgi.unitName = line.unitAttackerName;
+                }
+
+                if (inCombat)
+                {
+                    result.Actions.Add(MakeHostileAction(
+                        line, (int)SwingTypeEnum.NonMelee,
+                        line.special, line.attackType,
+                        true, 0, 0, line.type,
+                        Color.DarkOliveGreen.ToArgb(), opts));
+                }
+            }
+            else if (line.evtInt == "Pn.Zh5vu") // Storm Spell — damage line handles it
+            {
+            }
+            else if (NW_Parser.injuryTypes.ContainsKey(line.evtInt)) // Injury — ignore
+            {
+            }
+            else // Default buff/proc
+            {
+                if (inCombat)
+                {
+                    ResolveOwnerSourceTarget(line, opts);
+                    result.Actions.Add(MakeAction(
+                        line, (int)SwingTypeEnum.NonMelee,
+                        line.special, line.unitAttackerName, line.attackType,
+                        false, -line.mag, -line.magBase, line.unitTargetName, line.type,
+                        Color.DarkTurquoise.ToArgb()));
+                }
+            }
+            return result;
+        }
+
+        public HandlerResult HandleHeals(ParsedLine line, bool inCombat, ParserOptions opts)
+        {
+            int color = line.critical ? Color.Green.ToArgb() : Color.DarkGreen.ToArgb();
+            HandlerResult result = new HandlerResult(color);
+            if (!inCombat)
+                return result;
+
+            ResolveOwnerSourceTarget(line, opts);
+
+            if (line.evtInt == "Pn.R0jdk") // PVP Rune Heal
+            {
+                result.Actions.Add(MakeAction(
+                    line, (int)SwingTypeEnum.Healing,
+                    line.special, line.unitTargetName, "PVP Heal Rune",
+                    false, -line.mag, -line.magBase, line.unitTargetName, line.type, color));
+            }
+            else if (line.evtInt == "Pn.Hemuxg" // PvP Kill downed player
+                || line.evtInt == "Pn.Qiwkdx1" // End of PvP auto heal
+                || line.evtInt == "Pn.R1tsg4") // Shocking Execution zero-value entry
+            {
+                // Ignore
+            }
+            else if (line.evtInt == "Pn.Dbm4um1") // Campfire
+            {
+                result.Actions.Add(MakeAction(
+                    line, (int)SwingTypeEnum.Healing,
+                    line.special, line.unitTargetName, line.evtDsp,
+                    false, -line.mag, -line.magBase, line.unitTargetName, line.type, color));
+            }
+            else if (line.evtInt == "Pn.Zrqjy1") // Chaotic Growth heal
+            {
+                ChaoticGrowthInfo cgi = null;
+                if (magicMissileLastHit.TryGetValue(line.srcInt, out cgi))
+                {
+                    if (!cgi.triggered)
+                    {
+                        cgi.triggered = true;
+                        cgi.ts = line.time;
+                    }
+                    // Credit to the CW that cast the Magic Missile.
+                    CombatAction ca = new CombatAction();
+                    ca.IsHostile = true;
+                    ca.SwingType = (int)SwingTypeEnum.Healing;
+                    ca.Critical = line.critical;
+                    ca.Flank = line.flank;
+                    ca.Deflect = line.dodge;
+                    ca.Special = line.unitAttackerName;
+                    ca.Attacker = cgi.unitName;
+                    ca.AttackType = line.evtDsp;
+                    ca.RealDamage = -line.mag;
+                    ca.BaseDamage = -line.magBase;
+                    ca.Time = line.time;
+                    ca.TimeSorter = line.ts;
+                    ca.Victim = line.unitTargetName;
+                    ca.DamageType = line.type;
+                    ca.DetectedTypeColor = color;
+                    ca.EncounterAttacker = cgi.encName;
+                    ca.EncounterTarget = line.encTargetName;
+                    result.Actions.Add(ca);
+                }
+                else // Unknown CW — attribute to self-encounter of the target
+                {
+                    CombatAction ca = new CombatAction();
+                    ca.IsHostile = true;
+                    ca.SwingType = (int)SwingTypeEnum.Healing;
+                    ca.Critical = line.critical;
+                    ca.Flank = line.flank;
+                    ca.Deflect = line.dodge;
+                    ca.Special = line.unitAttackerName;
+                    ca.Attacker = NW_Parser.unk;
+                    ca.AttackType = line.evtDsp;
+                    ca.RealDamage = -line.mag;
+                    ca.BaseDamage = -line.magBase;
+                    ca.Time = line.time;
+                    ca.TimeSorter = line.ts;
+                    ca.Victim = line.unitTargetName;
+                    ca.DamageType = line.type;
+                    ca.DetectedTypeColor = color;
+                    ca.EncounterAttacker = line.encTargetName;
+                    ca.EncounterTarget = line.encTargetName;
+                    result.Actions.Add(ca);
+                }
+            }
+            else // Default heal
+            {
+                result.Actions.Add(MakeAction(
+                    line, (int)SwingTypeEnum.Healing,
+                    line.special, line.unitAttackerName, line.attackType,
+                    false, -line.mag, -line.magBase, line.unitTargetName, line.type, color));
+            }
+            return result;
+        }
+
+        public HandlerResult HandleShields(ParsedLine line, bool inCombat, ParserOptions opts)
+        {
+            // Zero-magnitude shield line — filter it out (color stays gray from RouteAction default).
+            if (line.mag == -0 && line.magBase == 0)
+                return new HandlerResult(Color.Gray.ToArgb());
+
+            int color = line.critical ? Color.Green.ToArgb() : Color.DarkGreen.ToArgb();
+            HandlerResult result = new HandlerResult(color);
+
+            ResolveOwnerSourceTarget(line, opts);
+
+            // Swap mag/magBase: the shield line stores absorbed damage as negative mag.
+            float mag, magBase;
+            if (line.magBase == 0)
+            {
+                mag = -line.mag;
+                magBase = -line.magBase;
+            }
+            else
+            {
+                mag = -line.magBase;
+                magBase = -line.mag;
+            }
+            line.mag = mag;
+            line.magBase = magBase;
+
+            // Build and enqueue the ShieldData for matching against the upcoming Physical line.
+            ShieldData sd = new ShieldData();
+            sd.evtInt = line.evtInt;
+            sd.ownInt = line.ownInt;
+            sd.tgtInt = line.tgtInt;
+            sd.time = line.time;
+            sd.mag = mag;
+            sd.magBase = magBase;
+            sd.critical = line.critical;
+            sd.flank = line.flank;
+            sd.dodge = line.dodge;
+            sd.attackType = line.attackType;
+            sd.encAttackerName = line.encAttackerName;
+            sd.encTargetName = line.encTargetName;
+            sd.unitAttackerName = line.unitAttackerName;
+            sd.unitTargetName = line.unitTargetName;
+            sd.timeSorter = line.ts;
+            shieldQueue.AddShield(sd);
+
+            // The shield MasterSwing uses the target as both attacker and victim; attacker name goes in special.
+            CombatAction ca = new CombatAction();
+            ca.IsHostile = true;
+            ca.IsShield = true;
+            ca.SwingType = (int)SwingTypeEnum.Healing;
+            ca.Critical = line.critical;
+            ca.Flank = line.flank;
+            ca.Deflect = line.dodge;
+            ca.Special = line.unitAttackerName + " : " + line.attackType;
+            ca.Attacker = line.unitTargetName;
+            ca.AttackType = line.type;
+            ca.DnumValue = (int)mag; // original used (int) cast, not Math.Round
+            ca.RealDamage = mag;
+            ca.BaseDamage = 0;
+            ca.Time = line.time;
+            ca.TimeSorter = line.ts;
+            ca.Victim = line.unitTargetName;
+            ca.DamageType = line.type;
+            ca.DetectedTypeColor = color;
+            ca.EncounterAttacker = line.encAttackerName;
+            ca.EncounterTarget = line.encTargetName;
+            ca.ShieldSourceData = sd;
+            result.Actions.Add(ca);
+            return result;
+        }
+
+        public HandlerResult HandleDamage(ParsedLine line, bool inCombat, ParserOptions opts)
+        {
+            int color = line.critical ? Color.Red.ToArgb() : Color.DarkRed.ToArgb();
+            HandlerResult result = new HandlerResult(color);
+            int magAdj = (int)Math.Round(line.mag);
+            int magBaseAdj = (int)Math.Round(line.magBase);
+            string special = line.special;
+
+            // Match pending shield lines; build CombatActions for any that expired.
+            ShieldMatchResult shieldResult = shieldQueue.MatchDamage(line);
+            foreach (ShieldData sd in shieldResult.ExpiredShields)
+            {
+                string attackType = sd.attackType;
+                if (sd.flank && opts.FlankSkill)
+                    attackType = sd.attackType + ": Flank";
+                CombatAction expired = new CombatAction();
+                expired.IsHostile = true;
+                expired.SwingType = (int)SwingTypeEnum.Melee;
+                expired.Critical = sd.critical;
+                expired.Flank = sd.flank;
+                expired.Deflect = sd.dodge;
+                expired.Special = "Shield";
+                expired.Attacker = sd.unitAttackerName;
+                expired.AttackType = attackType;
+                expired.DnumValue = (int)sd.mag; // original FlushPendingShields used (int) cast
+                expired.RealDamage = sd.mag;
+                expired.BaseDamage = sd.magBase;
+                expired.Time = sd.time;
+                expired.TimeSorter = sd.timeSorter;
+                expired.Victim = sd.unitTargetName;
+                expired.DamageType = "Physical";
+                expired.DetectedTypeColor = color;
+                expired.EncounterAttacker = sd.encAttackerName;
+                expired.EncounterTarget = sd.encTargetName;
+                expired.ExpiredShieldData = sd;
+                result.Actions.Add(expired);
+            }
+
+            // If a shield was matched, compute the adjusted damage and shield tag values.
+            float shieldTagDmgF = 0;
+            float shieldTagP = 0;
+            if (shieldResult.HasMatch)
+            {
+                float df = shieldResult.TotalShieldMag;
+                string shieldSpecialText = "Shield(" + df.ToString("F1") + ")";
+                if (special == "None")
+                    special = shieldSpecialText;
+                else
+                    special = line.special + " | " + shieldSpecialText;
+
+                float dr1 = (float)(line.dodge ? 0.13 : 0.26);
+                float dr2 = (float)(line.dodge ? 0.26 : 0.51);
+                if ((int)df == (int)line.mag)
+                {
+                    if (line.mag < line.magBase * dr1)
+                        line.mag += df;
+                }
+                else
+                {
+                    float sum = line.mag + df;
+                    if (sum < line.magBase * dr2)
+                        line.mag = sum;
+                }
+                magAdj = (int)line.mag;
+                float shielded = df / line.mag;
+                shieldTagDmgF = line.mag;
+                shieldTagP = shielded;
+            }
+
+            if (line.evtInt == "Pn.Wypyjw1") // Knight's Valor — attack goes SRC→TGT
+            {
+                ResolveSourceTarget(line, opts);
+                CombatAction ca = MakeHostileAction(line, (int)SwingTypeEnum.Melee, special, line.attackType, false, line.mag, line.magBase, line.type, color, opts);
+                if (shieldResult.HasMatch) { ca.DnumValue = magAdj; ca.MatchedShield = shieldResult; ca.ShieldTagDmgF = shieldTagDmgF; ca.ShieldTagP = shieldTagP; }
+                result.Actions.Add(ca);
+            }
+            else if (line.evtInt == "Pn.Q3o7t91") // Bloodletter self-damage — target is both attacker and victim
+            {
+                ResolveTargetOnly(line, opts);
+                CombatAction ca = MakeAction(line, (int)SwingTypeEnum.Melee, line.special, line.unitTargetName, line.attackType, false, line.mag, line.magBase, line.unitTargetName, line.type, color);
+                if (shieldResult.HasMatch) { ca.DnumValue = magAdj; ca.MatchedShield = shieldResult; ca.ShieldTagDmgF = shieldTagDmgF; ca.ShieldTagP = shieldTagP; }
+                result.Actions.Add(ca);
+            }
+            else
+            {
+                ResolveOwnerSourceTarget(line, opts);
+
+                if (line.evtInt == "Pn.3t6cw8" && magAdj > 0) // Magic Missile — track for Chaotic Growth
+                {
+                    ChaoticGrowthInfo cgi = null;
+                    if (magicMissileLastHit.TryGetValue(line.tgtInt, out cgi))
+                    {
+                        if (cgi.triggered)
+                        {
+                            TimeSpan t = line.time - cgi.ts;
+                            if (t.TotalSeconds > 10.0)
+                                cgi.triggered = false;
+                        }
+                        if (!cgi.triggered)
+                        {
+                            cgi.encName = line.encAttackerName;
+                            cgi.unitName = line.unitAttackerName;
+                            cgi.ts = line.time;
+                        }
+                    }
+                    else
+                    {
+                        cgi = new ChaoticGrowthInfo();
+                        cgi.encName = line.encAttackerName;
+                        cgi.unitName = line.unitAttackerName;
+                        cgi.triggered = false;
+                        cgi.ts = line.time;
+                        magicMissileLastHit.Add(line.tgtInt, cgi);
+                    }
+                }
+
+                CombatAction ca = null;
+                if (line.immune)
+                {
+                    if (magAdj == 0 && magBaseAdj == 0)
+                    {
+                        result.DetectedTypeColor = Color.Gray.ToArgb(); // CC immunity — no record
+                    }
+                    else
+                    {
+                        result.DetectedTypeColor = Color.Maroon.ToArgb();
+                        ca = MakeHostileAction(line, (int)SwingTypeEnum.Melee, special, line.attackType, true, line.mag, line.magBase, line.type, Color.Maroon.ToArgb(), opts);
+                    }
+                }
+                else if (line.dodge)
+                {
+                    result.DetectedTypeColor = Color.Maroon.ToArgb();
+                    ca = MakeHostileAction(line, (int)SwingTypeEnum.Melee, special, line.attackType, false, line.mag, line.magBase, line.type, Color.Maroon.ToArgb(), opts);
+                }
+                else
+                {
+                    if (magAdj == 0 && magBaseAdj == 0)
+                    {
+                        result.DetectedTypeColor = Color.Gray.ToArgb(); // Zero-damage AOE — ignore
+                    }
+                    else
+                    {
+                        ca = MakeHostileAction(line, (int)SwingTypeEnum.Melee, special, line.attackType, false, line.mag, line.magBase, line.type, color, opts);
+                    }
+                }
+
+                if (ca != null)
+                {
+                    if (shieldResult.HasMatch) { ca.DnumValue = magAdj; ca.MatchedShield = shieldResult; ca.ShieldTagDmgF = shieldTagDmgF; ca.ShieldTagP = shieldTagP; }
+                    result.Actions.Add(ca);
+                }
+            }
+            return result;
+        }
+
+        // ---------------------------------------------------------------------------
+        // Routing — dispatches a normalized ParsedLine to the right handler
+        // ---------------------------------------------------------------------------
+
+        public ParseResult RouteAction(ParsedLine line, bool inCombat, ParserOptions opts)
+        {
+            ParseResult pr = new ParseResult();
+            pr.DetectedTypeColor = Color.Gray.ToArgb();
+
+            // Environmental damage should not start an encounter when out of combat.
+            if (!inCombat
+                && (line.evtInt == "Autodesc.Combatevent.Falling"
+                    || line.evtInt == "Pn.Mlg6n01"  // Poison Spike Trap
+                    || line.evtInt == "Pn.Sv2m0c1"  // Spike Trap
+                    || line.evtInt == "Pn.Rjmxw51"  // Arrow Trap
+                    || line.evtInt == "Pn.O4hc6g1")) // Fall damage
+            {
+                return pr;
+            }
+
+            HandlerResult hr;
+            if (line.type == "AttribModExpire")
+                hr = HandleCleanse(line, inCombat, opts);
+            else if (line.showPowerDisplayName)
+                hr = HandleBuffsAndProcs(line, inCombat, opts);
+            else if (line.type == "Power")
+                hr = HandlePower(line, inCombat, opts);
+            else if (line.type == "HitPoints")
+                hr = HandleHeals(line, inCombat, opts);
+            else if (line.type == "Shield")
+                hr = HandleShields(line, inCombat, opts);
+            else
+                hr = HandleDamage(line, inCombat, opts);
+
+            pr.DetectedTypeColor = hr.DetectedTypeColor;
+            pr.Actions.AddRange(hr.Actions);
+
+            // Kill tracking — appended after the damage/heal action.
+            if (line.kill)
+            {
+                pr.DetectedTypeColor = Color.Fuchsia.ToArgb();
+                pr.SpellTimerTarget = line.tgtDsp;
+
+                CombatAction killAction = new CombatAction();
+                killAction.IsKill = true;
+                killAction.Critical = line.critical;
+                killAction.Flank = line.flank;
+                killAction.Special = line.special;
+                killAction.Attacker = line.unitAttackerName;
+                killAction.Victim = line.unitTargetName;
+                killAction.Time = line.time;
+                killAction.TimeSorter = line.ts;
+                killAction.EncounterAttacker = line.encAttackerName;
+                killAction.EncounterTarget = line.encTargetName;
+                killAction.DetectedTypeColor = Color.Fuchsia.ToArgb();
+                pr.Actions.Add(killAction);
+            }
+
+            return pr;
+        }
     }
 
     // Parser configuration — passed to NWCombatLogParser on each line so it never touches the GUI directly.
@@ -3413,6 +3360,24 @@ namespace NWParsing_Plugin
         // Shell uses this to look up the previously-submitted shield MasterSwing(s)
         // and update their DmgToShield / ShieldP tags.
         public ShieldMatchResult MatchedShield;
+
+        // When a matched shield was found, these hold the computed tag values to store on the
+        // shield MasterSwing: ShieldDmgF (adjusted damage) and ShieldP (fraction shielded).
+        public float ShieldTagDmgF;
+        public float ShieldTagP;
+
+        // When true, the Dnum submitted to ACT is Dnum.NoDamage instead of new Dnum(RealDamage).
+        // RealDamage and BaseDamage are still stored in the MasterSwing tags.
+        public bool NoDamage;
+
+        // Pre-computed integer value to use when constructing Dnum.
+        // Handlers set this explicitly so that truncation vs rounding matches the original per-branch behaviour.
+        // (Normal damage: Math.Round; shield-adjusted damage and shield submissions: (int)cast / truncation.)
+        public int DnumValue;
+
+        // Non-null on expired-shield CombatActions: the shell removes this from
+        // pendingShieldMasterSwings after submitting the action.
+        public ShieldData ExpiredShieldData;
     }
 
     // Result returned by NWCombatLogParser.ProcessLine for one raw log line.
@@ -3430,6 +3395,20 @@ namespace NWParsing_Plugin
 
         public ParseResult()
         {
+            Actions = new List<CombatAction>();
+        }
+    }
+
+    // Returned by each NWCombatLogParser.HandleXxx method: the ACT line-color for this log line
+    // and the list of CombatActions the shell should apply.
+    internal class HandlerResult
+    {
+        public int DetectedTypeColor;
+        public List<CombatAction> Actions;
+
+        public HandlerResult(int color)
+        {
+            DetectedTypeColor = color;
             Actions = new List<CombatAction>();
         }
     }
