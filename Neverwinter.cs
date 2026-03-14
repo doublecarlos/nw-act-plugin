@@ -2216,7 +2216,7 @@ namespace NWParsing_Plugin
                 {
                     MasterSwing msShield = new MasterSwing(
                         (int)SwingTypeEnum.Healing, ca.Critical, ca.Special,
-                        new Dnum(ca.DnumValue), ca.Time, ca.TimeSorter,
+                        new Dnum((int)Math.Round(ca.RealDamage)), ca.Time, ca.TimeSorter,
                         ca.AttackType, ca.Attacker, ca.DamageType, ca.Victim);
                     msShield.Tags.Add("DamageF", ca.RealDamage);
                     msShield.Tags.Add("Flank", ca.Flank);
@@ -2236,7 +2236,7 @@ namespace NWParsing_Plugin
                     return;
             }
 
-            Dnum dmg = ca.NoDamage ? Dnum.NoDamage : new Dnum(ca.DnumValue);
+            Dnum dmg = ca.NoDamage ? Dnum.NoDamage : new Dnum((int)Math.Round(ca.RealDamage));
             MasterSwing ms = new MasterSwing(ca.SwingType, ca.Critical, ca.Special, dmg, ca.Time, ca.TimeSorter, ca.AttackType, ca.Attacker, ca.DamageType, ca.Victim);
             ms.Tags.Add("DamageF", ca.RealDamage);
             ms.Tags.Add("BaseDamage", ca.BaseDamage);
@@ -2262,7 +2262,7 @@ namespace NWParsing_Plugin
                     if (sd.flank && checkBox_flankSkill.Checked)
                         attackType = sd.attackType + ": Flank";
 
-                    MasterSwing msExpired = new MasterSwing((int)SwingTypeEnum.Melee, sd.critical, "Shield", new Dnum((int)sd.mag), sd.time, sd.timeSorter, attackType, sd.unitAttackerName, "Physical", sd.unitTargetName);
+                    MasterSwing msExpired = new MasterSwing((int)SwingTypeEnum.Melee, sd.critical, "Shield", new Dnum((int)Math.Round(sd.mag)), sd.time, sd.timeSorter, attackType, sd.unitAttackerName, "Physical", sd.unitTargetName);
                     msExpired.Tags.Add("DamageF", sd.mag);
                     msExpired.Tags.Add("BaseDamage", sd.magBase);
                     msExpired.Tags.Add("Flank", sd.flank);
@@ -2812,7 +2812,6 @@ namespace NWParsing_Plugin
             ca.Attacker = attacker;
             ca.AttackType = attackType;
             ca.NoDamage = noDamage;
-            ca.DnumValue = (int)Math.Round(realDamage);
             ca.RealDamage = realDamage;
             ca.BaseDamage = baseDamage;
             ca.Time = line.time;
@@ -3109,7 +3108,6 @@ namespace NWParsing_Plugin
             ca.Special = line.unitAttackerName + " : " + line.attackType;
             ca.Attacker = line.unitTargetName;
             ca.AttackType = line.type;
-            ca.DnumValue = (int)mag; // original used (int) cast, not Math.Round
             ca.RealDamage = mag;
             ca.BaseDamage = 0;
             ca.Time = line.time;
@@ -3148,7 +3146,6 @@ namespace NWParsing_Plugin
                 expired.Special = "Shield";
                 expired.Attacker = sd.unitAttackerName;
                 expired.AttackType = attackType;
-                expired.DnumValue = (int)sd.mag; // original FlushPendingShields used (int) cast
                 expired.RealDamage = sd.mag;
                 expired.BaseDamage = sd.magBase;
                 expired.Time = sd.time;
@@ -3197,14 +3194,14 @@ namespace NWParsing_Plugin
             {
                 ResolveSourceTarget(line, opts);
                 CombatAction ca = MakeHostileAction(line, (int)SwingTypeEnum.Melee, special, line.attackType, false, line.mag, line.magBase, line.type, color, opts);
-                if (shieldResult.HasMatch) { ca.DnumValue = damageInt; ca.MatchedShield = shieldResult; ca.ShieldTagDmgF = shieldTagDmgF; ca.ShieldTagP = shieldTagP; }
+                if (shieldResult.HasMatch) { ca.MatchedShield = shieldResult; ca.ShieldTagDmgF = shieldTagDmgF; ca.ShieldTagP = shieldTagP; }
                 result.Actions.Add(ca);
             }
             else if (line.evtInt == "Pn.Q3o7t91") // Bloodletter self-damage — target is both attacker and victim
             {
                 ResolveTargetOnly(line, opts);
                 CombatAction ca = MakeAction(line, (int)SwingTypeEnum.Melee, line.special, line.unitTargetName, line.attackType, false, line.mag, line.magBase, line.unitTargetName, line.type, color);
-                if (shieldResult.HasMatch) { ca.DnumValue = damageInt; ca.MatchedShield = shieldResult; ca.ShieldTagDmgF = shieldTagDmgF; ca.ShieldTagP = shieldTagP; }
+                if (shieldResult.HasMatch) { ca.MatchedShield = shieldResult; ca.ShieldTagDmgF = shieldTagDmgF; ca.ShieldTagP = shieldTagP; }
                 result.Actions.Add(ca);
             }
             else
@@ -3272,7 +3269,7 @@ namespace NWParsing_Plugin
 
                 if (ca != null)
                 {
-                    if (shieldResult.HasMatch) { ca.DnumValue = damageInt; ca.MatchedShield = shieldResult; ca.ShieldTagDmgF = shieldTagDmgF; ca.ShieldTagP = shieldTagP; }
+                    if (shieldResult.HasMatch) { ca.MatchedShield = shieldResult; ca.ShieldTagDmgF = shieldTagDmgF; ca.ShieldTagP = shieldTagP; }
                     result.Actions.Add(ca);
                 }
             }
@@ -3397,11 +3394,6 @@ namespace NWParsing_Plugin
         // When true, the Dnum submitted to ACT is Dnum.NoDamage instead of new Dnum(RealDamage).
         // RealDamage and BaseDamage are still stored in the MasterSwing tags.
         public bool NoDamage;
-
-        // Pre-computed integer value to use when constructing Dnum.
-        // Handlers set this explicitly so that truncation vs rounding matches the original per-branch behaviour.
-        // (Normal damage: Math.Round; shield-adjusted damage and shield submissions: (int)cast / truncation.)
-        public int DnumValue;
 
         // Non-null on expired-shield CombatActions: the shell removes this from
         // pendingShieldMasterSwings after submitting the action.
