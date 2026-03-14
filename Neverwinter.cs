@@ -2137,15 +2137,8 @@ namespace NWParsing_Plugin
                 }
             }
 
-            // Do the real stuff..
-            ProcessAction(pl);
-            logInfo.detectedType = pl.detectedType;
-        }
-
-        private void ProcessAction(ParsedLine l)
-        {
-            ParseResult pr = combatLogParser.RouteAction(l, ActGlobals.oFormActMain.InCombat, GetCurrentOptions());
-            l.detectedType = pr.DetectedTypeColor;
+            ParseResult pr = combatLogParser.RouteAction(pl, ActGlobals.oFormActMain.InCombat, GetCurrentOptions());
+            logInfo.detectedType = pr.DetectedTypeColor;
 
             if (pr.SpellTimerTarget != null)
             {
@@ -2164,11 +2157,11 @@ namespace NWParsing_Plugin
             {
                 if (ActGlobals.oFormActMain.SetEncounter(ca.Time, ca.EncounterAttacker, ca.EncounterTarget))
                 {
-                    MasterSwing ms = new MasterSwing(
+                    MasterSwing msKill = new MasterSwing(
                         (int)SwingTypeEnum.Melee, ca.Critical, ca.Special, Dnum.Death,
                         ca.Time, ca.TimeSorter, "Killing", ca.Attacker, "Death", ca.Victim);
-                    ms.Tags.Add("Flank", ca.Flank);
-                    ActGlobals.oFormActMain.AddCombatAction(ms);
+                    msKill.Tags.Add("Flank", ca.Flank);
+                    ActGlobals.oFormActMain.AddCombatAction(msKill);
                 }
                 return;
             }
@@ -2194,14 +2187,14 @@ namespace NWParsing_Plugin
             {
                 if (ActGlobals.oFormActMain.SetEncounter(ca.Time, ca.EncounterAttacker, ca.EncounterTarget))
                 {
-                    MasterSwing ms = new MasterSwing(
+                    MasterSwing msShield = new MasterSwing(
                         (int)SwingTypeEnum.Healing, ca.Critical, ca.Special,
                         new Dnum(ca.DnumValue), ca.Time, ca.TimeSorter,
                         ca.AttackType, ca.Attacker, ca.DamageType, ca.Victim);
-                    ms.Tags.Add("DamageF", ca.RealDamage);
-                    ms.Tags.Add("Flank", ca.Flank);
-                    ActGlobals.oFormActMain.AddCombatAction(ms);
-                    pendingShieldMasterSwings[ca.ShieldSourceData] = ms;
+                    msShield.Tags.Add("DamageF", ca.RealDamage);
+                    msShield.Tags.Add("Flank", ca.Flank);
+                    ActGlobals.oFormActMain.AddCombatAction(msShield);
+                    pendingShieldMasterSwings[ca.ShieldSourceData] = msShield;
                 }
                 return;
             }
@@ -2217,30 +2210,16 @@ namespace NWParsing_Plugin
             }
 
             Dnum dmg = ca.NoDamage ? Dnum.NoDamage : new Dnum(ca.DnumValue);
-            AddCombatActionNW(
-                ca.SwingType, ca.Critical, ca.Flank, ca.Deflect, ca.Special, ca.Attacker, ca.AttackType,
-                dmg, ca.RealDamage, ca.BaseDamage, ca.Time, ca.TimeSorter, ca.Victim, ca.DamageType);
-        }
-
-        // Wrapper around AddCombatAction to add extra Tags that are used in the NW plugin.
-        private void AddCombatActionNW(
-            int swingType, bool critical, bool flank, bool deflect, string special, string attacker, string theAttackType,
-            Dnum damage, float realDamage, float baseDamage,
-            DateTime time, int timeSorter, string victim, string theDamageType)
-        {
-            MasterSwing ms = new MasterSwing(swingType, critical, special, damage, time, timeSorter, theAttackType, attacker, theDamageType, victim);
-
-            ms.Tags.Add("DamageF", realDamage);
-            ms.Tags.Add("BaseDamage", baseDamage);
-            ms.Tags.Add("Flank", flank);
-            ms.Tags.Add("Deflect", deflect);
-
-            if (baseDamage > 0)
+            MasterSwing ms = new MasterSwing(ca.SwingType, ca.Critical, ca.Special, dmg, ca.Time, ca.TimeSorter, ca.AttackType, ca.Attacker, ca.DamageType, ca.Victim);
+            ms.Tags.Add("DamageF", ca.RealDamage);
+            ms.Tags.Add("BaseDamage", ca.BaseDamage);
+            ms.Tags.Add("Flank", ca.Flank);
+            ms.Tags.Add("Deflect", ca.Deflect);
+            if (ca.BaseDamage > 0)
             {
-                float eff = realDamage / baseDamage;
+                float eff = ca.RealDamage / ca.BaseDamage;
                 ms.Tags.Add("Effectiveness", eff);
             }
-
             ActGlobals.oFormActMain.AddCombatAction(ms);
         }
 
@@ -2256,10 +2235,17 @@ namespace NWParsing_Plugin
                     if (sd.flank && checkBox_flankSkill.Checked)
                         attackType = sd.attackType + ": Flank";
 
-                    AddCombatActionNW(
-                        (int)SwingTypeEnum.Melee, sd.critical, sd.flank, sd.dodge, "Shield",
-                        sd.unitAttackerName, attackType, new Dnum((int)sd.mag), sd.mag, sd.magBase,
-                        sd.time, sd.timeSorter, sd.unitTargetName, "Physical");
+                    MasterSwing msExpired = new MasterSwing((int)SwingTypeEnum.Melee, sd.critical, "Shield", new Dnum((int)sd.mag), sd.time, sd.timeSorter, attackType, sd.unitAttackerName, "Physical", sd.unitTargetName);
+                    msExpired.Tags.Add("DamageF", sd.mag);
+                    msExpired.Tags.Add("BaseDamage", sd.magBase);
+                    msExpired.Tags.Add("Flank", sd.flank);
+                    msExpired.Tags.Add("Deflect", sd.dodge);
+                    if (sd.magBase > 0)
+                    {
+                        float eff = sd.mag / sd.magBase;
+                        msExpired.Tags.Add("Effectiveness", eff);
+                    }
+                    ActGlobals.oFormActMain.AddCombatAction(msExpired);
                 }
                 pendingShieldMasterSwings.Remove(sd);
             }
@@ -3695,7 +3681,6 @@ namespace NWParsing_Plugin
 
         public string logLine;
         public DateTime time;
-        public int detectedType;
 
         //
         // Parsed from the line.
