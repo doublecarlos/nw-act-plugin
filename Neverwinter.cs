@@ -13,6 +13,10 @@ using System.Globalization;
 using System.Net;
 
 
+// ================================================================
+// SECTION 1: Assembly attributes
+// ================================================================
+
 [assembly: AssemblyTitle("Neverwinter Parsing Plugin")]
 [assembly: AssemblyDescription("A basic parser that reads the combat logs in Neverwinter.")]
 [assembly: AssemblyCopyright("doublecarlos, oracleNW, jicama, dragonsbite, designedbyrng, nils.brummond@gmail.com based on: Antday <Unique> based on STO Plugin from Hilbert@mancom, Pirye@ucalegon")]
@@ -123,11 +127,24 @@ using System.Net;
  */
 
 
+// ================================================================
+// SECTION 2: NW_Parser — ACT plugin shell
+//   2a. Designer / WinForms generated code  (#region Designer)
+//   2b. Plugin fields and constants
+//   2c. InitPlugin / DeInitPlugin / event hooks
+//   2d. Settings load/save
+//   2e. GUI event handlers
+//   2f. ACT column definitions (FixupXxx)
+//   2g. ACT cell/SQL/compare helpers
+//   2h. BeforeLogLineRead / ApplyCombatAction / FlushPendingShields
+// ================================================================
+
 namespace NWParsing_Plugin
 {
     public class NW_Parser : UserControl, IActPluginV1
     {
 
+        // ---- 2a. Designer / WinForms generated code ----
         #region Designer Created Code (Avoid editing)
 
         private System.ComponentModel.IContainer components = null;
@@ -336,6 +353,8 @@ namespace NWParsing_Plugin
 
         #endregion
 
+        // ---- 2b. Plugin fields and constants ----
+
         public NW_Parser()
         {
             InitializeComponent();
@@ -426,6 +445,8 @@ namespace NWParsing_Plugin
             "Pn.Bdzbls", // "Instructional Aid" from Tutor
             "Pn.3kzn9w1", // "Instructional Aid" from Tutor
         };
+
+        // ---- 2c. InitPlugin / DeInitPlugin / event hooks ----
 
         public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
         {
@@ -528,6 +549,8 @@ namespace NWParsing_Plugin
         {
             return ActGlobals.mainTableShowCommas ? "#,0.00" : "0.00";
         }
+
+        // ---- 2g. ACT cell/SQL/compare helpers ----
 
         private string GetCellDataFlank(MasterSwing Data)
         {
@@ -1552,6 +1575,8 @@ namespace NWParsing_Plugin
             MasterSwing.ColumnDefs.Add("ShieldP",
                 new MasterSwing.ColumnDef("ShieldP", false, "VARCHAR(8)", "ShieldPDtring", GetCellDataShieldP, GetSqlDataShieldP, MasterSwingCompareShieldP));
         }
+        // ---- 2f. ACT column definitions (FixupXxx) ----
+
         private void FixupCombatDataStructures()
         {
             // - Remove data types that do not apply to Neverwinter combat logs.
@@ -2087,6 +2112,8 @@ namespace NWParsing_Plugin
             playersCharacterFound = false;
         }
 
+        // ---- 2h. BeforeLogLineRead / ApplyCombatAction / FlushPendingShields ----
+
         // Must match LogLineEventDelegate signature
         void oFormActMain_BeforeLogLineRead(bool isImport, LogLineEventArgs logInfo)
         {
@@ -2287,6 +2314,8 @@ namespace NWParsing_Plugin
             lblStatus.Text = "Neverwinter ACT plugin unloaded";
         }
 
+        // ---- 2d. Settings load/save ----
+
         // Load option settings from file
         void LoadSettings()
         {
@@ -2344,6 +2373,8 @@ namespace NWParsing_Plugin
             xWriter.Flush();	// Flush the file buffer to disk
             xWriter.Close();
         }
+
+        // ---- 2e. GUI event handlers ----
 
         private void button_add_Click(object sender, EventArgs e)
         {
@@ -2427,6 +2458,17 @@ namespace NWParsing_Plugin
             return opts;
         }
     }
+
+    // ================================================================
+    // SECTION 3: NWCombatLogParser — pure parsing (no ACT API calls)
+    //   3a. NWCombatLogParser class
+    //   3b. ParserOptions
+    //   3c. CombatAction / ParseResult / HandlerResult
+    //   3d. ShieldData / ShieldMatchResult
+    //
+    // Verification: zero occurrences of ActGlobals, MasterSwing,
+    //   LogLineEventArgs, SetEncounter, AddCombatAction in this section.
+    // ================================================================
 
     // Owns all mutable parsing state and implements the core log-line processing logic.
     // Contains zero ACT API calls — all ACT interaction is delegated back to NW_Parser.
@@ -3665,6 +3707,12 @@ namespace NWParsing_Plugin
             return result;
         }
     }
+
+    // ================================================================
+    // SECTION 4: Supporting data classes (no ACT dependencies)
+    //   ParsedLine, EntityType, OwnerInfo, Registeries,
+    //   ChaoticGrowthInfo, ShieldMatchingQueue
+    // ================================================================
 
     internal enum EntityType
     {
