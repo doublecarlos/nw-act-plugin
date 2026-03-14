@@ -3086,8 +3086,8 @@ namespace NWParsing_Plugin
         {
             int color = line.critical ? Color.Red.ToArgb() : Color.DarkRed.ToArgb();
             HandlerResult result = new HandlerResult(color);
-            int magAdj = (int)Math.Round(line.mag);
-            int magBaseAdj = (int)Math.Round(line.magBase);
+            int damageInt = (int)Math.Round(line.mag);
+            int baseDamageInt = (int)Math.Round(line.magBase);
             string special = line.special;
 
             // Match pending shield lines; build CombatActions for any that expired.
@@ -3145,7 +3145,7 @@ namespace NWParsing_Plugin
                     if (sum < line.magBase * dr2)
                         line.mag = sum;
                 }
-                magAdj = (int)line.mag;
+                damageInt = (int)line.mag;
                 float shielded = df / line.mag;
                 shieldTagDmgF = line.mag;
                 shieldTagP = shielded;
@@ -3155,21 +3155,21 @@ namespace NWParsing_Plugin
             {
                 ResolveSourceTarget(line, opts);
                 CombatAction ca = MakeHostileAction(line, (int)SwingTypeEnum.Melee, special, line.attackType, false, line.mag, line.magBase, line.type, color, opts);
-                if (shieldResult.HasMatch) { ca.DnumValue = magAdj; ca.MatchedShield = shieldResult; ca.ShieldTagDmgF = shieldTagDmgF; ca.ShieldTagP = shieldTagP; }
+                if (shieldResult.HasMatch) { ca.DnumValue = damageInt; ca.MatchedShield = shieldResult; ca.ShieldTagDmgF = shieldTagDmgF; ca.ShieldTagP = shieldTagP; }
                 result.Actions.Add(ca);
             }
             else if (line.evtInt == "Pn.Q3o7t91") // Bloodletter self-damage — target is both attacker and victim
             {
                 ResolveTargetOnly(line, opts);
                 CombatAction ca = MakeAction(line, (int)SwingTypeEnum.Melee, line.special, line.unitTargetName, line.attackType, false, line.mag, line.magBase, line.unitTargetName, line.type, color);
-                if (shieldResult.HasMatch) { ca.DnumValue = magAdj; ca.MatchedShield = shieldResult; ca.ShieldTagDmgF = shieldTagDmgF; ca.ShieldTagP = shieldTagP; }
+                if (shieldResult.HasMatch) { ca.DnumValue = damageInt; ca.MatchedShield = shieldResult; ca.ShieldTagDmgF = shieldTagDmgF; ca.ShieldTagP = shieldTagP; }
                 result.Actions.Add(ca);
             }
             else
             {
                 ResolveOwnerSourceTarget(line, opts);
 
-                if (line.evtInt == "Pn.3t6cw8" && magAdj > 0) // Magic Missile — track for Chaotic Growth
+                if (line.evtInt == "Pn.3t6cw8" && damageInt > 0) // Magic Missile — track for Chaotic Growth
                 {
                     ChaoticGrowthInfo cgi = null;
                     if (magicMissileLastHit.TryGetValue(line.tgtInt, out cgi))
@@ -3201,7 +3201,7 @@ namespace NWParsing_Plugin
                 CombatAction ca = null;
                 if (line.immune)
                 {
-                    if (magAdj == 0 && magBaseAdj == 0)
+                    if (damageInt == 0 && baseDamageInt == 0)
                     {
                         result.DetectedTypeColor = Color.Gray.ToArgb(); // CC immunity — no record
                     }
@@ -3218,7 +3218,7 @@ namespace NWParsing_Plugin
                 }
                 else
                 {
-                    if (magAdj == 0 && magBaseAdj == 0)
+                    if (damageInt == 0 && baseDamageInt == 0)
                     {
                         result.DetectedTypeColor = Color.Gray.ToArgb(); // Zero-damage AOE — ignore
                     }
@@ -3230,7 +3230,7 @@ namespace NWParsing_Plugin
 
                 if (ca != null)
                 {
-                    if (shieldResult.HasMatch) { ca.DnumValue = magAdj; ca.MatchedShield = shieldResult; ca.ShieldTagDmgF = shieldTagDmgF; ca.ShieldTagP = shieldTagP; }
+                    if (shieldResult.HasMatch) { ca.DnumValue = damageInt; ca.MatchedShield = shieldResult; ca.ShieldTagDmgF = shieldTagDmgF; ca.ShieldTagP = shieldTagP; }
                     result.Actions.Add(ca);
                 }
             }
