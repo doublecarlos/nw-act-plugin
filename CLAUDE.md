@@ -150,7 +150,7 @@ Shield lines arrive just before their corresponding damage line (≤ 500 ms). `H
 - `checkBox_flankSkill` — splits skills into "Skill: Flank" vs "Skill" attack types
 
 ### Special constants
-- `companionEntityPowers` — entity power IDs (Blue Fire Eye, Tutor) whose damage should NOT be merged into owner even with merging enabled
+- `companionEntityPowers` — power IDs (Blue Fire Eye, Tutor) whose log lines are malformed: `src` appears as the player owner instead of the companion entity, so without special-casing they would always be attributed to the player even when merging is **disabled**. The array forces correct attribution back to the companion regardless of merge settings
 - `injuryTypes` — `internal static readonly`; power IDs for injuries that should not start combat or appear as damage; referenced by `NWCombatLogParser` as `NW_Parser.injuryTypes`
 - `unk = "UNKNOWN"`, `unkInt = "C[0 Unknown]"` — ACT-magic strings; do not change; referenced by `NWCombatLogParser` as `NW_Parser.unk` / `NW_Parser.unkInt`
 
