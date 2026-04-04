@@ -1,0 +1,4 @@
+<Project>
+  <!-- Local machine overrides — copy Directory.Build.props.local.example to Directory.Build.props.local and adjust -->
+  <Import Project="Directory.Build.props.local" Condition="Exists('Directory.Build.props.local')" />
+</Project>

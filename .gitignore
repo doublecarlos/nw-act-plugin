@@ -11,6 +11,9 @@ obj/
 *.suo
 .idea/
 
+# Local MSBuild overrides (copy from *.example and adjust)
+Directory.Build.props.local
+
 # Generated fixture data (recreate with golden-log-generator.py)
 TestHarness/fixtures/combatlog.log
 
