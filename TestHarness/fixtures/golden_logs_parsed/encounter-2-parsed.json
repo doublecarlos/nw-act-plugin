@@ -1,0 +1,1001 @@
+{
+  "Player 8": {
+    "damage_out": 85138358
+  },
+  "Player 16": {
+    "damage_out": 82391571
+  },
+  "Player 4": {
+    "damage_out": 1403927545
+  },
+  "Player 22": {
+    "damage_out": 29827365
+  },
+  "Player 3": {
+    "damage_out": 1467907153
+  },
+  "Player 10": {
+    "damage_out": 1124196397
+  },
+  "UNKNOWN": {
+    "damage_out": 2004058876
+  },
+  "Portobello DaVinci [Player 8's Pet]": {
+    "damage_out": 8897816
+  },
+  "Captain Elaina Sartell [Player 3's Pet]": {
+    "damage_out": 66208775
+  },
+  "Tutor [Player 22's Pet]": {
+    "damage_out": 23061679
+  },
+  "Player 21": {
+    "damage_out": 1194319196
+  },
+  "Drizzt Do'Urden [Player 21's Pet]": {
+    "damage_out": 36122706
+  },
+  "Etrien [Player 10's Pet]": {
+    "damage_out": 77388010
+  },
+  "Baalmede the Frozen [105]": {
+    "damage_out": 20337864
+  },
+  "Kezaroth the Scorched [106]": {
+    "damage_out": 137076171
+  },
+  "Meteor [319]": {
+    "damage_out": 3603057
+  },
+  "Soul of the Sentinel [419]": {
+    "damage_out": 11
+  },
+  "Soul of the Devout [410]": {
+    "damage_out": 337289
+  },
+  "Soul of the Vanguard [456]": {
+    "damage_out": 445628
+  },
+  "Servitor [401]": {
+    "damage_out": 350796
+  },
+  "Servitor [399]": {
+    "damage_out": 631535
+  },
+  "Servitor [459]": {
+    "damage_out": 1086886
+  },
+  "Servitor [461]": {
+    "damage_out": 1456430
+  },
+  "Apprentice [400]": {
+    "damage_out": 154330
+  },
+  "Thayan Protector [402]": {
+    "damage_out": 358918
+  },
+  "Thayan Protector [463]": {
+    "damage_out": 251922
+  },
+  "Soul of the Vanguard [406]": {
+    "damage_out": 107307
+  },
+  "Thayan Protector [462]": {
+    "damage_out": 145215
+  },
+  "Thayan Knight [404]": {
+    "damage_out": 382228
+  },
+  "Thayan Knight [403]": {
+    "damage_out": 356033
+  },
+  "Servitor [451]": {
+    "damage_out": 2313814
+  },
+  "Servitor [453]": {
+    "damage_out": 1796037
+  },
+  "Thayan Protector [454]": {
+    "damage_out": 142825
+  },
+  "Thayan Protector [455]": {
+    "damage_out": 270404
+  },
+  "Soul of the Vanguard [428]": {
+    "damage_out": 664723
+  },
+  "Thayan Protector [452]": {
+    "damage_out": 1002320
+  },
+  "Soul of the Sentinel [550]": {
+    "damage_out": 4
+  },
+  "Soul of the Devout [568]": {
+    "damage_out": 636151
+  },
+  "Meteor [607]": {
+    "damage_out": 2036287
+  },
+  "Meteor [608]": {
+    "damage_out": 1260467
+  },
+  "Soul of the Vanguard [442]": {
+    "damage_out": 156883
+  },
+  "Servitor [616]": {
+    "damage_out": 597266
+  },
+  "Servitor [614]": {
+    "damage_out": 864553
+  },
+  "Servitor [440]": {
+    "damage_out": 525700
+  },
+  "Servitor [441]": {
+    "damage_out": 505679
+  },
+  "Apprentice [615]": {
+    "damage_out": 41809
+  },
+  "Meteor [686]": {
+    "damage_out": 2711141
+  },
+  "Soul of the Vanguard [678]": {
+    "damage_out": 55840
+  },
+  "Thayan Protector [617]": {
+    "damage_out": 32431
+  },
+  "Soul of the Vanguard [719]": {
+    "damage_out": 236949
+  },
+  "Thayan Knight [618]": {
+    "damage_out": 16740
+  },
+  "Soul of the Vanguard [699]": {
+    "damage_out": 374742
+  },
+  "Servitor [738]": {
+    "damage_out": 1151427
+  },
+  "Servitor [736]": {
+    "damage_out": 840250
+  },
+  "Servitor [746]": {
+    "damage_out": 275732
+  },
+  "Thayan Protector [739]": {
+    "damage_out": 144653
+  },
+  "Thayan Protector [747]": {
+    "damage_out": 119573
+  },
+  "Soul of the Vanguard [804]": {
+    "damage_out": 232084
+  },
+  "Soul of the Vanguard [835]": {
+    "damage_out": 187226
+  },
+  "Soul of the Vanguard [865]": {
+    "damage_out": 1501123
+  },
+  "Servitor [884]": {
+    "damage_out": 1173769
+  },
+  "Servitor [883]": {
+    "damage_out": 528825
+  },
+  "Thayan Protector [882]": {
+    "damage_out": 300071
+  },
+  "Servitor [915]": {
+    "damage_out": 69803
+  },
+  "Servitor [913]": {
+    "damage_out": 66135
+  },
+  "Soul of the Vanguard [949]": {
+    "damage_out": 151245
+  },
+  "Apprentice [914]": {
+    "damage_out": 274905
+  },
+  "Thayan Protector [916]": {
+    "damage_out": 141568
+  },
+  "Thayan Knight [918]": {
+    "damage_out": 178519
+  },
+  "Thayan Knight [917]": {
+    "damage_out": 207257
+  },
+  "Skeletal Warrior [113]": {
+    "damage_out": 187316
+  },
+  "Skeletal Ranger [110]": {
+    "damage_out": 199669
+  },
+  "Skeletal Ranger [111]": {
+    "damage_out": 191286
+  },
+  "Thayan Protector [999]": {
+    "damage_out": 350845
+  },
+  "Thayan Protector [1036]": {
+    "damage_out": 305753
+  },
+  "Servitor [1035]": {
+    "damage_out": 786655
+  },
+  "Servitor [1033]": {
+    "damage_out": 693811
+  },
+  "Thayan Protector [1037]": {
+    "damage_out": 398097
+  },
+  "Thayan Protector [1034]": {
+    "damage_out": 94224
+  },
+  "Soul of the Vanguard [1040]": {
+    "damage_out": 101533
+  },
+  "Soul of the Vanguard [1044]": {
+    "damage_out": 100188
+  },
+  "Player 19": {
+    "damage_out": 22389570
+  },
+  "Letheras the Decayed [1498]": {
+    "damage_out": 435529373
+  },
+  "C[1483 M32_Az_Thayan_Servitor_Minion_Trial] [1483]": {
+    "damage_out": 59232
+  },
+  "Player 13": {
+    "damage_out": 392570703
+  },
+  "C[1481 M32_Az_Thayan_Servitor_Minion_Trial] [1481]": {
+    "damage_out": 32580
+  },
+  "Portobello DaVinci [Player 16's Pet]": {
+    "damage_out": 6504583
+  },
+  "Servitor [1481]": {
+    "damage_out": 105830
+  },
+  "Player 15": {
+    "damage_out": 234688007
+  },
+  "Servitor [1488]": {
+    "damage_out": 618021
+  },
+  "Servitor [1487]": {
+    "damage_out": 381865
+  },
+  "Servitor [1489]": {
+    "damage_out": 311353
+  },
+  "Servitor [1492]": {
+    "damage_out": 205940
+  },
+  "Servitor [1483]": {
+    "damage_out": 257938
+  },
+  "Spined Devil [Player 4's Pet]": {
+    "damage_out": 19992582
+  },
+  "Servitor [1482]": {
+    "damage_out": 1230519
+  },
+  "Flapjack [Player 19's Pet]": {
+    "damage_out": 19988121
+  },
+  "Rotting Synthesis [1581]": {
+    "damage_out": 469847
+  },
+  "Meteor [1597]": {
+    "damage_out": 4799582
+  },
+  "Thayan Protector [1484]": {
+    "damage_out": 336674
+  },
+  "Thayan Protector [1491]": {
+    "damage_out": 98863
+  },
+  "Rotting Synthesis [1583]": {
+    "damage_out": 819543
+  },
+  "Thayan Protector [1490]": {
+    "damage_out": 225116
+  },
+  "Thayan Protector [1485]": {
+    "damage_out": 162531
+  },
+  "Rotting Synthesis [1584]": {
+    "damage_out": 308727
+  },
+  "Rotting Synthesis [1580]": {
+    "damage_out": 322140
+  },
+  "Servitor [1631]": {
+    "damage_out": 1057183
+  },
+  "Servitor [1630]": {
+    "damage_out": 1064872
+  },
+  "Black Death Scorpion [Player 15's Pet]": {
+    "damage_out": 17867680
+  },
+  "Magebreaker [1626]": {
+    "damage_out": 1449327
+  },
+  "Thayan Protector [1629]": {
+    "damage_out": 959265
+  },
+  "Rotting Synthesis [1582]": {
+    "damage_out": 132420
+  },
+  "Servitor [1642]": {
+    "damage_out": 1569737
+  },
+  "Servitor [1640]": {
+    "damage_out": 1472205
+  },
+  "Black Death Scorpion [Player 13's Pet]": {
+    "damage_out": 21187013
+  },
+  "Apprentice [1641]": {
+    "damage_out": 85073
+  },
+  "Thayan Protector [1643]": {
+    "damage_out": 298323
+  },
+  "Servitor [1670]": {
+    "damage_out": 2018486
+  },
+  "Servitor [1668]": {
+    "damage_out": 3274949
+  },
+  "Servitor [1669]": {
+    "damage_out": 2350531
+  },
+  "Thayan Protector [1671]": {
+    "damage_out": 97325
+  },
+  "Thayan Protector [1672]": {
+    "damage_out": 102047
+  },
+  "Thayan Protector [1680]": {
+    "damage_out": 340722
+  },
+  "Servitor [1678]": {
+    "damage_out": 618110
+  },
+  "Servitor [1677]": {
+    "damage_out": 859489
+  },
+  "Servitor [1679]": {
+    "damage_out": 206208
+  },
+  "Servitor [1697]": {
+    "damage_out": 2157739
+  },
+  "Servitor [1696]": {
+    "damage_out": 3160910
+  },
+  "Servitor [1704]": {
+    "damage_out": 1190159
+  },
+  "Servitor [1702]": {
+    "damage_out": 951217
+  },
+  "Thayan Protector [1705]": {
+    "damage_out": 342277
+  },
+  "Apprentice [1703]": {
+    "damage_out": 42458
+  },
+  "Thayan Commander [1693]": {
+    "damage_out": 1974200
+  },
+  "Rotting Synthesis [1716]": {
+    "damage_out": 317943
+  },
+  "Thayan Knight [1707]": {
+    "damage_out": 184403
+  },
+  "Rotting Synthesis [1715]": {
+    "damage_out": 46281
+  },
+  "Thayan Protector [1694]": {
+    "damage_out": 196491
+  },
+  "Rotting Synthesis [1714]": {
+    "damage_out": 392665
+  },
+  "Magebreaker [1692]": {
+    "damage_out": 199176
+  },
+  "Servitor [1741]": {
+    "damage_out": 101483
+  },
+  "Servitor [1740]": {
+    "damage_out": 1310535
+  },
+  "Servitor [1742]": {
+    "damage_out": 290079
+  },
+  "Servitor [1769]": {
+    "damage_out": 256356
+  },
+  "Servitor [1771]": {
+    "damage_out": 752599
+  },
+  "Scorched Demon [1782]": {
+    "damage_out": 24862694
+  },
+  "Frozen Demon [1781]": {
+    "damage_out": 21240466
+  },
+  "Soul of the Vanguard [1780]": {
+    "damage_out": 132188
+  },
+  "Meteor [1788]": {
+    "damage_out": 6695850
+  },
+  "Instructional Aid [Tutor's Pet]": {
+    "damage_out": 4111
+  },
+  "Apprentice [1770]": {
+    "damage_out": 220592
+  },
+  "Servitor [1795]": {
+    "damage_out": 478342
+  },
+  "Servitor [1794]": {
+    "damage_out": 1343584
+  },
+  "Soul of the Vanguard [1775]": {
+    "damage_out": 1067355
+  },
+  "Servitor [1797]": {
+    "damage_out": 1446803
+  },
+  "Servitor [1799]": {
+    "damage_out": 3657894
+  },
+  "Servitor [1798]": {
+    "damage_out": 2643707
+  },
+  "Thayan Commander [1791]": {
+    "damage_out": 271633
+  },
+  "Thayan Protector [1792]": {
+    "damage_out": 196694
+  },
+  "Thayan Knight [1774]": {
+    "damage_out": 376413
+  },
+  "Thayan Protector [1793]": {
+    "damage_out": 201046
+  },
+  "Thayan Protector [1801]": {
+    "damage_out": 1025020
+  },
+  "Thayan Protector [1800]": {
+    "damage_out": 514091
+  },
+  "Servitor [1831]": {
+    "damage_out": 3539148
+  },
+  "Servitor [1832]": {
+    "damage_out": 3395273
+  },
+  "Servitor [1833]": {
+    "damage_out": 1635764
+  },
+  "Thayan Protector [1835]": {
+    "damage_out": 533780
+  },
+  "Thayan Protector [1834]": {
+    "damage_out": 437437
+  },
+  "Meteor [1848]": {
+    "damage_out": 6906535
+  },
+  "Magebreaker [1790]": {
+    "damage_out": 140702
+  },
+  "Soul of the Vanguard [1845]": {
+    "damage_out": 2269052
+  },
+  "Soul of the Vanguard [1851]": {
+    "damage_out": 582058
+  },
+  "Soul of the Vanguard [1776]": {
+    "damage_out": 92967
+  },
+  "Servitor [1886]": {
+    "damage_out": 1697632
+  },
+  "Servitor [1884]": {
+    "damage_out": 1694067
+  },
+  "Apprentice [1885]": {
+    "damage_out": 326299
+  },
+  "Thayan Protector [1887]": {
+    "damage_out": 210944
+  },
+  "Meteor [1900]": {
+    "damage_out": 8919284
+  },
+  "Servitor [1908]": {
+    "damage_out": 929764
+  },
+  "Servitor [1907]": {
+    "damage_out": 697072
+  },
+  "Rotting Synthesis [1913]": {
+    "damage_out": 264410
+  },
+  "Magebreaker [1903]": {
+    "damage_out": 692722
+  },
+  "Thayan Protector [1906]": {
+    "damage_out": 60078
+  },
+  "Thayan Commander [1904]": {
+    "damage_out": 388931
+  },
+  "Thayan Protector [1905]": {
+    "damage_out": 230355
+  },
+  "Rotting Synthesis [1911]": {
+    "damage_out": 261074
+  },
+  "Rotting Synthesis [1912]": {
+    "damage_out": 52649
+  },
+  "Meteor [1945]": {
+    "damage_out": 1082682
+  },
+  "Meteor [1946]": {
+    "damage_out": 3890438
+  },
+  "Servitor [1935]": {
+    "damage_out": 2661710
+  },
+  "Servitor [1937]": {
+    "damage_out": 658373
+  },
+  "Servitor [1936]": {
+    "damage_out": 650451
+  },
+  "Servitor [1975]": {
+    "damage_out": 1698663
+  },
+  "Servitor [1973]": {
+    "damage_out": 2757657
+  },
+  "Thayan Protector [1976]": {
+    "damage_out": 401814
+  },
+  "Apprentice [1974]": {
+    "damage_out": 813297
+  },
+  "Thayan Knight [1978]": {
+    "damage_out": 917511
+  },
+  "Thayan Knight [1977]": {
+    "damage_out": 262506
+  },
+  "Servitor [1986]": {
+    "damage_out": 852027
+  },
+  "Servitor [1985]": {
+    "damage_out": 1683273
+  },
+  "Thayan Protector [1984]": {
+    "damage_out": 323306
+  },
+  "Meteor [2001]": {
+    "damage_out": 1962617
+  },
+  "Servitor [1997]": {
+    "damage_out": 331220
+  },
+  "Servitor [1995]": {
+    "damage_out": 296183
+  },
+  "Servitor [1996]": {
+    "damage_out": 204240
+  },
+  "Magebreaker [1981]": {
+    "damage_out": 495008
+  },
+  "Servitor [2007]": {
+    "damage_out": 936018
+  },
+  "Servitor [2006]": {
+    "damage_out": 2165498
+  },
+  "Servitor [2005]": {
+    "damage_out": 1568826
+  },
+  "Thayan Protector [1983]": {
+    "damage_out": 230585
+  },
+  "Thayan Protector [2009]": {
+    "damage_out": 249638
+  },
+  "Rotting Synthesis [2039]": {
+    "damage_out": 2614117
+  },
+  "Rotting Synthesis [2038]": {
+    "damage_out": 1116740
+  },
+  "Soul of the Sentinel [2074]": {
+    "damage_out": 14
+  },
+  "Servitor [2078]": {
+    "damage_out": 1545759
+  },
+  "Servitor [2077]": {
+    "damage_out": 1534382
+  },
+  "Servitor [2079]": {
+    "damage_out": 2536330
+  },
+  "Servitor [2084]": {
+    "damage_out": 3248179
+  },
+  "Servitor [2083]": {
+    "damage_out": 2248633
+  },
+  "Thayan Protector [2085]": {
+    "damage_out": 117866
+  },
+  "Soul of the Sentinel [2122]": {
+    "damage_out": 11
+  },
+  "Servitor [2121]": {
+    "damage_out": 1711121
+  },
+  "Servitor [2120]": {
+    "damage_out": 1704578
+  },
+  "Guiding Soul of the Devout [2073]": {
+    "damage_out": 183518
+  },
+  "Thayan Protector [2080]": {
+    "damage_out": 1053070
+  },
+  "Thayan Protector [2081]": {
+    "damage_out": 449421
+  },
+  "Thayan Protector [2086]": {
+    "damage_out": 75536
+  },
+  "Soul of the Sentinel [2069]": {
+    "damage_out": 164035
+  },
+  "Servitor [2082]": {
+    "damage_out": 1460457
+  },
+  "Thayan Commander [2117]": {
+    "damage_out": 1270632
+  },
+  "Guiding Soul of the Devout [2176]": {
+    "damage_out": 214305
+  },
+  "Soul of the Sentinel [2178]": {
+    "damage_out": 696768
+  },
+  "Soul of the Sentinel [2182]": {
+    "damage_out": 1155383
+  },
+  "Guiding Soul of the Devout [2183]": {
+    "damage_out": 110966
+  },
+  "Soul of the Sentinel [2191]": {
+    "damage_out": 194673
+  },
+  "Servitor [2209]": {
+    "damage_out": 65038
+  },
+  "Guiding Soul of the Devout [2213]": {
+    "damage_out": 460394
+  },
+  "Skeletal Ranger [2229]": {
+    "damage_out": 228211
+  },
+  "Skeletal Warrior [2230]": {
+    "damage_out": 897370
+  },
+  "Skeletal Spearman [2161]": {
+    "damage_out": 1168928
+  },
+  "Skeletal Warrior [2247]": {
+    "damage_out": 400740
+  },
+  "Servitor [2133]": {
+    "damage_out": 752626
+  },
+  "Servitor [2184]": {
+    "damage_out": 728431
+  },
+  "Servitor [2134]": {
+    "damage_out": 861967
+  },
+  "Servitor [2132]": {
+    "damage_out": 745752
+  },
+  "Thayan Protector [2204]": {
+    "damage_out": 110417
+  },
+  "Servitor [2201]": {
+    "damage_out": 629692
+  },
+  "Soul of the Devout [2070]": {
+    "damage_out": 177245
+  },
+  "Servitor [2200]": {
+    "damage_out": 524080
+  },
+  "Servitor [2138]": {
+    "damage_out": 442876
+  },
+  "Servitor [2202]": {
+    "damage_out": 736556
+  },
+  "Servitor [2137]": {
+    "damage_out": 675502
+  },
+  "Servitor [2139]": {
+    "damage_out": 2016855
+  },
+  "Servitor [2144]": {
+    "damage_out": 1189140
+  },
+  "Servitor [2142]": {
+    "damage_out": 1316487
+  },
+  "Skeletal Warrior [2286]": {
+    "damage_out": 78086
+  },
+  "Skeletal Warrior [2380]": {
+    "damage_out": 378700
+  },
+  "Skeletal Ranger [2379]": {
+    "damage_out": 121439
+  },
+  "Skeletal Ranger [2367]": {
+    "damage_out": 469590
+  },
+  "Skeletal Ranger [2368]": {
+    "damage_out": 419541
+  },
+  "Skeletal Ranger [2383]": {
+    "damage_out": 628228
+  },
+  "Skeletal Ranger [2384]": {
+    "damage_out": 727508
+  },
+  "Skeletal Spearman [2392]": {
+    "damage_out": 471540
+  },
+  "Skeletal Spearman [2313]": {
+    "damage_out": 380036
+  },
+  "Skeletal Warrior [2370]": {
+    "damage_out": 627852
+  },
+  "Thayan Protector [2345]": {
+    "damage_out": 63346
+  },
+  "Servitor [2320]": {
+    "damage_out": 264612
+  },
+  "Servitor [2322]": {
+    "damage_out": 186393
+  },
+  "Skeletal Ranger [2363]": {
+    "damage_out": 144889
+  },
+  "Servitor [2328]": {
+    "damage_out": 526867
+  },
+  "Servitor [2326]": {
+    "damage_out": 241653
+  },
+  "Skeletal Ranger [2364]": {
+    "damage_out": 248527
+  },
+  "Skeletal Ranger [2355]": {
+    "damage_out": 152477
+  },
+  "Servitor [2316]": {
+    "damage_out": 493330
+  },
+  "Servitor [2315]": {
+    "damage_out": 579271
+  },
+  "Servitor [2317]": {
+    "damage_out": 420545
+  },
+  "Meteor [2426]": {
+    "damage_out": 3415941
+  },
+  "Skeletal Ranger [2354]": {
+    "damage_out": 120275
+  },
+  "Thayan Protector [2319]": {
+    "damage_out": 63409
+  },
+  "Servitor [2309]": {
+    "damage_out": 1569328
+  },
+  "Skeletal Warrior [2365]": {
+    "damage_out": 318204
+  },
+  "Skeletal Spearman [2302]": {
+    "damage_out": 143020
+  },
+  "Thayan Protector [2318]": {
+    "damage_out": 93826
+  },
+  "Servitor [2310]": {
+    "damage_out": 1049009
+  },
+  "Servitor [2308]": {
+    "damage_out": 166793
+  },
+  "Skeletal Warrior [2357]": {
+    "damage_out": 379773
+  },
+  "Meteor [2430]": {
+    "damage_out": 2688221
+  },
+  "Apprentice [2321]": {
+    "damage_out": 552657
+  },
+  "Meteor [2431]": {
+    "damage_out": 912286
+  },
+  "Thayan Protector [2344]": {
+    "damage_out": 63346
+  },
+  "Apprentice [2327]": {
+    "damage_out": 31995
+  },
+  "Thayan Knight [2325]": {
+    "damage_out": 739380
+  },
+  "Skeletal Spearman [2299]": {
+    "damage_out": 161997
+  },
+  "Magebreaker [2347]": {
+    "damage_out": 796173
+  },
+  "Thayan Protector [2329]": {
+    "damage_out": 278737
+  },
+  "Magebreaker [2346]": {
+    "damage_out": 627323
+  },
+  "Thayan Commander [2348]": {
+    "damage_out": 628152
+  },
+  "Meteor [2445]": {
+    "damage_out": 1008120
+  },
+  "Meteor [2457]": {
+    "damage_out": 1484130
+  },
+  "Servitor [2334]": {
+    "damage_out": 1937716
+  },
+  "Servitor [2332]": {
+    "damage_out": 960952
+  },
+  "Apprentice [2333]": {
+    "damage_out": 362163
+  },
+  "Thayan Protector [2335]": {
+    "damage_out": 110938
+  },
+  "Meteor [2464]": {
+    "damage_out": 3097905
+  },
+  "Meteor [2466]": {
+    "damage_out": 273815
+  },
+  "Servitor [2351]": {
+    "damage_out": 101859
+  },
+  "Servitor [2350]": {
+    "damage_out": 100941
+  },
+  "Servitor [2349]": {
+    "damage_out": 190066
+  },
+  "Thayan Protector [2352]": {
+    "damage_out": 81873
+  },
+  "Servitor [2358]": {
+    "damage_out": 244126
+  },
+  "Servitor [2360]": {
+    "damage_out": 188649
+  },
+  "Servitor [2359]": {
+    "damage_out": 581813
+  },
+  "Servitor [2338]": {
+    "damage_out": 172150
+  },
+  "Servitor [2340]": {
+    "damage_out": 125822
+  },
+  "Thayan Protector [2341]": {
+    "damage_out": 81295
+  },
+  "Skeletal Ranger [2443]": {
+    "damage_out": 47255
+  },
+  "Thayan Knight [2336]": {
+    "damage_out": 219153
+  },
+  "Skeletal Ranger [2439]": {
+    "damage_out": 81568
+  },
+  "Meteor [2530]": {
+    "damage_out": 1744644
+  },
+  "Apprentice [2339]": {
+    "damage_out": 172137
+  },
+  "Meteor [2533]": {
+    "damage_out": 2027138
+  },
+  "Thayan Knight [2343]": {
+    "damage_out": 295833
+  },
+  "Servitor [2520]": {
+    "damage_out": 1480113
+  },
+  "Servitor [2522]": {
+    "damage_out": 2394258
+  },
+  "Skeletal Ranger [2510]": {
+    "damage_out": 315716
+  },
+  "Skeletal Ranger [2509]": {
+    "damage_out": 334700
+  },
+  "Skeletal Ranger [2526]": {
+    "damage_out": 597151
+  },
+  "Skeletal Warrior [2512]": {
+    "damage_out": 39645
+  },
+  "Skeletal Ranger [2527]": {
+    "damage_out": 284912
+  },
+  "Meteor [2550]": {
+    "damage_out": 1188374
+  },
+  "Skeletal Spearman [2506]": {
+    "damage_out": 57136
+  },
+  "Meteor [2555]": {
+    "damage_out": 188527
+  },
+  "Apprentice [2521]": {
+    "damage_out": 368790
+  },
+  "Meteor [2579]": {
+    "damage_out": 681395
+  }
+}

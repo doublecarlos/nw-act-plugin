@@ -1,0 +1,35 @@
+# Lines taken from real NW combat logs and the comments inside Neverwinter.cs.
+# Format: yy:MM:dd:HH:mm:ss.f::ownDsp,ownInt,srcDsp,srcInt,tgtDsp,tgtInt,evtDsp,evtInt,type,flags,mag,magBase
+
+# Player dealing physical damage (no flags)
+25:01:15:20:16:32.6::Ameise,P[100083146@5846877 Ameise@antday],Ameise,P[100083146@5846877 Ameise@antday],Goblin,C[6261 Skeleton_Basic],At-Will,Pn.Jy04um1,Physical,,500.0,600.0
+
+# Player dealing critical damage
+25:01:15:20:16:33.0::Ameise,P[100083146@5846877 Ameise@antday],Ameise,P[100083146@5846877 Ameise@antday],Goblin,C[6261 Skeleton_Basic],At-Will,Pn.Jy04um1,Physical,Critical,1250.0,600.0
+
+# Creature flanking player
+25:01:15:20:16:34.0::Wolf,C[42358 Monster_Wolf],,*,Ameise,P[100083146@5846877 Ameise@antday],Bite,Pn.Lp6b6g1,Physical,Flank,43.4474,47.6017
+
+# Player pet dealing damage (pet line — owner resolution needed)
+25:01:15:20:16:35.0::Nasus,P[201132249@7587600 Nasus@portazorras],SerGay,C[265715 Pet_Clericdisciple],Goblin,C[6261 Skeleton_Basic],Sacred Flame,Pn.Tegils,Physical,Flank,59.7605,0
+
+# Entity damage with companion entity power (should NOT merge into owner)
+25:01:15:20:16:36.0::Ameise,P[100083146@5846877 Ameise@antday],HexedEarth,C[12345 Entity_Hexedearth],Goblin,C[6261 Skeleton_Basic],Hexed Earth,Pn.Prookc1,Physical,,200.0,250.0
+
+# Heal (HitPoints type, positive magnitude)
+25:01:15:20:16:37.0::Ameise,P[100083146@5846877 Ameise@antday],,*,Ameise,P[100083146@5846877 Ameise@antday],Healing Word,Pn.Hx1234,HitPoints,,800.0,0
+
+# Non-damaging proc (ShowPowerDisplayName flag)
+25:01:15:20:16:38.0::Ameise,P[100083146@5846877 Ameise@antday],,*,Goblin,C[6261 Skeleton_Basic],Mark,Pn.Mk5678,Physical,ShowPowerDisplayName,0,0
+
+# Kill blow
+25:01:15:20:16:39.0::Ameise,P[100083146@5846877 Ameise@antday],Ameise,P[100083146@5846877 Ameise@antday],Goblin,C[6261 Skeleton_Basic],At-Will,Pn.Jy04um1,Physical,Kill,300.0,600.0
+
+# Environmental fall damage — should NOT start combat
+25:01:15:20:16:40.0::Ameise,P[100083146@5846877 Ameise@antday],,*,Ameise,P[100083146@5846877 Ameise@antday],Fall,Autodesc.Combatevent.Falling,Physical,,42.0,42.0
+
+# Minor injury — should not appear as damage
+25:01:15:20:16:41.0::Ameise,P[100083146@5846877 Ameise@antday],,*,Ameise,P[100083146@5846877 Ameise@antday],Minor Body Injury,Pn.Snckuc1,HitPointsMax,ShowPowerDisplayName,0.3,0
+
+# Too short / malformed — should be silently ignored
+INVALID LINE
