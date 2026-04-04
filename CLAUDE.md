@@ -1,21 +1,14 @@
 # CLAUDE.md — nw-act-plugin-dev
 
 ## Project Overview
-This is a fork of the **Advanced Combat Tracker (ACT) plugin for Neverwinter Online**.
-The plugin parses Neverwinter combat logs and feeds data into ACT for display.
+Fork of the **Advanced Combat Tracker (ACT) plugin for Neverwinter Online**.
+Single deliverable: `Neverwinter.cs` — compiled at runtime by ACT, no build step needed.
 
-The entire plugin lives in a **single standalone C# source file**: `Neverwinter.cs`.
-ACT compiles this file at runtime — no build step is needed for the plugin itself.
-
-Current version: **1.2.8.2** (see `[assembly: AssemblyVersion]` near top of file)
-
-## ACT Plugin Constraints
-ACT loads `.cs` plugin files by compiling them at runtime. This imposes strict constraints:
-
-- **Target framework**: .NET 4.8 (net48)
-- **C# language version**: must remain compatible with what ACT uses internally (treat as C# 5 / LangVersion 5 to be safe — no newer syntax like `var` patterns, tuples, etc.)
-- **No NuGet packages** in the plugin file itself; only BCL types and the `Advanced_Combat_Tracker` assembly
-- **Single-file**: `Neverwinter.cs` must remain self-contained; do not split it into multiple files
+## Hard Constraints (do not violate)
+- **Single file**: `Neverwinter.cs` must stay self-contained. Do not split.
+- **Target**: .NET 4.8 (net48), **C# LangVersion 5** — no tuples, var patterns, or newer syntax.
+- **No NuGet** in the plugin; only BCL + `Advanced_Combat_Tracker` assembly.
+- **`unk = "UNKNOWN"` and `unkInt = "C[0 Unknown]"`** are strings recognized by ACT internals — never rename or change these values.
 
 ## Repository Structure
 ```
@@ -25,114 +18,27 @@ ACT loads `.cs` plugin files by compiling them at runtime. This imposes strict c
 ├── CLAUDE.md                   ← this file
 └── TestHarness/
     ├── TestHarness.csproj      (net48, LangVersion 5)
-    ├── ActMocks.cs             (stub implementations of ACT interfaces)
-    ├── ParserTests.cs          (NUnit test cases)
+    ├── ActMocks.cs             (stub ACT interfaces)
+    ├── ParserTests.cs          (NUnit tests)
     └── fixtures/
-        ├── sample.log                    (hand-crafted log snippets, one per scenario)
-        ├── golden-log-generator.py       (splits combatlog.log and runs the .NET generator)
-        ├── golden_logs/
-        │   └── encounter-N.log           (real combat sessions split from combatlog.log)
-        └── golden_logs_parsed/
-            └── encounter-N-parsed.json   (expected damage_out totals per combatant)
+        ├── sample.log                    (hand-crafted log snippets)
+        ├── golden-log-generator.py       (regenerates golden files)
+        ├── golden_logs/                  (gitignored)
+        └── golden_logs_parsed/           (gitignored)
 ```
 
-### Fixture tooling
-`TestHarness/fixtures/golden-log-generator.py` is the full pipeline to (re)generate all golden files:
-1. Splits a raw `combatlog.log` into `golden_logs/encounter-N.log` on gaps ≥ 20 s (drops ≤ 10-line noise)
-2. Runs the .NET `GoldenFileGenerator` test to write `golden_logs_parsed/encounter-N-parsed.json`
-
+To regenerate golden fixtures:
 ```
+cd TestHarness/fixtures
 python golden-log-generator.py [input.log]
 ```
 
-Default input: `combatlog.log` in the same directory.
-`combatlog.log`, `golden_logs/`, and `golden_logs_parsed/` are all gitignored — run the script to regenerate them.
-
-## Log Line Format
-The Neverwinter combat log uses `::` and `,` as separators (split on `["::","," ]`).
-Each line has exactly 13 fields after splitting:
-
-```
-[0]  timestamp   e.g. "13:07:09:11:01:08.4"
-[1]  ownDsp      owner display name
-[2]  ownInt      owner internal ID, e.g. "P[201028460@1546238 Correk@Gleyvien]"
-[3]  srcDsp      source display name (or "" / "*")
-[4]  srcInt      source internal ID  (or "" / "*")
-[5]  tgtDsp      target display name
-[6]  tgtInt      target internal ID
-[7]  evtDsp      event/skill display name
-[8]  evtInt      event/skill internal ID, e.g. "Pn.F1j0yx1"
-[9]  type        e.g. "Physical", "HitPoints", "Power", "Shield", "AttribModExpire"
-[10] flags       e.g. "Critical", "Flank", "Kill", "ShowPowerDisplayName", ""
-[11] mag         damage/heal magnitude (float, en-US culture)
-[12] magBase     base magnitude (float, en-US culture)
-```
-
-Timestamp format: `yy:MM:dd:HH:mm:ss.f` — the first 19 characters of every valid log line.
-A valid line has `logLine[19] == ':'` and `logLine[20] == ':'`.
-
-Entity type is determined from the internal ID prefix:
-- `P[...]` → Player
-- `C[... Pet_...]` → Pet
-- `C[... Entity_...]` → Entity
-- `C[...]` → Creature
-
-`*` in src/tgt means "same as owner" (self-targeting).
-
-## Key Classes & Flow
-
-### `NW_Parser` (main plugin class)
-- Implements `IActPluginV1` and `UserControl`
-- `InitPlugin()` — registers event handlers, sets up ACT globals
-- `DeInitPlugin()` — unregisters handlers, saves settings
-- `oFormActMain_BeforeLogLineRead()` — entry point for each log line
-  1. Basic validation (length, `::` at pos 19-20)
-  2. Constructs `ParsedLine`
-  3. Calls `ProcessBasic()` to normalize fields
-  4. Calls `ProcessAction()` to route to specific handler
-
-### `ParsedLine`
-- Parses raw log line into structured fields
-- Handles edge case: >13 fields means a name has a comma → replace `", "` with `" "` and re-split
-- Populates `kill`, `critical`, `flank`, `dodge`, `immune`, `showPowerDisplayName` from flags field
-
-### `ProcessAction()` — routes by `type` and flags:
-- `"AttribModExpire"` → `ProcessActionCleanse()`
-- `showPowerDisplayName == true` → `ProcessActionSPDN()` (non-damaging effects)
-- `"Power"` → `ProcessActionPower()` (power replenishment)
-- `"HitPoints"` → `ProcessActionHeals()`
-- `"Shield"` → `ProcessActionShields()`
-- everything else → `ProcessActionDamage()`
-
-### Registeries
-- `PetOwnerRegistery` — maps pet internal IDs → their player owner
-- `EntityOwnerRegistery` — maps entity internal IDs → their player owner
-- Used to attribute pet/entity damage to the correct player when merge options are enabled
-
-### Options (user-configurable checkboxes)
-- `checkBox_mergeNPC` — strips unique IDs from NPC names to merge identical NPCs
-- `checkBox_mergePets` — merges all pet data under the owner, removes pet from listing
-- `checkBox_flankSkill` — splits skills into "Skill: Flank" vs "Skill" attack types
-
-### Special constants
-- `companionEntityPowers` — entity power IDs (Blue Fire Eye, Tutor) whose damage should NOT be merged into owner even with merging enabled
-- `injuryTypes` — internal power IDs for injuries that should not start combat or appear as damage
-- `unk = "UNKNOWN"`, `unkInt = "C[0 Unknown]"` — these exact strings are recognized by ACT internals; do not change
-
-## Settings
-Stored in XML at `%AppData%\...\neverwinter.config.xml` via ACT's `SettingsSerializer`.
-Settings include the three checkboxes and the player name list (`listBox_players`).
-
-## Testing Goal
-We want to add a `TestHarness/` project (net48, LangVersion 5) that:
-- Mocks the ACT interfaces (`ActGlobals`, `LogLineEventArgs`, `MasterSwing`, etc.)
-- Feeds known log lines through the parsing logic
-- Asserts the resulting `MasterSwing` objects match expected snapshots
-- Runs without ACT or a GUI — pure console or test runner
-
-The plugin file itself should remain unchanged (or minimally changed) to keep it deployable as-is into ACT.
+## Testing
+`TestHarness/` runs without ACT or a GUI. It mocks ACT interfaces and feeds log lines
+through the parser, asserting `MasterSwing` output matches snapshots.
+The plugin itself stays unchanged so it deploys into ACT as-is.
 
 ## Branches & Git
-- `main` — stable/release branch
-- `develop` — active development branch (current)
-- PRs go from feature branches → `develop` → `main`
+- `main` — stable/release
+- `develop` — active development (current branch)
+- PRs: feature branches → `develop` → `main`
