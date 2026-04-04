@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>5</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <UseWindowsForms>true</UseWindowsForms>
+    <!-- Path to ACT executable — adjust if yours is installed elsewhere -->
+    <ActPath Condition="'$(ActPath)'==''">C:\Program Files (x86)\Advanced Combat Tracker\Advanced Combat Tracker.exe</ActPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../Neverwinter.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Advanced_Combat_Tracker">
+      <HintPath>$(ActPath)</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>
