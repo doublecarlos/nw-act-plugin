@@ -30,7 +30,7 @@ namespace TestHarness
         public void Generate_AllEncounters()
         {
             string fixturesDir = FixturesDir();
-            string logsDir   = Path.Combine(fixturesDir, "golden_logs");
+            string logsDir = Path.Combine(fixturesDir, "golden_logs");
             string parsedDir = Path.Combine(fixturesDir, "golden_logs_parsed");
             Directory.CreateDirectory(parsedDir);
 

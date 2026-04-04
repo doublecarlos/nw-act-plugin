@@ -34,8 +34,8 @@ namespace TestHarness
         public static IEnumerable EncounterCases()
         {
             string fixturesDir = FixturesDir();
-            string logsDir     = Path.Combine(fixturesDir, "golden_logs");
-            string parsedDir   = Path.Combine(fixturesDir, "golden_logs_parsed");
+            string logsDir = Path.Combine(fixturesDir, "golden_logs");
+            string parsedDir = Path.Combine(fixturesDir, "golden_logs_parsed");
 
             if (!Directory.Exists(logsDir) || !Directory.Exists(parsedDir))
                 yield break;
@@ -60,7 +60,7 @@ namespace TestHarness
         public void GoldenEncounter_DamageOut_MatchesExpected(string logFile, string jsonFile)
         {
             var expected = ReadExpected(jsonFile);
-            var actual   = ParseEncounter(logFile);
+            var actual = ParseEncounter(logFile);
 
             // Every combatant in the golden file must match exactly
             foreach (string name in expected.Keys)
@@ -129,7 +129,7 @@ namespace TestHarness
         private static Dictionary<string, long> ReadExpected(string jsonFile)
         {
             string json = File.ReadAllText(jsonFile, Encoding.UTF8);
-            var result  = new Dictionary<string, long>(StringComparer.Ordinal);
+            var result = new Dictionary<string, long>(StringComparer.Ordinal);
             foreach (Match m in JsonEntryRe.Matches(json))
                 result[m.Groups[1].Value] = long.Parse(m.Groups[2].Value);
             return result;

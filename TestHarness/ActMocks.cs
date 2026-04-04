@@ -144,7 +144,8 @@ namespace Advanced_Combat_Tracker
                 string id, bool defaultVisible, string sqlType, string sqlName,
                 Func<MasterSwing, string> getCellData,
                 Func<MasterSwing, string> getSqlData,
-                Func<MasterSwing, MasterSwing, int> compare) { }
+                Func<MasterSwing, MasterSwing, int> compare)
+            { }
         }
     }
 
@@ -177,14 +178,16 @@ namespace Advanced_Combat_Tracker
             public ColumnDef(
                 string id, bool defaultVisible, string sqlType, string sqlName,
                 Func<EncounterData, string> getCellData,
-                Func<EncounterData, string> getSqlData) { }
+                Func<EncounterData, string> getSqlData)
+            { }
         }
 
         public class TextExportFormatter
         {
             public TextExportFormatter(
                 string label, string displayLabel, string displayDesc,
-                Func<EncounterData, List<CombatantData>, string, string> formatter) { }
+                Func<EncounterData, List<CombatantData>, string, string> formatter)
+            { }
         }
     }
 
@@ -253,14 +256,16 @@ namespace Advanced_Combat_Tracker
                 string id, bool defaultVisible, string sqlType, string sqlName,
                 Func<CombatantData, string> getCellData,
                 Func<CombatantData, string> getSqlData,
-                Func<CombatantData, CombatantData, int> compare) { }
+                Func<CombatantData, CombatantData, int> compare)
+            { }
         }
 
         public class TextExportFormatter
         {
             public TextExportFormatter(
                 string label, string displayLabel, string displayDesc,
-                Func<CombatantData, string, string> formatter) { }
+                Func<CombatantData, string, string> formatter)
+            { }
         }
 
         public class DamageTypeDef
@@ -296,7 +301,8 @@ namespace Advanced_Combat_Tracker
             public ColumnDef(
                 string id, bool defaultVisible, string sqlType, string sqlName,
                 Func<DamageTypeData, string> getCellData,
-                Func<DamageTypeData, string> getSqlData) { }
+                Func<DamageTypeData, string> getSqlData)
+            { }
         }
     }
 
@@ -330,7 +336,8 @@ namespace Advanced_Combat_Tracker
                 string id, bool defaultVisible, string sqlType, string sqlName,
                 Func<AttackType, string> getCellData,
                 Func<AttackType, string> getSqlData,
-                Func<AttackType, AttackType, int> compare) { }
+                Func<AttackType, AttackType, int> compare)
+            { }
         }
     }
 

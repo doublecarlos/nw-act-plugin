@@ -2286,7 +2286,8 @@ namespace NWParsing_Plugin
                 OwnerInfo info = petOwnerRegistery.ResolveByPlayer(line.ownerInternalName);
                 string attackerName = unk;
 
-                if (info != null) {
+                if (info != null)
+                {
                     attackerName = info.petDsp + " [" + info.ownerDsp + "'s Pet]";
                 }
 
