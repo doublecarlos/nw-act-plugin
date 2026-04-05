@@ -345,7 +345,7 @@ namespace NWParsing_Plugin
 
         // NOTE: The values of "Unknown" and "UNKNOWN" short-circuit the ally determination code.  Must use one of these two names.
         //       Information from EQAditu.
-        internal static string unk = "UNKNOWN", unkInt = "C[0 Unknown]", pet = "<PET> ", unkAbility = "Unknown Ability";
+        internal static string unknownDisplayName = "UNKNOWN", unknownInternalName = "C[0 Unknown]", unknownAbility = "Unknown Ability";
 
         internal static CultureInfo cultureLog = new CultureInfo("en-US");
 
@@ -2119,7 +2119,7 @@ namespace NWParsing_Plugin
             }
 
             // Fix up the ParsedLine to be easy to process.
-            ProcessBasic(pl);
+            InitializeParsedLine(pl);
 
             // TODO ally detect v1.0
             // mark all players as allies unless they have engaged in a hostile action against a player or companion
@@ -2167,32 +2167,37 @@ namespace NWParsing_Plugin
             ProcessTargetNames(line);
         }
 
-        private void ProcessBasic(ParsedLine line)
+        /// <summary>
+        /// Initializes the ParsedLine, fix basic stuff and calculate computed fields.
+        /// </summary>
+        /// <param name="line">ParsedLine to fix</param>
+        private void InitializeParsedLine(ParsedLine line)
         {
             //
             // Fix up the ParsedLine.
             // Add calculated data fields to the ParsedLine.
             //
 
+            // Lines with no owner - use source as owner if present, otherwise unknown
             if (line.ownerDisplayName == "" && line.ownerInternalName == "")
             {
-                // Ugly fix for lines without an owner
                 if (line.sourceDisplayName != "")
                 {
-                    // If there's a source, use that.
                     line.ownerDisplayName = line.sourceDisplayName;
                     line.ownerInternalName = line.sourceInternalName;
                 }
                 else
                 {
-                    line.ownerDisplayName = NW_Parser.unk;
-                    line.ownerInternalName = NW_Parser.unkInt;
+                    line.ownerDisplayName = unknownDisplayName;
+                    line.ownerInternalName = unknownInternalName;
                 }
             }
-            else if (line.ownerInternalName[0] == 'P') { line.ownerEntityType = EntityType.Player; }
+            else if (line.ownerInternalName[0] == 'P')
+            {
+                line.ownerEntityType = EntityType.Player;
+            }
             else if (line.ownerInternalName[0] == 'C')
             {
-                // There should never be a Pet or Entity in this possition??
                 line.ownerEntityType = EntityType.Creature;
             }
 
@@ -2217,8 +2222,6 @@ namespace NWParsing_Plugin
             }
             else if (line.sourceInternalName[0] == 'C')
             {
-                // Basic Pet and Entity detection..
-
                 if (line.sourceInternalName.Contains(" Pet_"))
                 {
                     line.sourceEntityType = EntityType.Pet;
@@ -2238,22 +2241,18 @@ namespace NWParsing_Plugin
                 line.targetDisplayName = line.sourceDisplayName;
                 line.targetInternalName = line.sourceInternalName;
                 line.targetEntityType = line.sourceEntityType;
-
-                // If it is a Pet then the pet owner info needs to get set.
-                // But first we can not do it here in case this is the first time we saw the owner.
-                // Need to register owner of pet first...
             }
             else if ((line.targetInternalName == "") && (line.targetDisplayName == ""))
             {
-                // Ugly fix for lines without a target
-                line.targetDisplayName = NW_Parser.unk;
-                line.targetInternalName = NW_Parser.unkInt;
+                line.targetDisplayName = unknownDisplayName;
+                line.targetInternalName = unknownInternalName;
             }
-            else if (line.targetInternalName[0] == 'P') { line.targetEntityType = EntityType.Player; }
+            else if (line.targetInternalName[0] == 'P')
+            {
+                line.targetEntityType = EntityType.Player;
+            }
             else if (line.targetInternalName[0] == 'C')
             {
-                // Basic Pet and Entity detection..
-
                 if (line.targetInternalName.Contains(" Pet_"))
                 {
                     line.targetEntityType = EntityType.Pet;
@@ -2284,7 +2283,7 @@ namespace NWParsing_Plugin
             if (Array.IndexOf(NW_Parser.companionEntityPowers, line.eventInternalName) != -1)
             {
                 OwnerInfo info = petOwnerRegistery.ResolveByPlayer(line.ownerInternalName);
-                string attackerName = unk;
+                string attackerName = unknownDisplayName;
 
                 if (info != null)
                 {
@@ -2366,8 +2365,8 @@ namespace NWParsing_Plugin
                         {
                             // Pet with unknown owner.
                             // Register it under UNKNOWN until it resolves.
-                            line.encounterAttackerName = unk;
-                            line.unitAttackerName = unk;
+                            line.encounterAttackerName = unknownDisplayName;
+                            line.unitAttackerName = unknownDisplayName;
                         }
                         break;
                     }
@@ -2468,8 +2467,8 @@ namespace NWParsing_Plugin
                         {
                             // Pet with unknown owner.
                             // Register it under UNKNOWN until it resolves.
-                            line.encounterTargetName = unk;
-                            line.unitTargetName = unk;
+                            line.encounterTargetName = unknownDisplayName;
+                            line.unitTargetName = unknownDisplayName;
                         }
                         break;
                     }
@@ -2612,7 +2611,7 @@ namespace NWParsing_Plugin
                         if (ActGlobals.oFormActMain.SetEncounter(l.logInfo.detectedTime, l.encounterTargetName, l.encounterTargetName))
                         {
                             AddCombatActionNW(
-                                (int)SwingTypeEnum.Healing, l.critical, l.flank, l.dodge, l.unitAttackerName, unk,
+                                (int)SwingTypeEnum.Healing, l.critical, l.flank, l.dodge, l.unitAttackerName, unknownDisplayName,
                                 l.eventDisplayName, new Dnum(-magAdj), -l.damage, -l.baseDamage, l.logInfo.detectedTime,
                                 l.timeSorter, l.unitTargetName, l.type);
                         }
@@ -3746,7 +3745,7 @@ namespace NWParsing_Plugin
             if (attackType.Trim().Length == 0)
             {
                 // Uggly fix for missing attack type
-                attackType = NW_Parser.unkAbility;
+                attackType = NW_Parser.unknownAbility;
             }
         }
     }
