@@ -357,9 +357,6 @@ namespace NWParsing_Plugin
 
         private UnmatchedShieldLines unmatchedShieldLines = null;
 
-        // For tracking source of Chaotic Growth heals.
-        private Dictionary<string, ChaoticGrowthInfo> magicMissileLastHit = new Dictionary<string, ChaoticGrowthInfo>();
-
         private Dictionary<string, bool> playerCharacterNames = new Dictionary<string, bool>();
         private bool playersCharacterFound = false;
 
@@ -2070,7 +2067,6 @@ namespace NWParsing_Plugin
             curActionTime = DateTime.MinValue;
             petOwnerRegistery.Clear();
             entityOwnerRegistery.Clear();
-            magicMissileLastHit.Clear();
             unmatchedShieldLines.Clear();
             playersCharacterFound = false;
         }
@@ -2081,9 +2077,6 @@ namespace NWParsing_Plugin
 
             // Don't actually want this.  Maybe on zone changes.
             // purgePetCache();
-
-            // Don't clear this.  PvP encounters can be split while Chaotic Growth is active.
-            // magicMissileLastHit.Clear();
 
             unmatchedShieldLines.Clear();
 
@@ -2570,53 +2563,6 @@ namespace NWParsing_Plugin
                         l.eventDisplayName, new Dnum(-magAdj), -l.damage, -l.baseDamage, l.logInfo.detectedTime,
                         l.timeSorter, l.unitTargetName, l.type);
                 }
-                else if (l.eventInternalName == "Pn.Zrqjy1") // Chaotic Growth
-                {
-                    // Chaotic Growth - Proc debuff from CW Magic Missile.  Debuffed target AOE heals casters allies.
-                    // But the log shows the debuffed target as the healer...
-                    // Credit should go to the CW that casted the MM, but that is not clear in the logs.
-
-                    // 13:07:09:20:52:51.5::Rassler,P[200973822@6215544 Rassler@lendal4],,*,Rhiyan Torr,P[200010914@5686857 Rhiyan Torr@wyvernonenine],Chaotic Growth,Pn.Zrqjy1,HitPoints,,-215,0
-
-                    // NOTE:  Track the last person to hit each target with magic missile.  Give healing credit to that person.
-                    //        IF that fails then it is a self heal...  Keeps it on the same team in pvp at least.
-
-                    bool handled = false;
-                    ChaoticGrowthInfo cgi = null;
-                    if (magicMissileLastHit.TryGetValue(l.sourceInternalName, out cgi))
-                    {
-                        if (!cgi.triggered)
-                        {
-                            cgi.triggered = true;
-                            cgi.ts = l.logInfo.detectedTime;
-                        }
-
-                        // Use encounter names attacker and target here.  This allows filtering
-                        // NOTE: Use SetEncounter() as this heal is part of a hostile action.
-                        if (ActGlobals.oFormActMain.SetEncounter(l.logInfo.detectedTime, cgi.encName, l.encounterTargetName))
-                        {
-                            AddCombatActionNW(
-                                (int)SwingTypeEnum.Healing, l.critical, l.flank, l.dodge, l.unitAttackerName, cgi.unitName,
-                                l.eventDisplayName, new Dnum(-magAdj), -l.damage, -l.baseDamage, l.logInfo.detectedTime,
-                                l.timeSorter, l.unitTargetName, l.type);
-                        }
-
-                        handled = true;
-                    }
-
-                    if (!handled)
-                    {
-                        // Use encounter names attacker and target here.  This allows filtering
-                        // NOTE: Use SetEncounter() as this heal is part of a hostile action.
-                        if (ActGlobals.oFormActMain.SetEncounter(l.logInfo.detectedTime, l.encounterTargetName, l.encounterTargetName))
-                        {
-                            AddCombatActionNW(
-                                (int)SwingTypeEnum.Healing, l.critical, l.flank, l.dodge, l.unitAttackerName, unknownDisplayName,
-                                l.eventDisplayName, new Dnum(-magAdj), -l.damage, -l.baseDamage, l.logInfo.detectedTime,
-                                l.timeSorter, l.unitTargetName, l.type);
-                        }
-                    }
-                }
                 else if (l.eventInternalName == "Pn.R1tsg4")
                 {
                     // Shocking execution
@@ -2847,30 +2793,7 @@ namespace NWParsing_Plugin
 
             l.logInfo.detectedType = Color.DarkTurquoise.ToArgb();
 
-            if (l.eventInternalName == "Pn.Fwolu") // Chaotic Growth
-            {
-                // Chaotic Growth (Fixed in latest NW patch)
-                // 13:07:18:10:51:58.2::Tifa,P[200500793@6707245 Tifa@liliiith],,*,Guard,C[2205 Mindflayer_Duergarguardthrall],Chaotic Growth,Pn.Fwolu,Null,ShowPowerDisplayName,0,0
-
-                l.logInfo.detectedType = Color.DarkOliveGreen.ToArgb();
-
-                ProcessNamesOST(l);
-
-                ChaoticGrowthInfo cgi = null;
-                if (magicMissileLastHit.TryGetValue(l.targetInternalName, out cgi))
-                {
-                    cgi.triggered = true;
-                    cgi.ts = l.logInfo.detectedTime;
-                    cgi.encName = l.encounterAttackerName;
-                    cgi.unitName = l.unitAttackerName;
-                }
-
-                if (ActGlobals.oFormActMain.InCombat)
-                {
-                    AddCombatActionHostile(l, (int)SwingTypeEnum.NonMelee, l.critical, l.special, l.attackType, Dnum.NoDamage, 0, l.type);
-                }
-            }
-            else if (l.eventInternalName == "Pn.Zh5vu")
+            if (l.eventInternalName == "Pn.Zh5vu")
             {
                 // Storm Spell
                 // 13:07:18:10:49:10.1::Tifa,P[200500793@6707245 Tifa@liliiith],,*,Scourge,C[2143 Mindflayer_Scourge],Storm Spell,Pn.Zh5vu,Lightning,ShowPowerDisplayName,583.917,0
@@ -2983,40 +2906,6 @@ namespace NWParsing_Plugin
             else
             {
                 ProcessNamesOST(l);
-
-                if ((l.eventInternalName == "Pn.3t6cw8") && (magAdj > 0)) // Magic Missile
-                {
-                    ChaoticGrowthInfo cgi = null;
-                    if (magicMissileLastHit.TryGetValue(l.targetInternalName, out cgi))
-                    {
-                        if (cgi.triggered)
-                        {
-                            TimeSpan t = l.logInfo.detectedTime - cgi.ts;
-                            if (t.TotalSeconds > 10.0)
-                            {
-                                cgi.triggered = false;
-                            }
-                        }
-
-                        if (!cgi.triggered)
-                        {
-                            cgi.encName = l.encounterAttackerName;
-                            cgi.unitName = l.unitAttackerName;
-                            cgi.ts = l.logInfo.detectedTime;
-                        }
-                    }
-                    else
-                    {
-                        cgi = new ChaoticGrowthInfo();
-                        cgi.encName = l.encounterAttackerName;
-                        cgi.unitName = l.unitAttackerName;
-                        cgi.triggered = false;
-                        cgi.ts = l.logInfo.detectedTime;
-
-                        magicMissileLastHit.Add(l.targetInternalName, cgi);
-                    }
-                }
-
                 //
                 // Note:  There seems to be many cases where dmgBase == 0 while damage is applied.
                 //
@@ -3218,7 +3107,6 @@ namespace NWParsing_Plugin
             unmatchedShieldLines.Clear();
             entityOwnerRegistery.Clear();
             petOwnerRegistery.Clear();
-            magicMissileLastHit.Clear();
 
             lblStatus.Text = "Neverwinter ACT plugin unloaded";
         }
@@ -3472,14 +3360,6 @@ namespace NWParsing_Plugin
 
             return null;
         }
-    }
-
-    internal class ChaoticGrowthInfo
-    {
-        public string encName;
-        public string unitName;
-        public bool triggered;
-        public DateTime ts;
     }
 
     internal class ShieldLine
