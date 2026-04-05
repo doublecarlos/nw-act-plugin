@@ -6,8 +6,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+
 using Advanced_Combat_Tracker;
+
 using NUnit.Framework;
+
 using NWParsing_Plugin;
 
 namespace TestHarness

@@ -52,7 +52,7 @@ namespace Advanced_Combat_Tracker
     // Dnum is a class (reference type) so it can be assigned null in the plugin code.
     public class Dnum
     {
-        private long _value;
+        private readonly long _value;
 
         public static readonly Dnum Death = new Dnum(long.MinValue);
         public static readonly Dnum NoDamage = new Dnum(0);
@@ -357,7 +357,7 @@ namespace Advanced_Combat_Tracker
 
         public class LocalizationStringDict
         {
-            private Dictionary<string, LocalizationString> _inner = new Dictionary<string, LocalizationString>();
+            private readonly Dictionary<string, LocalizationString> _inner = new Dictionary<string, LocalizationString>();
 
             public LocalizationString this[string key]
             {

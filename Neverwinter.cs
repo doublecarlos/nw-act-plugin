@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using Advanced_Combat_Tracker;
-using System.IO;
-using System.Reflection;
-using System.Xml;
-using System.Text.RegularExpressions;
 using System.Globalization;
+using System.IO;
 using System.Net;
+using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using System.Xml;
+
+using Advanced_Combat_Tracker;
 
 
 [assembly: AssemblyTitle("Neverwinter Parsing Plugin")]
@@ -130,7 +131,7 @@ namespace NWParsing_Plugin
 
         #region Designer Created Code (Avoid editing)
 
-        private System.ComponentModel.IContainer components = null;
+        private readonly System.ComponentModel.IContainer components = null;
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -144,181 +145,181 @@ namespace NWParsing_Plugin
 
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.checkBox_mergeNPC = new System.Windows.Forms.CheckBox();
-            this.checkBox_mergePets = new System.Windows.Forms.CheckBox();
-            this.checkBox_flankSkill = new System.Windows.Forms.CheckBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.button_clearAll = new System.Windows.Forms.Button();
-            this.button_remove = new System.Windows.Forms.Button();
-            this.button_add = new System.Windows.Forms.Button();
-            this.textBox_player = new System.Windows.Forms.TextBox();
-            this.listBox_players = new System.Windows.Forms.ListBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.SuspendLayout();
+            label1 = new System.Windows.Forms.Label();
+            checkBox_mergeNPC = new System.Windows.Forms.CheckBox();
+            checkBox_mergePets = new System.Windows.Forms.CheckBox();
+            checkBox_flankSkill = new System.Windows.Forms.CheckBox();
+            groupBox1 = new System.Windows.Forms.GroupBox();
+            label2 = new System.Windows.Forms.Label();
+            button_clearAll = new System.Windows.Forms.Button();
+            button_remove = new System.Windows.Forms.Button();
+            button_add = new System.Windows.Forms.Button();
+            textBox_player = new System.Windows.Forms.TextBox();
+            listBox_players = new System.Windows.Forms.ListBox();
+            groupBox2 = new System.Windows.Forms.GroupBox();
+            groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
+            SuspendLayout();
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(256, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Neverwinter parser plugin Options";
+            label1.AutoSize = true;
+            label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label1.Location = new System.Drawing.Point(12, 9);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(256, 17);
+            label1.TabIndex = 0;
+            label1.Text = "Neverwinter parser plugin Options";
             // 
             // checkBox_mergeNPC
             // 
-            this.checkBox_mergeNPC.AutoSize = true;
-            this.checkBox_mergeNPC.Location = new System.Drawing.Point(6, 21);
-            this.checkBox_mergeNPC.Name = "checkBox_mergeNPC";
-            this.checkBox_mergeNPC.Size = new System.Drawing.Size(291, 17);
-            this.checkBox_mergeNPC.TabIndex = 2;
-            this.checkBox_mergeNPC.Text = "Merge all NPC combatants by removing NPC unique IDs";
-            this.checkBox_mergeNPC.UseVisualStyleBackColor = true;
-            this.checkBox_mergeNPC.MouseEnter += new System.EventHandler(this.checkBox_mergeNPC_MouseEnter);
-            this.checkBox_mergeNPC.MouseLeave += new System.EventHandler(this.control_MouseLeave);
-            this.checkBox_mergeNPC.CheckedChanged += (s, e) => parserSettings.MergeNPC = this.checkBox_mergeNPC.Checked;
+            checkBox_mergeNPC.AutoSize = true;
+            checkBox_mergeNPC.Location = new System.Drawing.Point(6, 21);
+            checkBox_mergeNPC.Name = "checkBox_mergeNPC";
+            checkBox_mergeNPC.Size = new System.Drawing.Size(291, 17);
+            checkBox_mergeNPC.TabIndex = 2;
+            checkBox_mergeNPC.Text = "Merge all NPC combatants by removing NPC unique IDs";
+            checkBox_mergeNPC.UseVisualStyleBackColor = true;
+            checkBox_mergeNPC.MouseEnter += new System.EventHandler(checkBox_mergeNPC_MouseEnter);
+            checkBox_mergeNPC.MouseLeave += new System.EventHandler(control_MouseLeave);
+            checkBox_mergeNPC.CheckedChanged += (s, e) => parserSettings.MergeNPC = checkBox_mergeNPC.Checked;
             // 
             // checkBox_mergePets
             // 
-            this.checkBox_mergePets.AutoSize = true;
-            this.checkBox_mergePets.Location = new System.Drawing.Point(6, 44);
-            this.checkBox_mergePets.Name = "checkBox_mergePets";
-            this.checkBox_mergePets.Size = new System.Drawing.Size(284, 17);
-            this.checkBox_mergePets.TabIndex = 3;
-            this.checkBox_mergePets.Text = "Merge all pet data to owner and remove pet from listing";
-            this.checkBox_mergePets.UseVisualStyleBackColor = true;
-            this.checkBox_mergePets.MouseEnter += new System.EventHandler(this.checkBox_mergePets_MouseEnter);
-            this.checkBox_mergePets.MouseLeave += new System.EventHandler(this.control_MouseLeave);
-            this.checkBox_mergePets.CheckedChanged += (s, e) => parserSettings.MergePets = this.checkBox_mergePets.Checked;
+            checkBox_mergePets.AutoSize = true;
+            checkBox_mergePets.Location = new System.Drawing.Point(6, 44);
+            checkBox_mergePets.Name = "checkBox_mergePets";
+            checkBox_mergePets.Size = new System.Drawing.Size(284, 17);
+            checkBox_mergePets.TabIndex = 3;
+            checkBox_mergePets.Text = "Merge all pet data to owner and remove pet from listing";
+            checkBox_mergePets.UseVisualStyleBackColor = true;
+            checkBox_mergePets.MouseEnter += new System.EventHandler(checkBox_mergePets_MouseEnter);
+            checkBox_mergePets.MouseLeave += new System.EventHandler(control_MouseLeave);
+            checkBox_mergePets.CheckedChanged += (s, e) => parserSettings.MergePets = checkBox_mergePets.Checked;
             // 
             // checkBox_flankSkill
             // 
-            this.checkBox_flankSkill.AutoSize = true;
-            this.checkBox_flankSkill.Location = new System.Drawing.Point(6, 67);
-            this.checkBox_flankSkill.Name = "checkBox_flankSkill";
-            this.checkBox_flankSkill.Size = new System.Drawing.Size(213, 17);
-            this.checkBox_flankSkill.TabIndex = 4;
-            this.checkBox_flankSkill.Text = "Split skills in to flank and non-flank skills";
-            this.checkBox_flankSkill.UseVisualStyleBackColor = true;
-            this.checkBox_flankSkill.MouseEnter += new System.EventHandler(this.checkBox_flankSkill_MouseEnter);
-            this.checkBox_flankSkill.MouseLeave += new System.EventHandler(this.control_MouseLeave);
-            this.checkBox_flankSkill.CheckedChanged += (s, e) => parserSettings.ShowFlankOnAttackType = this.checkBox_flankSkill.Checked;
+            checkBox_flankSkill.AutoSize = true;
+            checkBox_flankSkill.Location = new System.Drawing.Point(6, 67);
+            checkBox_flankSkill.Name = "checkBox_flankSkill";
+            checkBox_flankSkill.Size = new System.Drawing.Size(213, 17);
+            checkBox_flankSkill.TabIndex = 4;
+            checkBox_flankSkill.Text = "Split skills in to flank and non-flank skills";
+            checkBox_flankSkill.UseVisualStyleBackColor = true;
+            checkBox_flankSkill.MouseEnter += new System.EventHandler(checkBox_flankSkill_MouseEnter);
+            checkBox_flankSkill.MouseLeave += new System.EventHandler(control_MouseLeave);
+            checkBox_flankSkill.CheckedChanged += (s, e) => parserSettings.ShowFlankOnAttackType = checkBox_flankSkill.Checked;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.button_clearAll);
-            this.groupBox1.Controls.Add(this.button_remove);
-            this.groupBox1.Controls.Add(this.button_add);
-            this.groupBox1.Controls.Add(this.textBox_player);
-            this.groupBox1.Controls.Add(this.listBox_players);
-            this.groupBox1.Location = new System.Drawing.Point(15, 147);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(362, 188);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Player Detection";
-            this.groupBox1.MouseEnter += new System.EventHandler(this.playerNameControls_MouseEnter);
-            this.groupBox1.MouseLeave += new System.EventHandler(this.control_MouseLeave);
+            groupBox1.Controls.Add(label2);
+            groupBox1.Controls.Add(button_clearAll);
+            groupBox1.Controls.Add(button_remove);
+            groupBox1.Controls.Add(button_add);
+            groupBox1.Controls.Add(textBox_player);
+            groupBox1.Controls.Add(listBox_players);
+            groupBox1.Location = new System.Drawing.Point(15, 147);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new System.Drawing.Size(362, 188);
+            groupBox1.TabIndex = 5;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Player Detection";
+            groupBox1.MouseEnter += new System.EventHandler(playerNameControls_MouseEnter);
+            groupBox1.MouseLeave += new System.EventHandler(control_MouseLeave);
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(184, 19);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(109, 13);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Add / Remove Player";
-            this.label2.MouseEnter += new System.EventHandler(this.playerNameControls_MouseEnter);
-            this.label2.MouseLeave += new System.EventHandler(this.control_MouseLeave);
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(184, 19);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(109, 13);
+            label2.TabIndex = 6;
+            label2.Text = "Add / Remove Player";
+            label2.MouseEnter += new System.EventHandler(playerNameControls_MouseEnter);
+            label2.MouseLeave += new System.EventHandler(control_MouseLeave);
             // 
             // button_clearAll
             // 
-            this.button_clearAll.Location = new System.Drawing.Point(296, 64);
-            this.button_clearAll.Name = "button_clearAll";
-            this.button_clearAll.Size = new System.Drawing.Size(60, 23);
-            this.button_clearAll.TabIndex = 9;
-            this.button_clearAll.Text = "Clear All";
-            this.button_clearAll.UseVisualStyleBackColor = true;
-            this.button_clearAll.Click += new System.EventHandler(this.button_clearAll_Click);
-            this.button_clearAll.MouseEnter += new System.EventHandler(this.playerNameControls_MouseEnter);
-            this.button_clearAll.MouseLeave += new System.EventHandler(this.control_MouseLeave);
+            button_clearAll.Location = new System.Drawing.Point(296, 64);
+            button_clearAll.Name = "button_clearAll";
+            button_clearAll.Size = new System.Drawing.Size(60, 23);
+            button_clearAll.TabIndex = 9;
+            button_clearAll.Text = "Clear All";
+            button_clearAll.UseVisualStyleBackColor = true;
+            button_clearAll.Click += new System.EventHandler(button_clearAll_Click);
+            button_clearAll.MouseEnter += new System.EventHandler(playerNameControls_MouseEnter);
+            button_clearAll.MouseLeave += new System.EventHandler(control_MouseLeave);
             // 
             // button_remove
             // 
-            this.button_remove.Location = new System.Drawing.Point(225, 64);
-            this.button_remove.Name = "button_remove";
-            this.button_remove.Size = new System.Drawing.Size(65, 23);
-            this.button_remove.TabIndex = 8;
-            this.button_remove.Text = "Remove";
-            this.button_remove.UseVisualStyleBackColor = true;
-            this.button_remove.Click += new System.EventHandler(this.button_remove_Click);
-            this.button_remove.MouseEnter += new System.EventHandler(this.playerNameControls_MouseEnter);
-            this.button_remove.MouseLeave += new System.EventHandler(this.control_MouseLeave);
+            button_remove.Location = new System.Drawing.Point(225, 64);
+            button_remove.Name = "button_remove";
+            button_remove.Size = new System.Drawing.Size(65, 23);
+            button_remove.TabIndex = 8;
+            button_remove.Text = "Remove";
+            button_remove.UseVisualStyleBackColor = true;
+            button_remove.Click += new System.EventHandler(button_remove_Click);
+            button_remove.MouseEnter += new System.EventHandler(playerNameControls_MouseEnter);
+            button_remove.MouseLeave += new System.EventHandler(control_MouseLeave);
             // 
             // button_add
             // 
-            this.button_add.Location = new System.Drawing.Point(185, 64);
-            this.button_add.Name = "button_add";
-            this.button_add.Size = new System.Drawing.Size(34, 23);
-            this.button_add.TabIndex = 7;
-            this.button_add.Text = "Add";
-            this.button_add.UseVisualStyleBackColor = true;
-            this.button_add.Click += new System.EventHandler(this.button_add_Click);
-            this.button_add.MouseEnter += new System.EventHandler(this.playerNameControls_MouseEnter);
-            this.button_add.MouseLeave += new System.EventHandler(this.control_MouseLeave);
+            button_add.Location = new System.Drawing.Point(185, 64);
+            button_add.Name = "button_add";
+            button_add.Size = new System.Drawing.Size(34, 23);
+            button_add.TabIndex = 7;
+            button_add.Text = "Add";
+            button_add.UseVisualStyleBackColor = true;
+            button_add.Click += new System.EventHandler(button_add_Click);
+            button_add.MouseEnter += new System.EventHandler(playerNameControls_MouseEnter);
+            button_add.MouseLeave += new System.EventHandler(control_MouseLeave);
             // 
             // textBox_player
             // 
-            this.textBox_player.Location = new System.Drawing.Point(185, 38);
-            this.textBox_player.Name = "textBox_player";
-            this.textBox_player.Size = new System.Drawing.Size(171, 20);
-            this.textBox_player.TabIndex = 6;
-            this.textBox_player.TextChanged += new System.EventHandler(this.textBox_player_TextChanged);
-            this.textBox_player.MouseEnter += new System.EventHandler(this.playerNameControls_MouseEnter);
-            this.textBox_player.MouseLeave += new System.EventHandler(this.control_MouseLeave);
+            textBox_player.Location = new System.Drawing.Point(185, 38);
+            textBox_player.Name = "textBox_player";
+            textBox_player.Size = new System.Drawing.Size(171, 20);
+            textBox_player.TabIndex = 6;
+            textBox_player.TextChanged += new System.EventHandler(textBox_player_TextChanged);
+            textBox_player.MouseEnter += new System.EventHandler(playerNameControls_MouseEnter);
+            textBox_player.MouseLeave += new System.EventHandler(control_MouseLeave);
             // 
             // listBox_players
             // 
-            this.listBox_players.FormattingEnabled = true;
-            this.listBox_players.Location = new System.Drawing.Point(6, 19);
-            this.listBox_players.Name = "listBox_players";
-            this.listBox_players.Size = new System.Drawing.Size(172, 160);
-            this.listBox_players.TabIndex = 5;
-            this.listBox_players.SelectedIndexChanged += new System.EventHandler(this.listBox_players_SelectedIndexChanged);
-            this.listBox_players.MouseEnter += new System.EventHandler(this.playerNameControls_MouseEnter);
-            this.listBox_players.MouseLeave += new System.EventHandler(this.control_MouseLeave);
+            listBox_players.FormattingEnabled = true;
+            listBox_players.Location = new System.Drawing.Point(6, 19);
+            listBox_players.Name = "listBox_players";
+            listBox_players.Size = new System.Drawing.Size(172, 160);
+            listBox_players.TabIndex = 5;
+            listBox_players.SelectedIndexChanged += new System.EventHandler(listBox_players_SelectedIndexChanged);
+            listBox_players.MouseEnter += new System.EventHandler(playerNameControls_MouseEnter);
+            listBox_players.MouseLeave += new System.EventHandler(control_MouseLeave);
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.checkBox_mergeNPC);
-            this.groupBox2.Controls.Add(this.checkBox_mergePets);
-            this.groupBox2.Controls.Add(this.checkBox_flankSkill);
-            this.groupBox2.Location = new System.Drawing.Point(15, 41);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(362, 100);
-            this.groupBox2.TabIndex = 6;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Options";
+            groupBox2.Controls.Add(checkBox_mergeNPC);
+            groupBox2.Controls.Add(checkBox_mergePets);
+            groupBox2.Controls.Add(checkBox_flankSkill);
+            groupBox2.Location = new System.Drawing.Point(15, 41);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new System.Drawing.Size(362, 100);
+            groupBox2.TabIndex = 6;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Options";
             // 
             // NW_Parser
             // 
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.label1);
-            this.Name = "NW_Parser";
-            this.Size = new System.Drawing.Size(399, 380);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            Controls.Add(groupBox2);
+            Controls.Add(groupBox1);
+            Controls.Add(label1);
+            Name = "NW_Parser";
+            Size = new System.Drawing.Size(399, 380);
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
@@ -355,8 +356,8 @@ namespace NWParsing_Plugin
         // This is for SQL syntax; do not change
         internal static CultureInfo usCulture = new CultureInfo("en-US");
 
-        private PetOwnerRegistery petOwnerRegistery = new PetOwnerRegistery();
-        private EntityOwnerRegistery entityOwnerRegistery = new EntityOwnerRegistery();
+        private readonly PetOwnerRegistery petOwnerRegistery = new PetOwnerRegistery();
+        private readonly EntityOwnerRegistery entityOwnerRegistery = new EntityOwnerRegistery();
 
         private UnmatchedShieldLines unmatchedShieldLines = null;
 
@@ -416,7 +417,7 @@ namespace NWParsing_Plugin
 
         TreeNode optionsNode = null;
 
-        string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "neverwinter.config.xml");
+        readonly string settingsFile = Path.Combine(ActGlobals.oFormActMain.AppDataFolder.FullName, "neverwinter.config.xml");
         SettingsSerializer xmlSettings;
 
         private int parsedLineCount = 0;
@@ -428,7 +429,7 @@ namespace NWParsing_Plugin
             "Pn.3kzn9w1", // "Instructional Aid" from Tutor
         };
 
-        private ParserSettings parserSettings = new ParserSettings();
+        private readonly ParserSettings parserSettings = new ParserSettings();
 
         public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
         {
@@ -1179,170 +1180,170 @@ namespace NWParsing_Plugin
         private void FixupEncounterData()
         {
             EncounterData.ColumnDefs.Clear();
-            EncounterData.ColumnDefs.Add("EncId", new EncounterData.ColumnDef("EncId", false, "CHAR(8)", "EncId", (Data) => { return string.Empty; }, (Data) => { return Data.EncId; }));
-            EncounterData.ColumnDefs.Add("Title", new EncounterData.ColumnDef("Title", true, "VARCHAR(64)", "Title", (Data) => { return Data.Title; }, (Data) => { return Data.Title; }));
+            EncounterData.ColumnDefs.Add("EncId", new EncounterData.ColumnDef("EncId", false, "CHAR(8)", "EncId", (Data) => string.Empty, (Data) => Data.EncId));
+            EncounterData.ColumnDefs.Add("Title", new EncounterData.ColumnDef("Title", true, "VARCHAR(64)", "Title", (Data) => Data.Title, (Data) => Data.Title));
             EncounterData.ColumnDefs.Add("StartTime", new EncounterData.ColumnDef("StartTime", true, "TIMESTAMP", "StartTime",
-                    (Data) => { return Data.StartTime == DateTime.MaxValue ? "--:--:--" : Data.StartTime.ToString("G"); },
-                    (Data) => { return Data.StartTime == DateTime.MaxValue ? "0000-00-00 00:00:00" : Data.StartTime.ToString("u").TrimEnd(new char[] { 'Z' }); }));
+                    (Data) => Data.StartTime == DateTime.MaxValue ? "--:--:--" : Data.StartTime.ToString("G"),
+                    (Data) => Data.StartTime == DateTime.MaxValue ? "0000-00-00 00:00:00" : Data.StartTime.ToString("u").TrimEnd(new char[] { 'Z' })));
             EncounterData.ColumnDefs.Add("EndTime", new EncounterData.ColumnDef("EndTime", true, "TIMESTAMP", "EndTime",
-                    (Data) => { return Data.EndTime == DateTime.MinValue ? "--:--:--" : Data.EndTime.ToString("G"); },
-                    (Data) => { return Data.EndTime == DateTime.MinValue ? "0000-00-00 00:00:00" : Data.EndTime.ToString("u").TrimEnd(new char[] { 'Z' }); }));
-            EncounterData.ColumnDefs.Add("Duration", new EncounterData.ColumnDef("Duration", true, "INT", "Duration", (Data) => { return Data.DurationS; }, (Data) => { return Data.Duration.TotalSeconds.ToString("0"); }));
-            EncounterData.ColumnDefs.Add("Damage", new EncounterData.ColumnDef("Damage", true, "BIGINT", "Damage", (Data) => { return (Data.Damage / 10).ToString(GetIntCommas()); }, (Data) => { return Data.Damage.ToString(); })); // TODO does not work as expected
-            EncounterData.ColumnDefs.Add("EncDPS", new EncounterData.ColumnDef("EncDPS", true, "DOUBLE", "EncDPS", (Data) => { return Data.DPS.ToString(GetFloatCommas()); }, (Data) => { return Data.DPS.ToString(usCulture); })); // TODO does not work as expected
-            EncounterData.ColumnDefs.Add("Kills", new EncounterData.ColumnDef("Kills", true, "INT", "Kills", (Data) => { return Data.AlliedKills.ToString(GetIntCommas()); }, (Data) => { return Data.AlliedKills.ToString(); })); // TODO does not work as expected
-            EncounterData.ColumnDefs.Add("Deaths", new EncounterData.ColumnDef("Deaths", true, "INT", "Deaths", (Data) => { return Data.AlliedDeaths.ToString(); }, (Data) => { return Data.AlliedDeaths.ToString(); })); // TODO does not work as expected
+                    (Data) => Data.EndTime == DateTime.MinValue ? "--:--:--" : Data.EndTime.ToString("G"),
+                    (Data) => Data.EndTime == DateTime.MinValue ? "0000-00-00 00:00:00" : Data.EndTime.ToString("u").TrimEnd(new char[] { 'Z' })));
+            EncounterData.ColumnDefs.Add("Duration", new EncounterData.ColumnDef("Duration", true, "INT", "Duration", (Data) => Data.DurationS, (Data) => Data.Duration.TotalSeconds.ToString("0")));
+            EncounterData.ColumnDefs.Add("Damage", new EncounterData.ColumnDef("Damage", true, "BIGINT", "Damage", (Data) => (Data.Damage / 10).ToString(GetIntCommas()), (Data) => Data.Damage.ToString())); // TODO does not work as expected
+            EncounterData.ColumnDefs.Add("EncDPS", new EncounterData.ColumnDef("EncDPS", true, "DOUBLE", "EncDPS", (Data) => Data.DPS.ToString(GetFloatCommas()), (Data) => Data.DPS.ToString(usCulture))); // TODO does not work as expected
+            EncounterData.ColumnDefs.Add("Kills", new EncounterData.ColumnDef("Kills", true, "INT", "Kills", (Data) => Data.AlliedKills.ToString(GetIntCommas()), (Data) => Data.AlliedKills.ToString())); // TODO does not work as expected
+            EncounterData.ColumnDefs.Add("Deaths", new EncounterData.ColumnDef("Deaths", true, "INT", "Deaths", (Data) => Data.AlliedDeaths.ToString(), (Data) => Data.AlliedDeaths.ToString())); // TODO does not work as expected
 
             EncounterData.ExportVariables.Clear();
-            EncounterData.ExportVariables.Add("n", new EncounterData.TextExportFormatter("n", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-newline"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-newline"].DisplayedText, (Data, SelectiveAllies, Extra) => { return "\n"; }));
-            EncounterData.ExportVariables.Add("t", new EncounterData.TextExportFormatter("t", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-tab"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-tab"].DisplayedText, (Data, SelectiveAllies, Extra) => { return "\t"; }));
-            EncounterData.ExportVariables.Add("title", new EncounterData.TextExportFormatter("title", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-title"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-title"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "title", Extra); }));
-            EncounterData.ExportVariables.Add("duration", new EncounterData.TextExportFormatter("duration", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-duration"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-duration"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "duration", Extra); }));
-            EncounterData.ExportVariables.Add("DURATION", new EncounterData.TextExportFormatter("DURATION", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-DURATION"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-DURATION"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "DURATION", Extra); }));
-            EncounterData.ExportVariables.Add("damage", new EncounterData.TextExportFormatter("damage", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-damage"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-damage"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "damage", Extra); }));
-            EncounterData.ExportVariables.Add("damage-m", new EncounterData.TextExportFormatter("damage-m", "Damage M", "Damage divided by 1,000,000 (with two decimal places)", (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "damage-m", Extra); }));
-            EncounterData.ExportVariables.Add("DAMAGE-k", new EncounterData.TextExportFormatter("DAMAGE-k", "Short Damage K", "Damage divided by 1,000 (with no decimal places)", (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "DAMAGE-k", Extra); }));
-            EncounterData.ExportVariables.Add("DAMAGE-m", new EncounterData.TextExportFormatter("DAMAGE-m", "Short Damage M", "Damage divided by 1,000,000 (with no decimal places)", (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "DAMAGE-m", Extra); }));
-            EncounterData.ExportVariables.Add("dps", new EncounterData.TextExportFormatter("dps", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-dps"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-dps"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "dps", Extra); }));
-            EncounterData.ExportVariables.Add("DPS", new EncounterData.TextExportFormatter("DPS", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-DPS"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-DPS"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "DPS", Extra); }));
-            EncounterData.ExportVariables.Add("DPS-k", new EncounterData.TextExportFormatter("DPS-k", "DPS K", "DPS divided by 1,000 (with no decimal places)", (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "DPS-k", Extra); }));
-            EncounterData.ExportVariables.Add("encdps", new EncounterData.TextExportFormatter("encdps", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-extdps"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-extdps"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "encdps", Extra); }));
-            EncounterData.ExportVariables.Add("ENCDPS", new EncounterData.TextExportFormatter("ENCDPS", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-EXTDPS"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-EXTDPS"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "ENCDPS", Extra); }));
-            EncounterData.ExportVariables.Add("ENCDPS-k", new EncounterData.TextExportFormatter("ENCDPS-k", "Short DPS K", "ENCDPS divided by 1,000 (with no decimal places)", (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "ENCDPS-k", Extra); }));
-            EncounterData.ExportVariables.Add("hits", new EncounterData.TextExportFormatter("hits", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-hits"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-hits"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "hits", Extra); }));
-            EncounterData.ExportVariables.Add("crithits", new EncounterData.TextExportFormatter("crithits", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-crithits"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-crithits"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "crithits", Extra); }));
-            EncounterData.ExportVariables.Add("crithit%", new EncounterData.TextExportFormatter("crithit%", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-crithit%"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-crithit%"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "crithit%", Extra); }));
-            EncounterData.ExportVariables.Add("misses", new EncounterData.TextExportFormatter("misses", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-misses"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-misses"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "misses", Extra); }));
-            EncounterData.ExportVariables.Add("hitfailed", new EncounterData.TextExportFormatter("hitfailed", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-hitfailed"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-hitfailed"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "hitfailed", Extra); }));
-            EncounterData.ExportVariables.Add("swings", new EncounterData.TextExportFormatter("swings", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-swings"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-swings"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "swings", Extra); }));
-            EncounterData.ExportVariables.Add("tohit", new EncounterData.TextExportFormatter("tohit", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-tohit"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-tohit"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "tohit", Extra); }));
-            EncounterData.ExportVariables.Add("TOHIT", new EncounterData.TextExportFormatter("TOHIT", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-TOHIT"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-TOHIT"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "TOHIT", Extra); }));
-            EncounterData.ExportVariables.Add("maxhit", new EncounterData.TextExportFormatter("maxhit", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-maxhit"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-maxhit"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "maxhit", Extra); }));
-            EncounterData.ExportVariables.Add("MAXHIT", new EncounterData.TextExportFormatter("MAXHIT", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-MAXHIT"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-MAXHIT"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "MAXHIT", Extra); }));
-            EncounterData.ExportVariables.Add("healed", new EncounterData.TextExportFormatter("healed", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-healed"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-healed"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "healed", Extra); }));
-            EncounterData.ExportVariables.Add("enchps", new EncounterData.TextExportFormatter("enchps", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-exthps"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-exthps"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "enchps", Extra); }));
-            EncounterData.ExportVariables.Add("ENCHPS", new EncounterData.TextExportFormatter("ENCHPS", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-EXTHPS"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-EXTHPS"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "ENCHPS", Extra); }));
-            EncounterData.ExportVariables.Add("ENCHPS-k", new EncounterData.TextExportFormatter("ENCHPS", "Short ENCHPS K", "ENCHPS divided by 1,000 (with no decimal places)", (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "ENCHPS-k", Extra); }));
-            EncounterData.ExportVariables.Add("critheals", new EncounterData.TextExportFormatter("critheals", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-critheals"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-critheals"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "critheals", Extra); }));
-            EncounterData.ExportVariables.Add("critheal%", new EncounterData.TextExportFormatter("critheal%", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-critheal%"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-critheal%"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "critheal%", Extra); }));
-            EncounterData.ExportVariables.Add("heals", new EncounterData.TextExportFormatter("heals", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-heals"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-heals"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "heals", Extra); }));
-            EncounterData.ExportVariables.Add("cures", new EncounterData.TextExportFormatter("cures", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-cures"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-cures"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "cures", Extra); }));
-            EncounterData.ExportVariables.Add("maxheal", new EncounterData.TextExportFormatter("maxheal", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-maxheal"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-maxheal"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "maxheal", Extra); }));
-            EncounterData.ExportVariables.Add("MAXHEAL", new EncounterData.TextExportFormatter("MAXHEAL", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-MAXHEAL"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-MAXHEAL"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "MAXHEAL", Extra); }));
-            EncounterData.ExportVariables.Add("damagetaken", new EncounterData.TextExportFormatter("damagetaken", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-damagetaken"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-damagetaken"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "damagetaken", Extra); }));
-            EncounterData.ExportVariables.Add("healstaken", new EncounterData.TextExportFormatter("healstaken", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-healstaken"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-healstaken"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "healstaken", Extra); }));
-            EncounterData.ExportVariables.Add("powerheal", new EncounterData.TextExportFormatter("powerheal", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-powerheal"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-powerheal"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "powerheal", Extra); }));
-            EncounterData.ExportVariables.Add("kills", new EncounterData.TextExportFormatter("kills", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-kills"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-kills"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "kills", Extra); }));
-            EncounterData.ExportVariables.Add("deaths", new EncounterData.TextExportFormatter("deaths", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-deaths"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-deaths"].DisplayedText, (Data, SelectiveAllies, Extra) => { return EncounterFormatSwitch(Data, SelectiveAllies, "deaths", Extra); }));
+            EncounterData.ExportVariables.Add("n", new EncounterData.TextExportFormatter("n", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-newline"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-newline"].DisplayedText, (Data, SelectiveAllies, Extra) => "\n"));
+            EncounterData.ExportVariables.Add("t", new EncounterData.TextExportFormatter("t", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-tab"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-tab"].DisplayedText, (Data, SelectiveAllies, Extra) => "\t"));
+            EncounterData.ExportVariables.Add("title", new EncounterData.TextExportFormatter("title", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-title"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-title"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "title", Extra)));
+            EncounterData.ExportVariables.Add("duration", new EncounterData.TextExportFormatter("duration", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-duration"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-duration"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "duration", Extra)));
+            EncounterData.ExportVariables.Add("DURATION", new EncounterData.TextExportFormatter("DURATION", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-DURATION"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-DURATION"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "DURATION", Extra)));
+            EncounterData.ExportVariables.Add("damage", new EncounterData.TextExportFormatter("damage", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-damage"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-damage"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "damage", Extra)));
+            EncounterData.ExportVariables.Add("damage-m", new EncounterData.TextExportFormatter("damage-m", "Damage M", "Damage divided by 1,000,000 (with two decimal places)", (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "damage-m", Extra)));
+            EncounterData.ExportVariables.Add("DAMAGE-k", new EncounterData.TextExportFormatter("DAMAGE-k", "Short Damage K", "Damage divided by 1,000 (with no decimal places)", (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "DAMAGE-k", Extra)));
+            EncounterData.ExportVariables.Add("DAMAGE-m", new EncounterData.TextExportFormatter("DAMAGE-m", "Short Damage M", "Damage divided by 1,000,000 (with no decimal places)", (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "DAMAGE-m", Extra)));
+            EncounterData.ExportVariables.Add("dps", new EncounterData.TextExportFormatter("dps", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-dps"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-dps"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "dps", Extra)));
+            EncounterData.ExportVariables.Add("DPS", new EncounterData.TextExportFormatter("DPS", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-DPS"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-DPS"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "DPS", Extra)));
+            EncounterData.ExportVariables.Add("DPS-k", new EncounterData.TextExportFormatter("DPS-k", "DPS K", "DPS divided by 1,000 (with no decimal places)", (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "DPS-k", Extra)));
+            EncounterData.ExportVariables.Add("encdps", new EncounterData.TextExportFormatter("encdps", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-extdps"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-extdps"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "encdps", Extra)));
+            EncounterData.ExportVariables.Add("ENCDPS", new EncounterData.TextExportFormatter("ENCDPS", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-EXTDPS"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-EXTDPS"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "ENCDPS", Extra)));
+            EncounterData.ExportVariables.Add("ENCDPS-k", new EncounterData.TextExportFormatter("ENCDPS-k", "Short DPS K", "ENCDPS divided by 1,000 (with no decimal places)", (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "ENCDPS-k", Extra)));
+            EncounterData.ExportVariables.Add("hits", new EncounterData.TextExportFormatter("hits", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-hits"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-hits"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "hits", Extra)));
+            EncounterData.ExportVariables.Add("crithits", new EncounterData.TextExportFormatter("crithits", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-crithits"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-crithits"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "crithits", Extra)));
+            EncounterData.ExportVariables.Add("crithit%", new EncounterData.TextExportFormatter("crithit%", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-crithit%"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-crithit%"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "crithit%", Extra)));
+            EncounterData.ExportVariables.Add("misses", new EncounterData.TextExportFormatter("misses", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-misses"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-misses"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "misses", Extra)));
+            EncounterData.ExportVariables.Add("hitfailed", new EncounterData.TextExportFormatter("hitfailed", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-hitfailed"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-hitfailed"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "hitfailed", Extra)));
+            EncounterData.ExportVariables.Add("swings", new EncounterData.TextExportFormatter("swings", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-swings"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-swings"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "swings", Extra)));
+            EncounterData.ExportVariables.Add("tohit", new EncounterData.TextExportFormatter("tohit", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-tohit"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-tohit"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "tohit", Extra)));
+            EncounterData.ExportVariables.Add("TOHIT", new EncounterData.TextExportFormatter("TOHIT", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-TOHIT"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-TOHIT"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "TOHIT", Extra)));
+            EncounterData.ExportVariables.Add("maxhit", new EncounterData.TextExportFormatter("maxhit", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-maxhit"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-maxhit"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "maxhit", Extra)));
+            EncounterData.ExportVariables.Add("MAXHIT", new EncounterData.TextExportFormatter("MAXHIT", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-MAXHIT"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-MAXHIT"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "MAXHIT", Extra)));
+            EncounterData.ExportVariables.Add("healed", new EncounterData.TextExportFormatter("healed", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-healed"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-healed"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "healed", Extra)));
+            EncounterData.ExportVariables.Add("enchps", new EncounterData.TextExportFormatter("enchps", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-exthps"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-exthps"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "enchps", Extra)));
+            EncounterData.ExportVariables.Add("ENCHPS", new EncounterData.TextExportFormatter("ENCHPS", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-EXTHPS"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-EXTHPS"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "ENCHPS", Extra)));
+            EncounterData.ExportVariables.Add("ENCHPS-k", new EncounterData.TextExportFormatter("ENCHPS", "Short ENCHPS K", "ENCHPS divided by 1,000 (with no decimal places)", (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "ENCHPS-k", Extra)));
+            EncounterData.ExportVariables.Add("critheals", new EncounterData.TextExportFormatter("critheals", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-critheals"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-critheals"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "critheals", Extra)));
+            EncounterData.ExportVariables.Add("critheal%", new EncounterData.TextExportFormatter("critheal%", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-critheal%"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-critheal%"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "critheal%", Extra)));
+            EncounterData.ExportVariables.Add("heals", new EncounterData.TextExportFormatter("heals", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-heals"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-heals"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "heals", Extra)));
+            EncounterData.ExportVariables.Add("cures", new EncounterData.TextExportFormatter("cures", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-cures"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-cures"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "cures", Extra)));
+            EncounterData.ExportVariables.Add("maxheal", new EncounterData.TextExportFormatter("maxheal", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-maxheal"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-maxheal"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "maxheal", Extra)));
+            EncounterData.ExportVariables.Add("MAXHEAL", new EncounterData.TextExportFormatter("MAXHEAL", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-MAXHEAL"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-MAXHEAL"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "MAXHEAL", Extra)));
+            EncounterData.ExportVariables.Add("damagetaken", new EncounterData.TextExportFormatter("damagetaken", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-damagetaken"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-damagetaken"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "damagetaken", Extra)));
+            EncounterData.ExportVariables.Add("healstaken", new EncounterData.TextExportFormatter("healstaken", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-healstaken"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-healstaken"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "healstaken", Extra)));
+            EncounterData.ExportVariables.Add("powerheal", new EncounterData.TextExportFormatter("powerheal", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-powerheal"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-powerheal"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "powerheal", Extra)));
+            EncounterData.ExportVariables.Add("kills", new EncounterData.TextExportFormatter("kills", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-kills"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-kills"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "kills", Extra)));
+            EncounterData.ExportVariables.Add("deaths", new EncounterData.TextExportFormatter("deaths", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-deaths"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-deaths"].DisplayedText, (Data, SelectiveAllies, Extra) => EncounterFormatSwitch(Data, SelectiveAllies, "deaths", Extra)));
         }
         private void FixupCombatantData()
         {
             CombatantData.ColumnDefs.Clear();
             CombatantData.ColumnDefs.Add("EncId", new CombatantData.ColumnDef("EncId", false, "CHAR(8)", "EncId",
-                    (Data) => { return string.Empty; },
-                    (Data) => { return Data.Parent.EncId; },
-                    (Left, Right) => { return 0; })); // TODO shows nothing
+                    (Data) => string.Empty,
+                    (Data) => Data.Parent.EncId,
+                    (Left, Right) => 0)); // TODO shows nothing
             CombatantData.ColumnDefs.Add("Ally", new CombatantData.ColumnDef("Ally", false, "CHAR(1)", "Ally",
-                    (Data) => { return Data.Parent.GetAllies().Contains(Data).ToString(); },
-                    (Data) => { return Data.Parent.GetAllies().Contains(Data) ? "T" : "F"; },
-                    (Left, Right) => { return Left.Parent.GetAllies().Contains(Left).CompareTo(Right.Parent.GetAllies().Contains(Right)); })); // TODO does not work
+                    (Data) => Data.Parent.GetAllies().Contains(Data).ToString(),
+                    (Data) => Data.Parent.GetAllies().Contains(Data) ? "T" : "F",
+                    (Left, Right) => Left.Parent.GetAllies().Contains(Left).CompareTo(Right.Parent.GetAllies().Contains(Right)))); // TODO does not work
             CombatantData.ColumnDefs.Add("Name", new CombatantData.ColumnDef("Name", true, "VARCHAR(64)", "Name",
-                    (Data) => { return Data.Name; },
-                    (Data) => { return Data.Name; },
-                    (Left, Right) => { return Left.Name.CompareTo(Right.Name); }));
+                    (Data) => Data.Name,
+                    (Data) => Data.Name,
+                    (Left, Right) => Left.Name.CompareTo(Right.Name)));
             CombatantData.ColumnDefs.Add("StartTime", new CombatantData.ColumnDef("StartTime", true, "TIMESTAMP", "StartTime",
-                    (Data) => { return Data.StartTime == DateTime.MaxValue ? "--:--:--" : Data.StartTime.ToString("T"); },
-                    (Data) => { return Data.StartTime == DateTime.MaxValue ? "0000-00-00 00:00:00" : Data.StartTime.ToString("u").TrimEnd(new char[] { 'Z' }); },
-                    (Left, Right) => { return Left.StartTime.CompareTo(Right.StartTime); }));
+                    (Data) => Data.StartTime == DateTime.MaxValue ? "--:--:--" : Data.StartTime.ToString("T"),
+                    (Data) => Data.StartTime == DateTime.MaxValue ? "0000-00-00 00:00:00" : Data.StartTime.ToString("u").TrimEnd(new char[] { 'Z' }),
+                    (Left, Right) => Left.StartTime.CompareTo(Right.StartTime)));
             CombatantData.ColumnDefs.Add("EndTime", new CombatantData.ColumnDef("EndTime", false, "TIMESTAMP", "EndTime",
-                    (Data) => { return Data.EndTime == DateTime.MinValue ? "--:--:--" : Data.StartTime.ToString("T"); },
-                    (Data) => { return Data.EndTime == DateTime.MinValue ? "0000-00-00 00:00:00" : Data.EndTime.ToString("u").TrimEnd(new char[] { 'Z' }); },
-                    (Left, Right) => { return Left.EndTime.CompareTo(Right.EndTime); }));
+                    (Data) => Data.EndTime == DateTime.MinValue ? "--:--:--" : Data.StartTime.ToString("T"),
+                    (Data) => Data.EndTime == DateTime.MinValue ? "0000-00-00 00:00:00" : Data.EndTime.ToString("u").TrimEnd(new char[] { 'Z' }),
+                    (Left, Right) => Left.EndTime.CompareTo(Right.EndTime)));
             CombatantData.ColumnDefs.Add("Duration", new CombatantData.ColumnDef("Duration", true, "INT", "Duration",
-                    (Data) => { return Data.DurationS; },
-                    (Data) => { return Data.Duration.TotalSeconds.ToString("0"); },
-                    (Left, Right) => { return Left.Duration.CompareTo(Right.Duration); }));
+                    (Data) => Data.DurationS,
+                    (Data) => Data.Duration.TotalSeconds.ToString("0"),
+                    (Left, Right) => Left.Duration.CompareTo(Right.Duration)));
             CombatantData.ColumnDefs.Add("Damage", new CombatantData.ColumnDef("Damage", true, "BIGINT", "Damage",
-                    (Data) => { return Data.Damage.ToString(GetIntCommas()); },
-                    (Data) => { return Data.Damage.ToString(); },
-                    (Left, Right) => { return Left.Damage.CompareTo(Right.Damage); }));
+                    (Data) => Data.Damage.ToString(GetIntCommas()),
+                    (Data) => Data.Damage.ToString(),
+                    (Left, Right) => Left.Damage.CompareTo(Right.Damage)));
             CombatantData.ColumnDefs.Add("Damage%", new CombatantData.ColumnDef("Damage%", true, "VARCHAR(4)", "DamagePerc",
-                    (Data) => { return Data.DamagePercent; },
-                    (Data) => { return Data.DamagePercent; },
-                    (Left, Right) => { return Left.Damage.CompareTo(Right.Damage); })); // TODO does not work
+                    (Data) => Data.DamagePercent,
+                    (Data) => Data.DamagePercent,
+                    (Left, Right) => Left.Damage.CompareTo(Right.Damage))); // TODO does not work
             CombatantData.ColumnDefs.Add("Kills", new CombatantData.ColumnDef("Kills", false, "INT", "Kills",
-                    (Data) => { return Data.Kills.ToString(GetIntCommas()); },
-                    (Data) => { return Data.Kills.ToString(); },
-                    (Left, Right) => { return Left.Kills.CompareTo(Right.Kills); }));
+                    (Data) => Data.Kills.ToString(GetIntCommas()),
+                    (Data) => Data.Kills.ToString(),
+                    (Left, Right) => Left.Kills.CompareTo(Right.Kills)));
             // TODO add PlayerKills column (Kills currently include companion kills)
             CombatantData.ColumnDefs.Add("Healed", new CombatantData.ColumnDef("Healed", false, "BIGINT", "Healed",
-                    (Data) => { return Data.Healed.ToString(GetIntCommas()); },
-                    (Data) => { return Data.Healed.ToString(); },
-                    (Left, Right) => { return Left.Healed.CompareTo(Right.Healed); }));
+                    (Data) => Data.Healed.ToString(GetIntCommas()),
+                    (Data) => Data.Healed.ToString(),
+                    (Left, Right) => Left.Healed.CompareTo(Right.Healed)));
             CombatantData.ColumnDefs.Add("Healed%", new CombatantData.ColumnDef("Healed%", false, "VARCHAR(4)", "HealedPerc",
-                    (Data) => { return Data.HealedPercent; },
-                    (Data) => { return Data.HealedPercent; },
-                    (Left, Right) => { return Left.Healed.CompareTo(Right.Healed); })); // TODO does not work
+                    (Data) => Data.HealedPercent,
+                    (Data) => Data.HealedPercent,
+                    (Left, Right) => Left.Healed.CompareTo(Right.Healed))); // TODO does not work
             CombatantData.ColumnDefs.Add("CritHeals", new CombatantData.ColumnDef("CritHeals", false, "INT", "CritHeals",
-                    (Data) => { return Data.CritHeals.ToString(GetIntCommas()); },
-                    (Data) => { return Data.CritHeals.ToString(); },
-                    (Left, Right) => { return Left.CritHeals.CompareTo(Right.CritHeals); }));
+                    (Data) => Data.CritHeals.ToString(GetIntCommas()),
+                    (Data) => Data.CritHeals.ToString(),
+                    (Left, Right) => Left.CritHeals.CompareTo(Right.CritHeals)));
             CombatantData.ColumnDefs.Add("Heals", new CombatantData.ColumnDef("Heals", false, "INT", "Heals",
-                    (Data) => { return Data.Heals.ToString(GetIntCommas()); },
-                    (Data) => { return Data.Heals.ToString(); },
-                    (Left, Right) => { return Left.Heals.CompareTo(Right.Heals); }));
+                    (Data) => Data.Heals.ToString(GetIntCommas()),
+                    (Data) => Data.Heals.ToString(),
+                    (Left, Right) => Left.Heals.CompareTo(Right.Heals)));
             CombatantData.ColumnDefs.Add("Cleanses", new CombatantData.ColumnDef("Cleanses", false, "INT", "CureDispels",
-                    (Data) => { return Data.CureDispels.ToString(GetIntCommas()); },
-                    (Data) => { return Data.CureDispels.ToString(); },
-                    (Left, Right) => { return Left.CureDispels.CompareTo(Right.CureDispels); }));
+                    (Data) => Data.CureDispels.ToString(GetIntCommas()),
+                    (Data) => Data.CureDispels.ToString(),
+                    (Left, Right) => Left.CureDispels.CompareTo(Right.CureDispels)));
             CombatantData.ColumnDefs.Add("AP Gain", new CombatantData.ColumnDef("AP Gain", false, "BIGINT", "PowerReplenish",
-                    (Data) => { return Data.PowerReplenish.ToString(GetIntCommas()); },
-                    (Data) => { return Data.PowerReplenish.ToString(); },
-                    (Left, Right) => { return Left.PowerReplenish.CompareTo(Right.PowerReplenish); }));
+                    (Data) => Data.PowerReplenish.ToString(GetIntCommas()),
+                    (Data) => Data.PowerReplenish.ToString(),
+                    (Left, Right) => Left.PowerReplenish.CompareTo(Right.PowerReplenish)));
             CombatantData.ColumnDefs.Add("DPS", new CombatantData.ColumnDef("DPS", false, "DOUBLE", "DPS",
-                    (Data) => { return Data.DPS.ToString(GetFloatCommas()); },
-                    (Data) => { return Data.DPS.ToString(usCulture); },
-                    (Left, Right) => { return Left.DPS.CompareTo(Right.DPS); })); // TODO calculate with duration floor 1 second, unless damage is zero (creating NaN when duration also zero), then just list zero
+                    (Data) => Data.DPS.ToString(GetFloatCommas()),
+                    (Data) => Data.DPS.ToString(usCulture),
+                    (Left, Right) => Left.DPS.CompareTo(Right.DPS))); // TODO calculate with duration floor 1 second, unless damage is zero (creating NaN when duration also zero), then just list zero
             CombatantData.ColumnDefs.Add("EncDPS", new CombatantData.ColumnDef("EncDPS", true, "DOUBLE", "EncDPS",
-                    (Data) => { return Data.EncDPS.ToString(GetFloatCommas()); },
-                    (Data) => { return Data.EncDPS.ToString(usCulture); },
-                    (Left, Right) => { return Left.Damage.CompareTo(Right.Damage); }));
+                    (Data) => Data.EncDPS.ToString(GetFloatCommas()),
+                    (Data) => Data.EncDPS.ToString(usCulture),
+                    (Left, Right) => Left.Damage.CompareTo(Right.Damage)));
             CombatantData.ColumnDefs.Add("EncHPS", new CombatantData.ColumnDef("EncHPS", true, "DOUBLE", "EncHPS",
-                    (Data) => { return Data.EncHPS.ToString(GetFloatCommas()); },
-                    (Data) => { return Data.EncHPS.ToString(usCulture); },
-                    (Left, Right) => { return Left.Healed.CompareTo(Right.Healed); }));
+                    (Data) => Data.EncHPS.ToString(GetFloatCommas()),
+                    (Data) => Data.EncHPS.ToString(usCulture),
+                    (Left, Right) => Left.Healed.CompareTo(Right.Healed)));
             CombatantData.ColumnDefs.Add("CritHits", new CombatantData.ColumnDef("CritHits", false, "INT", "CritHits",
-                    (Data) => { return Data.CritHits.ToString(GetIntCommas()); },
-                    (Data) => { return Data.CritHits.ToString(); },
-                    (Left, Right) => { return Left.CritHits.CompareTo(Right.CritHits); }));
+                    (Data) => Data.CritHits.ToString(GetIntCommas()),
+                    (Data) => Data.CritHits.ToString(),
+                    (Left, Right) => Left.CritHits.CompareTo(Right.CritHits)));
             CombatantData.ColumnDefs.Add("Swings", new CombatantData.ColumnDef("Swings", false, "INT", "Swings",
-                    (Data) => { return Data.Swings.ToString(GetIntCommas()); },
-                    (Data) => { return Data.Swings.ToString(); },
-                    (Left, Right) => { return Left.Swings.CompareTo(Right.Swings); }));
+                    (Data) => Data.Swings.ToString(GetIntCommas()),
+                    (Data) => Data.Swings.ToString(),
+                    (Left, Right) => Left.Swings.CompareTo(Right.Swings)));
             CombatantData.ColumnDefs.Add("HealingTaken", new CombatantData.ColumnDef("HealingTaken", false, "BIGINT", "HealsTaken",
-                    (Data) => { return Data.HealsTaken.ToString(GetIntCommas()); },
-                    (Data) => { return Data.HealsTaken.ToString(); },
-                    (Left, Right) => { return Left.HealsTaken.CompareTo(Right.HealsTaken); }));
+                    (Data) => Data.HealsTaken.ToString(GetIntCommas()),
+                    (Data) => Data.HealsTaken.ToString(),
+                    (Left, Right) => Left.HealsTaken.CompareTo(Right.HealsTaken)));
             CombatantData.ColumnDefs.Add("DamageTaken", new CombatantData.ColumnDef("DamageTaken", true, "BIGINT", "DamageTaken",
-                    (Data) => { return Data.DamageTaken.ToString(GetIntCommas()); },
-                    (Data) => { return Data.DamageTaken.ToString(); },
-                    (Left, Right) => { return Left.DamageTaken.CompareTo(Right.DamageTaken); }));
+                    (Data) => Data.DamageTaken.ToString(GetIntCommas()),
+                    (Data) => Data.DamageTaken.ToString(),
+                    (Left, Right) => Left.DamageTaken.CompareTo(Right.DamageTaken)));
             CombatantData.ColumnDefs.Add("Deaths", new CombatantData.ColumnDef("Deaths", true, "INT", "Deaths",
-                    (Data) => { return Data.Deaths.ToString(GetIntCommas()); },
-                    (Data) => { return Data.Deaths.ToString(); },
-                    (Left, Right) => { return Left.Deaths.CompareTo(Right.Deaths); }));
+                    (Data) => Data.Deaths.ToString(GetIntCommas()),
+                    (Data) => Data.Deaths.ToString(),
+                    (Left, Right) => Left.Deaths.CompareTo(Right.Deaths)));
             CombatantData.ColumnDefs.Add("FCritHit%", new CombatantData.ColumnDef("FCritHit%", true, "VARCHAR(8)", "FCritHitPerc",
-                    (Data) => { return GetFilteredCritChance(Data).ToString("0'%"); },
-                    (Data) => { return GetFilteredCritChance(Data).ToString("0'%"); },
-                    (Left, Right) => { return GetFilteredCritChance(Left).CompareTo(GetFilteredCritChance(Right)); })); // TODO verify if this works for NW
+                    (Data) => GetFilteredCritChance(Data).ToString("0'%"),
+                    (Data) => GetFilteredCritChance(Data).ToString("0'%"),
+                    (Left, Right) => GetFilteredCritChance(Left).CompareTo(GetFilteredCritChance(Right)))); // TODO verify if this works for NW
             CombatantData.ColumnDefs.Add("CritDam%", new CombatantData.ColumnDef("CritDam%", false, "VARCHAR(8)", "CritDamPerc",
-                    (Data) => { return Data.CritDamPerc.ToString("0'%"); },
-                    (Data) => { return Data.CritDamPerc.ToString("0'%"); },
-                    (Left, Right) => { return Left.CritDamPerc.CompareTo(Right.CritDamPerc); })); // TODO verify if this works for NW
+                    (Data) => Data.CritDamPerc.ToString("0'%"),
+                    (Data) => Data.CritDamPerc.ToString("0'%"),
+                    (Left, Right) => Left.CritDamPerc.CompareTo(Right.CritDamPerc))); // TODO verify if this works for NW
             CombatantData.ColumnDefs.Add("CritHeal%", new CombatantData.ColumnDef("CritHeal%", false, "VARCHAR(8)", "CritHealPerc",
-                    (Data) => { return Data.CritHealPerc.ToString("0'%"); },
-                    (Data) => { return Data.CritHealPerc.ToString("0'%"); },
-                    (Left, Right) => { return Left.CritHealPerc.CompareTo(Right.CritHealPerc); }));
+                    (Data) => Data.CritHealPerc.ToString("0'%"),
+                    (Data) => Data.CritHealPerc.ToString("0'%"),
+                    (Left, Right) => Left.CritHealPerc.CompareTo(Right.CritHealPerc)));
 
             CombatantData.ColumnDefs.Add("FlankDam%", // TODO verify if this is % of damage or % of hits, and consider having both columns
                 new CombatantData.ColumnDef("FlankDam%", false, "VARCHAR(8)", "FlankDamPrec", GetCellDataFlankDamPrec, GetSqlDataFlankDamPrec, CDCompareFlankDamPrec));
@@ -1399,78 +1400,78 @@ namespace NWParsing_Plugin
             CombatantData.DamageTypeDataIncomingHealing = IncHealedName;
 
             CombatantData.ExportVariables.Clear();
-            CombatantData.ExportVariables.Add("n", new CombatantData.TextExportFormatter("n", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-newline"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-newline"].DisplayedText, (Data, Extra) => { return "\n"; }));
-            CombatantData.ExportVariables.Add("t", new CombatantData.TextExportFormatter("t", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-tab"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-tab"].DisplayedText, (Data, Extra) => { return "\t"; }));
-            CombatantData.ExportVariables.Add("name", new CombatantData.TextExportFormatter("name", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-name"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-name"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "name", Extra); }));
-            CombatantData.ExportVariables.Add("NAME", new CombatantData.TextExportFormatter("NAME", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-NAME"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-NAME"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "NAME", Extra); }));
-            CombatantData.ExportVariables.Add("duration", new CombatantData.TextExportFormatter("duration", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-duration"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-duration"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "duration", Extra); }));
-            CombatantData.ExportVariables.Add("DURATION", new CombatantData.TextExportFormatter("DURATION", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-DURATION"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-DURATION"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "DURATION", Extra); }));
-            CombatantData.ExportVariables.Add("damage", new CombatantData.TextExportFormatter("damage", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-damage"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-damage"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "damage", Extra); }));
-            CombatantData.ExportVariables.Add("damage-m", new CombatantData.TextExportFormatter("damage-m", "Damage M", "Damage divided by 1,000,000 (with two decimal places)", (Data, Extra) => { return CombatantFormatSwitch(Data, "damage-m", Extra); }));
-            CombatantData.ExportVariables.Add("DAMAGE-k", new CombatantData.TextExportFormatter("DAMAGE-k", "Short Damage K", "Damage divided by 1,000 (with no decimal places)", (Data, Extra) => { return CombatantFormatSwitch(Data, "DAMAGE-k", Extra); }));
-            CombatantData.ExportVariables.Add("DAMAGE-m", new CombatantData.TextExportFormatter("DAMAGE-m", "Short Damage M", "Damage divided by 1,000,000 (with no decimal places)", (Data, Extra) => { return CombatantFormatSwitch(Data, "DAMAGE-m", Extra); }));
-            CombatantData.ExportVariables.Add("damage%", new CombatantData.TextExportFormatter("damage%", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-damage%"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-damage%"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "damage%", Extra); }));
-            CombatantData.ExportVariables.Add("dps", new CombatantData.TextExportFormatter("dps", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-dps"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-dps"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "dps", Extra); }));
-            CombatantData.ExportVariables.Add("DPS", new CombatantData.TextExportFormatter("DPS", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-DPS"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-DPS"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "DPS", Extra); }));
-            CombatantData.ExportVariables.Add("DPS-k", new CombatantData.TextExportFormatter("DPS-k", "Short DPS K", "Short DPS divided by 1,000 (with no decimal places)", (Data, Extra) => { return CombatantFormatSwitch(Data, "DPS-k", Extra); }));
-            CombatantData.ExportVariables.Add("encdps", new CombatantData.TextExportFormatter("encdps", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-extdps"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-extdps"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "encdps", Extra); }));
-            CombatantData.ExportVariables.Add("ENCDPS", new CombatantData.TextExportFormatter("ENCDPS", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-EXTDPS"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-EXTDPS"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "ENCDPS", Extra); }));
-            CombatantData.ExportVariables.Add("ENCDPS-k", new CombatantData.TextExportFormatter("ENCDPS-k", "Short Encounter DPS K", "Short Encounter DPS divided by 1,000 (with no decimal places)", (Data, Extra) => { return CombatantFormatSwitch(Data, "ENCDPS-k", Extra); }));
-            CombatantData.ExportVariables.Add("hits", new CombatantData.TextExportFormatter("hits", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-hits"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-hits"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "hits", Extra); }));
-            CombatantData.ExportVariables.Add("crithits", new CombatantData.TextExportFormatter("crithits", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-crithits"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-crithits"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "crithits", Extra); }));
-            CombatantData.ExportVariables.Add("crithit%", new CombatantData.TextExportFormatter("crithit%", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-crithit%"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-crithit%"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "crithit%", Extra); }));
-            CombatantData.ExportVariables.Add("fcrithit%", new CombatantData.TextExportFormatter("fcrithit%", "Filtered Critical Hit Chance", "Critical Hit Chance filtered against AttackTypes that have the ability to critically hit.", (Data, Extra) => { return CombatantFormatSwitch(Data, "fcrithit%", Extra); }));
-            CombatantData.ExportVariables.Add("misses", new CombatantData.TextExportFormatter("misses", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-misses"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-misses"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "misses", Extra); }));
-            CombatantData.ExportVariables.Add("hitfailed", new CombatantData.TextExportFormatter("hitfailed", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-hitfailed"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-hitfailed"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "hitfailed", Extra); }));
-            CombatantData.ExportVariables.Add("swings", new CombatantData.TextExportFormatter("swings", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-swings"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-swings"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "swings", Extra); }));
-            CombatantData.ExportVariables.Add("tohit", new CombatantData.TextExportFormatter("tohit", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-tohit"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-tohit"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "tohit", Extra); }));
-            CombatantData.ExportVariables.Add("TOHIT", new CombatantData.TextExportFormatter("TOHIT", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-TOHIT"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-TOHIT"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "TOHIT", Extra); }));
-            CombatantData.ExportVariables.Add("maxhit", new CombatantData.TextExportFormatter("maxhit", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-maxhit"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-maxhit"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "maxhit", Extra); }));
-            CombatantData.ExportVariables.Add("MAXHIT", new CombatantData.TextExportFormatter("MAXHIT", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-MAXHIT"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-MAXHIT"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "MAXHIT", Extra); }));
-            CombatantData.ExportVariables.Add("healed", new CombatantData.TextExportFormatter("healed", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-healed"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-healed"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "healed", Extra); }));
-            CombatantData.ExportVariables.Add("healed%", new CombatantData.TextExportFormatter("healed%", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-healed%"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-healed%"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "healed%", Extra); }));
-            CombatantData.ExportVariables.Add("enchps", new CombatantData.TextExportFormatter("enchps", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-exthps"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-exthps"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "enchps", Extra); }));
-            CombatantData.ExportVariables.Add("ENCHPS", new CombatantData.TextExportFormatter("ENCHPS", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-EXTHPS"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-EXTHPS"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "ENCHPS", Extra); }));
-            CombatantData.ExportVariables.Add("ENCHPS-k", new CombatantData.TextExportFormatter("ENCHPS-k", "Short Encounter HPS K", "Short Encounter HPS divided by 1,000 (with no decimal places)", (Data, Extra) => { return CombatantFormatSwitch(Data, "ENCHPS-k", Extra); }));
-            CombatantData.ExportVariables.Add("critheals", new CombatantData.TextExportFormatter("critheals", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-critheals"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-critheals"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "critheals", Extra); }));
-            CombatantData.ExportVariables.Add("critheal%", new CombatantData.TextExportFormatter("critheal%", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-critheal%"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-critheal%"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "critheal%", Extra); }));
-            CombatantData.ExportVariables.Add("heals", new CombatantData.TextExportFormatter("heals", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-heals"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-heals"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "heals", Extra); }));
-            CombatantData.ExportVariables.Add("cures", new CombatantData.TextExportFormatter("cures", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-cures"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-cures"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "cures", Extra); }));
-            CombatantData.ExportVariables.Add("maxheal", new CombatantData.TextExportFormatter("maxheal", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-maxheal"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-maxheal"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "maxheal", Extra); }));
-            CombatantData.ExportVariables.Add("MAXHEAL", new CombatantData.TextExportFormatter("MAXHEAL", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-MAXHEAL"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-MAXHEAL"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "MAXHEAL", Extra); }));
-            CombatantData.ExportVariables.Add("damagetaken", new CombatantData.TextExportFormatter("damagetaken", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-damagetaken"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-damagetaken"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "damagetaken", Extra); }));
-            CombatantData.ExportVariables.Add("healstaken", new CombatantData.TextExportFormatter("healstaken", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-healstaken"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-healstaken"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "healstaken", Extra); }));
-            CombatantData.ExportVariables.Add("powerheal", new CombatantData.TextExportFormatter("powerheal", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-powerheal"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-powerheal"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "powerheal", Extra); }));
-            CombatantData.ExportVariables.Add("kills", new CombatantData.TextExportFormatter("kills", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-kills"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-kills"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "kills", Extra); }));
-            CombatantData.ExportVariables.Add("deaths", new CombatantData.TextExportFormatter("deaths", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-deaths"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-deaths"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "deaths", Extra); }));
-            CombatantData.ExportVariables.Add("NAME3", new CombatantData.TextExportFormatter("NAME3", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-NAME3"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-NAME3"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "NAME3", Extra); }));
-            CombatantData.ExportVariables.Add("NAME4", new CombatantData.TextExportFormatter("NAME4", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-NAME4"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-NAME4"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "NAME4", Extra); }));
-            CombatantData.ExportVariables.Add("NAME8", new CombatantData.TextExportFormatter("NAME8", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-NAME8"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-NAME8"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "NAME8", Extra); }));
-            CombatantData.ExportVariables.Add("NAME12", new CombatantData.TextExportFormatter("NAME12", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-NAME12"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-NAME12"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "NAME12", Extra); }));
-            CombatantData.ExportVariables.Add("NAME15", new CombatantData.TextExportFormatter("NAME15", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-NAME15"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-NAME15"].DisplayedText, (Data, Extra) => { return CombatantFormatSwitch(Data, "NAME15", Extra); }));
+            CombatantData.ExportVariables.Add("n", new CombatantData.TextExportFormatter("n", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-newline"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-newline"].DisplayedText, (Data, Extra) => "\n"));
+            CombatantData.ExportVariables.Add("t", new CombatantData.TextExportFormatter("t", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-tab"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-tab"].DisplayedText, (Data, Extra) => "\t"));
+            CombatantData.ExportVariables.Add("name", new CombatantData.TextExportFormatter("name", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-name"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-name"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "name", Extra)));
+            CombatantData.ExportVariables.Add("NAME", new CombatantData.TextExportFormatter("NAME", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-NAME"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-NAME"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "NAME", Extra)));
+            CombatantData.ExportVariables.Add("duration", new CombatantData.TextExportFormatter("duration", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-duration"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-duration"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "duration", Extra)));
+            CombatantData.ExportVariables.Add("DURATION", new CombatantData.TextExportFormatter("DURATION", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-DURATION"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-DURATION"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "DURATION", Extra)));
+            CombatantData.ExportVariables.Add("damage", new CombatantData.TextExportFormatter("damage", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-damage"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-damage"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "damage", Extra)));
+            CombatantData.ExportVariables.Add("damage-m", new CombatantData.TextExportFormatter("damage-m", "Damage M", "Damage divided by 1,000,000 (with two decimal places)", (Data, Extra) => CombatantFormatSwitch(Data, "damage-m", Extra)));
+            CombatantData.ExportVariables.Add("DAMAGE-k", new CombatantData.TextExportFormatter("DAMAGE-k", "Short Damage K", "Damage divided by 1,000 (with no decimal places)", (Data, Extra) => CombatantFormatSwitch(Data, "DAMAGE-k", Extra)));
+            CombatantData.ExportVariables.Add("DAMAGE-m", new CombatantData.TextExportFormatter("DAMAGE-m", "Short Damage M", "Damage divided by 1,000,000 (with no decimal places)", (Data, Extra) => CombatantFormatSwitch(Data, "DAMAGE-m", Extra)));
+            CombatantData.ExportVariables.Add("damage%", new CombatantData.TextExportFormatter("damage%", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-damage%"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-damage%"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "damage%", Extra)));
+            CombatantData.ExportVariables.Add("dps", new CombatantData.TextExportFormatter("dps", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-dps"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-dps"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "dps", Extra)));
+            CombatantData.ExportVariables.Add("DPS", new CombatantData.TextExportFormatter("DPS", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-DPS"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-DPS"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "DPS", Extra)));
+            CombatantData.ExportVariables.Add("DPS-k", new CombatantData.TextExportFormatter("DPS-k", "Short DPS K", "Short DPS divided by 1,000 (with no decimal places)", (Data, Extra) => CombatantFormatSwitch(Data, "DPS-k", Extra)));
+            CombatantData.ExportVariables.Add("encdps", new CombatantData.TextExportFormatter("encdps", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-extdps"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-extdps"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "encdps", Extra)));
+            CombatantData.ExportVariables.Add("ENCDPS", new CombatantData.TextExportFormatter("ENCDPS", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-EXTDPS"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-EXTDPS"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "ENCDPS", Extra)));
+            CombatantData.ExportVariables.Add("ENCDPS-k", new CombatantData.TextExportFormatter("ENCDPS-k", "Short Encounter DPS K", "Short Encounter DPS divided by 1,000 (with no decimal places)", (Data, Extra) => CombatantFormatSwitch(Data, "ENCDPS-k", Extra)));
+            CombatantData.ExportVariables.Add("hits", new CombatantData.TextExportFormatter("hits", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-hits"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-hits"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "hits", Extra)));
+            CombatantData.ExportVariables.Add("crithits", new CombatantData.TextExportFormatter("crithits", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-crithits"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-crithits"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "crithits", Extra)));
+            CombatantData.ExportVariables.Add("crithit%", new CombatantData.TextExportFormatter("crithit%", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-crithit%"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-crithit%"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "crithit%", Extra)));
+            CombatantData.ExportVariables.Add("fcrithit%", new CombatantData.TextExportFormatter("fcrithit%", "Filtered Critical Hit Chance", "Critical Hit Chance filtered against AttackTypes that have the ability to critically hit.", (Data, Extra) => CombatantFormatSwitch(Data, "fcrithit%", Extra)));
+            CombatantData.ExportVariables.Add("misses", new CombatantData.TextExportFormatter("misses", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-misses"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-misses"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "misses", Extra)));
+            CombatantData.ExportVariables.Add("hitfailed", new CombatantData.TextExportFormatter("hitfailed", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-hitfailed"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-hitfailed"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "hitfailed", Extra)));
+            CombatantData.ExportVariables.Add("swings", new CombatantData.TextExportFormatter("swings", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-swings"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-swings"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "swings", Extra)));
+            CombatantData.ExportVariables.Add("tohit", new CombatantData.TextExportFormatter("tohit", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-tohit"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-tohit"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "tohit", Extra)));
+            CombatantData.ExportVariables.Add("TOHIT", new CombatantData.TextExportFormatter("TOHIT", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-TOHIT"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-TOHIT"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "TOHIT", Extra)));
+            CombatantData.ExportVariables.Add("maxhit", new CombatantData.TextExportFormatter("maxhit", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-maxhit"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-maxhit"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "maxhit", Extra)));
+            CombatantData.ExportVariables.Add("MAXHIT", new CombatantData.TextExportFormatter("MAXHIT", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-MAXHIT"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-MAXHIT"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "MAXHIT", Extra)));
+            CombatantData.ExportVariables.Add("healed", new CombatantData.TextExportFormatter("healed", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-healed"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-healed"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "healed", Extra)));
+            CombatantData.ExportVariables.Add("healed%", new CombatantData.TextExportFormatter("healed%", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-healed%"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-healed%"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "healed%", Extra)));
+            CombatantData.ExportVariables.Add("enchps", new CombatantData.TextExportFormatter("enchps", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-exthps"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-exthps"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "enchps", Extra)));
+            CombatantData.ExportVariables.Add("ENCHPS", new CombatantData.TextExportFormatter("ENCHPS", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-EXTHPS"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-EXTHPS"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "ENCHPS", Extra)));
+            CombatantData.ExportVariables.Add("ENCHPS-k", new CombatantData.TextExportFormatter("ENCHPS-k", "Short Encounter HPS K", "Short Encounter HPS divided by 1,000 (with no decimal places)", (Data, Extra) => CombatantFormatSwitch(Data, "ENCHPS-k", Extra)));
+            CombatantData.ExportVariables.Add("critheals", new CombatantData.TextExportFormatter("critheals", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-critheals"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-critheals"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "critheals", Extra)));
+            CombatantData.ExportVariables.Add("critheal%", new CombatantData.TextExportFormatter("critheal%", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-critheal%"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-critheal%"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "critheal%", Extra)));
+            CombatantData.ExportVariables.Add("heals", new CombatantData.TextExportFormatter("heals", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-heals"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-heals"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "heals", Extra)));
+            CombatantData.ExportVariables.Add("cures", new CombatantData.TextExportFormatter("cures", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-cures"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-cures"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "cures", Extra)));
+            CombatantData.ExportVariables.Add("maxheal", new CombatantData.TextExportFormatter("maxheal", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-maxheal"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-maxheal"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "maxheal", Extra)));
+            CombatantData.ExportVariables.Add("MAXHEAL", new CombatantData.TextExportFormatter("MAXHEAL", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-MAXHEAL"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-MAXHEAL"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "MAXHEAL", Extra)));
+            CombatantData.ExportVariables.Add("damagetaken", new CombatantData.TextExportFormatter("damagetaken", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-damagetaken"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-damagetaken"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "damagetaken", Extra)));
+            CombatantData.ExportVariables.Add("healstaken", new CombatantData.TextExportFormatter("healstaken", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-healstaken"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-healstaken"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "healstaken", Extra)));
+            CombatantData.ExportVariables.Add("powerheal", new CombatantData.TextExportFormatter("powerheal", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-powerheal"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-powerheal"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "powerheal", Extra)));
+            CombatantData.ExportVariables.Add("kills", new CombatantData.TextExportFormatter("kills", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-kills"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-kills"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "kills", Extra)));
+            CombatantData.ExportVariables.Add("deaths", new CombatantData.TextExportFormatter("deaths", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-deaths"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-deaths"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "deaths", Extra)));
+            CombatantData.ExportVariables.Add("NAME3", new CombatantData.TextExportFormatter("NAME3", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-NAME3"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-NAME3"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "NAME3", Extra)));
+            CombatantData.ExportVariables.Add("NAME4", new CombatantData.TextExportFormatter("NAME4", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-NAME4"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-NAME4"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "NAME4", Extra)));
+            CombatantData.ExportVariables.Add("NAME8", new CombatantData.TextExportFormatter("NAME8", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-NAME8"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-NAME8"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "NAME8", Extra)));
+            CombatantData.ExportVariables.Add("NAME12", new CombatantData.TextExportFormatter("NAME12", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-NAME12"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-NAME12"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "NAME12", Extra)));
+            CombatantData.ExportVariables.Add("NAME15", new CombatantData.TextExportFormatter("NAME15", ActGlobals.ActLocalization.LocalizationStrings["exportFormattingLabel-NAME15"].DisplayedText, ActGlobals.ActLocalization.LocalizationStrings["exportFormattingDesc-NAME15"].DisplayedText, (Data, Extra) => CombatantFormatSwitch(Data, "NAME15", Extra)));
         }
         private void FixupDamageTypeData()
         {
             DamageTypeData.ColumnDefs.Clear();
-            DamageTypeData.ColumnDefs.Add("EncId", new DamageTypeData.ColumnDef("EncId", false, "CHAR(8)", "EncId", (Data) => { return string.Empty; }, (Data) => { return Data.Parent.Parent.EncId; })); // TODO shows nothing
-            DamageTypeData.ColumnDefs.Add("Combatant", new DamageTypeData.ColumnDef("Combatant", false, "VARCHAR(64)", "Combatant", (Data) => { return Data.Parent.Name; }, (Data) => { return Data.Parent.Name; }));
-            DamageTypeData.ColumnDefs.Add("Grouping", new DamageTypeData.ColumnDef("Grouping", false, "VARCHAR(92)", "Grouping", (Data) => { return string.Empty; }, GetDamageTypeGrouping)); // TODO shows nothing, may be irrelevant to NW
-            DamageTypeData.ColumnDefs.Add("Type", new DamageTypeData.ColumnDef("Type", true, "VARCHAR(64)", "Type", (Data) => { return Data.Type; }, (Data) => { return Data.Type; }));
-            DamageTypeData.ColumnDefs.Add("StartTime", new DamageTypeData.ColumnDef("StartTime", false, "TIMESTAMP", "StartTime", (Data) => { return Data.StartTime == DateTime.MaxValue ? "--:--:--" : Data.StartTime.ToString("T"); }, (Data) => { return Data.StartTime == DateTime.MaxValue ? "0000-00-00 00:00:00" : Data.StartTime.ToString("u").TrimEnd(new char[] { 'Z' }); }));
-            DamageTypeData.ColumnDefs.Add("EndTime", new DamageTypeData.ColumnDef("EndTime", false, "TIMESTAMP", "EndTime", (Data) => { return Data.EndTime == DateTime.MinValue ? "--:--:--" : Data.StartTime.ToString("T"); }, (Data) => { return Data.EndTime == DateTime.MinValue ? "0000-00-00 00:00:00" : Data.StartTime.ToString("u").TrimEnd(new char[] { 'Z' }); }));
-            DamageTypeData.ColumnDefs.Add("Duration", new DamageTypeData.ColumnDef("Duration", false, "INT", "Duration", (Data) => { return Data.DurationS; }, (Data) => { return Data.Duration.TotalSeconds.ToString("0"); }));
-            DamageTypeData.ColumnDefs.Add("Damage", new DamageTypeData.ColumnDef("Damage", true, "BIGINT", "Damage", (Data) => { return Data.Damage.ToString(GetIntCommas()); }, (Data) => { return Data.Damage.ToString(); }));
-            DamageTypeData.ColumnDefs.Add("EncDPS", new DamageTypeData.ColumnDef("EncDPS", true, "DOUBLE", "EncDPS", (Data) => { return Data.EncDPS.ToString(GetFloatCommas()); }, (Data) => { return Data.EncDPS.ToString(usCulture); }));
-            DamageTypeData.ColumnDefs.Add("CharDPS", new DamageTypeData.ColumnDef("CharDPS", false, "DOUBLE", "CharDPS", (Data) => { return Data.CharDPS.ToString(GetFloatCommas()); }, (Data) => { return Data.CharDPS.ToString(usCulture); })); // TODO what is this?
-            DamageTypeData.ColumnDefs.Add("DPS", new DamageTypeData.ColumnDef("DPS", false, "DOUBLE", "DPS", (Data) => { return Data.DPS.ToString(GetFloatCommas()); }, (Data) => { return Data.DPS.ToString(usCulture); }));
-            DamageTypeData.ColumnDefs.Add("AverageHit", new DamageTypeData.ColumnDef("AverageHit", true, "FLOAT", "Average", (Data) => { return Data.Average.ToString(GetFloatCommas()); }, (Data) => { return Data.Average.ToString(usCulture); }));
-            DamageTypeData.ColumnDefs.Add("MedianHit", new DamageTypeData.ColumnDef("MedianHit", false, "INT", "Median", (Data) => { return Data.Median.ToString(GetIntCommas()); }, (Data) => { return Data.Median.ToString(); }));
-            DamageTypeData.ColumnDefs.Add("MinHit", new DamageTypeData.ColumnDef("MinHit", true, "INT", "MinHit", (Data) => { return Data.MinHit.ToString(GetIntCommas()); }, (Data) => { return Data.MinHit.ToString(); }));
-            DamageTypeData.ColumnDefs.Add("MaxHit", new DamageTypeData.ColumnDef("MaxHit", true, "INT", "MaxHit", (Data) => { return Data.MaxHit.ToString(GetIntCommas()); }, (Data) => { return Data.MaxHit.ToString(); }));
-            DamageTypeData.ColumnDefs.Add("CritHits", new DamageTypeData.ColumnDef("CritHits", false, "INT", "CritHits", (Data) => { return Data.CritHits.ToString(GetIntCommas()); }, (Data) => { return Data.CritHits.ToString(); }));
-            DamageTypeData.ColumnDefs.Add("Swings", new DamageTypeData.ColumnDef("Swings", true, "INT", "Swings", (Data) => { return Data.Swings.ToString(GetIntCommas()); }, (Data) => { return Data.Swings.ToString(); })); // TODO same as Hits for all intents and purposes, irrelevant for NW
-            DamageTypeData.ColumnDefs.Add("AvgDelay", new DamageTypeData.ColumnDef("AvgDelay", false, "FLOAT", "AverageDelay", (Data) => { return Data.AverageDelay.ToString(GetFloatCommas()); }, (Data) => { return Data.AverageDelay.ToString(); }));
-            DamageTypeData.ColumnDefs.Add("Crit%", new DamageTypeData.ColumnDef("Crit%", true, "VARCHAR(8)", "CritPerc", (Data) => { return Data.CritPerc.ToString("0'%"); }, (Data) => { return Data.CritPerc.ToString("0'%"); }));
+            DamageTypeData.ColumnDefs.Add("EncId", new DamageTypeData.ColumnDef("EncId", false, "CHAR(8)", "EncId", (Data) => string.Empty, (Data) => Data.Parent.Parent.EncId)); // TODO shows nothing
+            DamageTypeData.ColumnDefs.Add("Combatant", new DamageTypeData.ColumnDef("Combatant", false, "VARCHAR(64)", "Combatant", (Data) => Data.Parent.Name, (Data) => Data.Parent.Name));
+            DamageTypeData.ColumnDefs.Add("Grouping", new DamageTypeData.ColumnDef("Grouping", false, "VARCHAR(92)", "Grouping", (Data) => string.Empty, GetDamageTypeGrouping)); // TODO shows nothing, may be irrelevant to NW
+            DamageTypeData.ColumnDefs.Add("Type", new DamageTypeData.ColumnDef("Type", true, "VARCHAR(64)", "Type", (Data) => Data.Type, (Data) => Data.Type));
+            DamageTypeData.ColumnDefs.Add("StartTime", new DamageTypeData.ColumnDef("StartTime", false, "TIMESTAMP", "StartTime", (Data) => Data.StartTime == DateTime.MaxValue ? "--:--:--" : Data.StartTime.ToString("T"), (Data) => Data.StartTime == DateTime.MaxValue ? "0000-00-00 00:00:00" : Data.StartTime.ToString("u").TrimEnd(new char[] { 'Z' })));
+            DamageTypeData.ColumnDefs.Add("EndTime", new DamageTypeData.ColumnDef("EndTime", false, "TIMESTAMP", "EndTime", (Data) => Data.EndTime == DateTime.MinValue ? "--:--:--" : Data.StartTime.ToString("T"), (Data) => Data.EndTime == DateTime.MinValue ? "0000-00-00 00:00:00" : Data.StartTime.ToString("u").TrimEnd(new char[] { 'Z' })));
+            DamageTypeData.ColumnDefs.Add("Duration", new DamageTypeData.ColumnDef("Duration", false, "INT", "Duration", (Data) => Data.DurationS, (Data) => Data.Duration.TotalSeconds.ToString("0")));
+            DamageTypeData.ColumnDefs.Add("Damage", new DamageTypeData.ColumnDef("Damage", true, "BIGINT", "Damage", (Data) => Data.Damage.ToString(GetIntCommas()), (Data) => Data.Damage.ToString()));
+            DamageTypeData.ColumnDefs.Add("EncDPS", new DamageTypeData.ColumnDef("EncDPS", true, "DOUBLE", "EncDPS", (Data) => Data.EncDPS.ToString(GetFloatCommas()), (Data) => Data.EncDPS.ToString(usCulture)));
+            DamageTypeData.ColumnDefs.Add("CharDPS", new DamageTypeData.ColumnDef("CharDPS", false, "DOUBLE", "CharDPS", (Data) => Data.CharDPS.ToString(GetFloatCommas()), (Data) => Data.CharDPS.ToString(usCulture))); // TODO what is this?
+            DamageTypeData.ColumnDefs.Add("DPS", new DamageTypeData.ColumnDef("DPS", false, "DOUBLE", "DPS", (Data) => Data.DPS.ToString(GetFloatCommas()), (Data) => Data.DPS.ToString(usCulture)));
+            DamageTypeData.ColumnDefs.Add("AverageHit", new DamageTypeData.ColumnDef("AverageHit", true, "FLOAT", "Average", (Data) => Data.Average.ToString(GetFloatCommas()), (Data) => Data.Average.ToString(usCulture)));
+            DamageTypeData.ColumnDefs.Add("MedianHit", new DamageTypeData.ColumnDef("MedianHit", false, "INT", "Median", (Data) => Data.Median.ToString(GetIntCommas()), (Data) => Data.Median.ToString()));
+            DamageTypeData.ColumnDefs.Add("MinHit", new DamageTypeData.ColumnDef("MinHit", true, "INT", "MinHit", (Data) => Data.MinHit.ToString(GetIntCommas()), (Data) => Data.MinHit.ToString()));
+            DamageTypeData.ColumnDefs.Add("MaxHit", new DamageTypeData.ColumnDef("MaxHit", true, "INT", "MaxHit", (Data) => Data.MaxHit.ToString(GetIntCommas()), (Data) => Data.MaxHit.ToString()));
+            DamageTypeData.ColumnDefs.Add("CritHits", new DamageTypeData.ColumnDef("CritHits", false, "INT", "CritHits", (Data) => Data.CritHits.ToString(GetIntCommas()), (Data) => Data.CritHits.ToString()));
+            DamageTypeData.ColumnDefs.Add("Swings", new DamageTypeData.ColumnDef("Swings", true, "INT", "Swings", (Data) => Data.Swings.ToString(GetIntCommas()), (Data) => Data.Swings.ToString())); // TODO same as Hits for all intents and purposes, irrelevant for NW
+            DamageTypeData.ColumnDefs.Add("AvgDelay", new DamageTypeData.ColumnDef("AvgDelay", false, "FLOAT", "AverageDelay", (Data) => Data.AverageDelay.ToString(GetFloatCommas()), (Data) => Data.AverageDelay.ToString()));
+            DamageTypeData.ColumnDefs.Add("Crit%", new DamageTypeData.ColumnDef("Crit%", true, "VARCHAR(8)", "CritPerc", (Data) => Data.CritPerc.ToString("0'%"), (Data) => Data.CritPerc.ToString("0'%")));
             // TODO consider filtering Crit/Flank/Deflect to consider when powers can't be affected by them, and/or adding a dmg% column in addition to the hit chance% column
 
             DamageTypeData.ColumnDefs.Add("FlankHits",
@@ -1487,27 +1488,27 @@ namespace NWParsing_Plugin
         private void FixupAttackTypeData()
         {
             AttackType.ColumnDefs.Clear();
-            AttackType.ColumnDefs.Add("EncId", new AttackType.ColumnDef("EncId", false, "CHAR(8)", "EncId", (Data) => { return string.Empty; }, (Data) => { return Data.Parent.Parent.Parent.EncId; }, (Left, Right) => { return 0; })); // TODO shows nothing in ACT window
-            AttackType.ColumnDefs.Add("Attacker", new AttackType.ColumnDef("Attacker", false, "VARCHAR(64)", "Attacker", (Data) => { return Data.Parent.Outgoing ? Data.Parent.Parent.Name : string.Empty; }, (Data) => { return Data.Parent.Outgoing ? Data.Parent.Parent.Name : string.Empty; }, (Left, Right) => { return 0; }));
-            AttackType.ColumnDefs.Add("Victim", new AttackType.ColumnDef("Victim", false, "VARCHAR(64)", "Victim", (Data) => { return Data.Parent.Outgoing ? string.Empty : Data.Parent.Parent.Name; }, (Data) => { return Data.Parent.Outgoing ? string.Empty : Data.Parent.Parent.Name; }, (Left, Right) => { return 0; }));
-            AttackType.ColumnDefs.Add("SwingType", new AttackType.ColumnDef("SwingType", false, "TINYINT", "SwingType", GetAttackTypeSwingType, GetAttackTypeSwingType, (Left, Right) => { return 0; })); // TODO make human-readable
-            AttackType.ColumnDefs.Add("Type", new AttackType.ColumnDef("Type", true, "VARCHAR(64)", "Type", (Data) => { return Data.Type; }, (Data) => { return Data.Type; }, (Left, Right) => { return Left.Type.CompareTo(Right.Type); }));
-            AttackType.ColumnDefs.Add("StartTime", new AttackType.ColumnDef("StartTime", false, "TIMESTAMP", "StartTime", (Data) => { return Data.StartTime == DateTime.MaxValue ? "--:--:--" : Data.StartTime.ToString("T"); }, (Data) => { return Data.StartTime == DateTime.MaxValue ? "0000-00-00 00:00:00" : Data.StartTime.ToString("u").TrimEnd(new char[] { 'Z' }); }, (Left, Right) => { return Left.StartTime.CompareTo(Right.StartTime); }));
-            AttackType.ColumnDefs.Add("EndTime", new AttackType.ColumnDef("EndTime", false, "TIMESTAMP", "EndTime", (Data) => { return Data.EndTime == DateTime.MinValue ? "--:--:--" : Data.EndTime.ToString("T"); }, (Data) => { return Data.EndTime == DateTime.MinValue ? "0000-00-00 00:00:00" : Data.EndTime.ToString("u").TrimEnd(new char[] { 'Z' }); }, (Left, Right) => { return Left.EndTime.CompareTo(Right.EndTime); }));
-            AttackType.ColumnDefs.Add("Duration", new AttackType.ColumnDef("Duration", false, "INT", "Duration", (Data) => { return Data.DurationS; }, (Data) => { return Data.Duration.TotalSeconds.ToString("0"); }, (Left, Right) => { return Left.Duration.CompareTo(Right.Duration); }));
-            AttackType.ColumnDefs.Add("Damage", new AttackType.ColumnDef("Damage", true, "BIGINT", "Damage", (Data) => { return Data.Damage.ToString(GetIntCommas()); }, (Data) => { return Data.Damage.ToString(); }, (Left, Right) => { return Left.Damage.CompareTo(Right.Damage); }));
-            AttackType.ColumnDefs.Add("EncDPS", new AttackType.ColumnDef("EncDPS", true, "DOUBLE", "EncDPS", (Data) => { return Data.EncDPS.ToString(GetFloatCommas()); }, (Data) => { return Data.EncDPS.ToString(usCulture); }, (Left, Right) => { return Left.EncDPS.CompareTo(Right.EncDPS); }));
-            AttackType.ColumnDefs.Add("CharDPS", new AttackType.ColumnDef("CharDPS", false, "DOUBLE", "CharDPS", (Data) => { return Data.CharDPS.ToString(GetFloatCommas()); }, (Data) => { return Data.CharDPS.ToString(usCulture); }, (Left, Right) => { return Left.CharDPS.CompareTo(Right.CharDPS); })); // TODO what is this?
-            AttackType.ColumnDefs.Add("DPS", new AttackType.ColumnDef("DPS", false, "DOUBLE", "DPS", (Data) => { return Data.DPS.ToString(GetFloatCommas()); }, (Data) => { return Data.DPS.ToString(usCulture); }, (Left, Right) => { return Left.DPS.CompareTo(Right.DPS); }));
-            AttackType.ColumnDefs.Add("Average", new AttackType.ColumnDef("Average", true, "FLOAT", "Average", (Data) => { return Data.Average.ToString(GetFloatCommas()); }, (Data) => { return Data.Average.ToString(usCulture); }, (Left, Right) => { return Left.Average.CompareTo(Right.Average); }));
-            AttackType.ColumnDefs.Add("Median", new AttackType.ColumnDef("Median", true, "INT", "Median", (Data) => { return Data.Median.ToString(GetIntCommas()); }, (Data) => { return Data.Median.ToString(); }, (Left, Right) => { return Left.Median.CompareTo(Right.Median); }));
-            AttackType.ColumnDefs.Add("MinHit", new AttackType.ColumnDef("MinHit", true, "INT", "MinHit", (Data) => { return Data.MinHit.ToString(GetIntCommas()); }, (Data) => { return Data.MinHit.ToString(); }, (Left, Right) => { return Left.MinHit.CompareTo(Right.MinHit); }));
-            AttackType.ColumnDefs.Add("MaxHit", new AttackType.ColumnDef("MaxHit", true, "INT", "MaxHit", (Data) => { return Data.MaxHit.ToString(GetIntCommas()); }, (Data) => { return Data.MaxHit.ToString(); }, (Left, Right) => { return Left.MaxHit.CompareTo(Right.MaxHit); }));
-            AttackType.ColumnDefs.Add("Resist", new AttackType.ColumnDef("Resist", true, "VARCHAR(64)", "Resist", (Data) => { return Data.Resist; }, (Data) => { return Data.Resist; }, (Left, Right) => { return Left.Resist.CompareTo(Right.Resist); }));
-            AttackType.ColumnDefs.Add("CritHits", new AttackType.ColumnDef("CritHits", false, "INT", "CritHits", (Data) => { return Data.CritHits.ToString(GetIntCommas()); }, (Data) => { return Data.CritHits.ToString(); }, (Left, Right) => { return Left.CritHits.CompareTo(Right.CritHits); }));
-            AttackType.ColumnDefs.Add("Swings", new AttackType.ColumnDef("Swings", true, "INT", "Swings", (Data) => { return Data.Swings.ToString(GetIntCommas()); }, (Data) => { return Data.Swings.ToString(); }, (Left, Right) => { return Left.Swings.CompareTo(Right.Swings); }));
-            AttackType.ColumnDefs.Add("AvgDelay", new AttackType.ColumnDef("AvgDelay", false, "FLOAT", "AverageDelay", (Data) => { return Data.AverageDelay.ToString(GetFloatCommas()); }, (Data) => { return Data.AverageDelay.ToString(usCulture); }, (Left, Right) => { return Left.AverageDelay.CompareTo(Right.AverageDelay); }));
-            AttackType.ColumnDefs.Add("Crit%", new AttackType.ColumnDef("Crit%", true, "VARCHAR(8)", "CritPerc", (Data) => { return Data.CritPerc.ToString("0'%"); }, (Data) => { return Data.CritPerc.ToString("0'%"); }, (Left, Right) => { return Left.CritPerc.CompareTo(Right.CritPerc); }));
+            AttackType.ColumnDefs.Add("EncId", new AttackType.ColumnDef("EncId", false, "CHAR(8)", "EncId", (Data) => string.Empty, (Data) => Data.Parent.Parent.Parent.EncId, (Left, Right) => 0)); // TODO shows nothing in ACT window
+            AttackType.ColumnDefs.Add("Attacker", new AttackType.ColumnDef("Attacker", false, "VARCHAR(64)", "Attacker", (Data) => Data.Parent.Outgoing ? Data.Parent.Parent.Name : string.Empty, (Data) => Data.Parent.Outgoing ? Data.Parent.Parent.Name : string.Empty, (Left, Right) => 0));
+            AttackType.ColumnDefs.Add("Victim", new AttackType.ColumnDef("Victim", false, "VARCHAR(64)", "Victim", (Data) => Data.Parent.Outgoing ? string.Empty : Data.Parent.Parent.Name, (Data) => Data.Parent.Outgoing ? string.Empty : Data.Parent.Parent.Name, (Left, Right) => 0));
+            AttackType.ColumnDefs.Add("SwingType", new AttackType.ColumnDef("SwingType", false, "TINYINT", "SwingType", GetAttackTypeSwingType, GetAttackTypeSwingType, (Left, Right) => 0)); // TODO make human-readable
+            AttackType.ColumnDefs.Add("Type", new AttackType.ColumnDef("Type", true, "VARCHAR(64)", "Type", (Data) => Data.Type, (Data) => Data.Type, (Left, Right) => Left.Type.CompareTo(Right.Type)));
+            AttackType.ColumnDefs.Add("StartTime", new AttackType.ColumnDef("StartTime", false, "TIMESTAMP", "StartTime", (Data) => Data.StartTime == DateTime.MaxValue ? "--:--:--" : Data.StartTime.ToString("T"), (Data) => Data.StartTime == DateTime.MaxValue ? "0000-00-00 00:00:00" : Data.StartTime.ToString("u").TrimEnd(new char[] { 'Z' }), (Left, Right) => Left.StartTime.CompareTo(Right.StartTime)));
+            AttackType.ColumnDefs.Add("EndTime", new AttackType.ColumnDef("EndTime", false, "TIMESTAMP", "EndTime", (Data) => Data.EndTime == DateTime.MinValue ? "--:--:--" : Data.EndTime.ToString("T"), (Data) => Data.EndTime == DateTime.MinValue ? "0000-00-00 00:00:00" : Data.EndTime.ToString("u").TrimEnd(new char[] { 'Z' }), (Left, Right) => Left.EndTime.CompareTo(Right.EndTime)));
+            AttackType.ColumnDefs.Add("Duration", new AttackType.ColumnDef("Duration", false, "INT", "Duration", (Data) => Data.DurationS, (Data) => Data.Duration.TotalSeconds.ToString("0"), (Left, Right) => Left.Duration.CompareTo(Right.Duration)));
+            AttackType.ColumnDefs.Add("Damage", new AttackType.ColumnDef("Damage", true, "BIGINT", "Damage", (Data) => Data.Damage.ToString(GetIntCommas()), (Data) => Data.Damage.ToString(), (Left, Right) => Left.Damage.CompareTo(Right.Damage)));
+            AttackType.ColumnDefs.Add("EncDPS", new AttackType.ColumnDef("EncDPS", true, "DOUBLE", "EncDPS", (Data) => Data.EncDPS.ToString(GetFloatCommas()), (Data) => Data.EncDPS.ToString(usCulture), (Left, Right) => Left.EncDPS.CompareTo(Right.EncDPS)));
+            AttackType.ColumnDefs.Add("CharDPS", new AttackType.ColumnDef("CharDPS", false, "DOUBLE", "CharDPS", (Data) => Data.CharDPS.ToString(GetFloatCommas()), (Data) => Data.CharDPS.ToString(usCulture), (Left, Right) => Left.CharDPS.CompareTo(Right.CharDPS))); // TODO what is this?
+            AttackType.ColumnDefs.Add("DPS", new AttackType.ColumnDef("DPS", false, "DOUBLE", "DPS", (Data) => Data.DPS.ToString(GetFloatCommas()), (Data) => Data.DPS.ToString(usCulture), (Left, Right) => Left.DPS.CompareTo(Right.DPS)));
+            AttackType.ColumnDefs.Add("Average", new AttackType.ColumnDef("Average", true, "FLOAT", "Average", (Data) => Data.Average.ToString(GetFloatCommas()), (Data) => Data.Average.ToString(usCulture), (Left, Right) => Left.Average.CompareTo(Right.Average)));
+            AttackType.ColumnDefs.Add("Median", new AttackType.ColumnDef("Median", true, "INT", "Median", (Data) => Data.Median.ToString(GetIntCommas()), (Data) => Data.Median.ToString(), (Left, Right) => Left.Median.CompareTo(Right.Median)));
+            AttackType.ColumnDefs.Add("MinHit", new AttackType.ColumnDef("MinHit", true, "INT", "MinHit", (Data) => Data.MinHit.ToString(GetIntCommas()), (Data) => Data.MinHit.ToString(), (Left, Right) => Left.MinHit.CompareTo(Right.MinHit)));
+            AttackType.ColumnDefs.Add("MaxHit", new AttackType.ColumnDef("MaxHit", true, "INT", "MaxHit", (Data) => Data.MaxHit.ToString(GetIntCommas()), (Data) => Data.MaxHit.ToString(), (Left, Right) => Left.MaxHit.CompareTo(Right.MaxHit)));
+            AttackType.ColumnDefs.Add("Resist", new AttackType.ColumnDef("Resist", true, "VARCHAR(64)", "Resist", (Data) => Data.Resist, (Data) => Data.Resist, (Left, Right) => Left.Resist.CompareTo(Right.Resist)));
+            AttackType.ColumnDefs.Add("CritHits", new AttackType.ColumnDef("CritHits", false, "INT", "CritHits", (Data) => Data.CritHits.ToString(GetIntCommas()), (Data) => Data.CritHits.ToString(), (Left, Right) => Left.CritHits.CompareTo(Right.CritHits)));
+            AttackType.ColumnDefs.Add("Swings", new AttackType.ColumnDef("Swings", true, "INT", "Swings", (Data) => Data.Swings.ToString(GetIntCommas()), (Data) => Data.Swings.ToString(), (Left, Right) => Left.Swings.CompareTo(Right.Swings)));
+            AttackType.ColumnDefs.Add("AvgDelay", new AttackType.ColumnDef("AvgDelay", false, "FLOAT", "AverageDelay", (Data) => Data.AverageDelay.ToString(GetFloatCommas()), (Data) => Data.AverageDelay.ToString(usCulture), (Left, Right) => Left.AverageDelay.CompareTo(Right.AverageDelay)));
+            AttackType.ColumnDefs.Add("Crit%", new AttackType.ColumnDef("Crit%", true, "VARCHAR(8)", "CritPerc", (Data) => Data.CritPerc.ToString("0'%"), (Data) => Data.CritPerc.ToString("0'%"), (Left, Right) => Left.CritPerc.CompareTo(Right.CritPerc)));
 
             AttackType.ColumnDefs.Add("FlankHits",
                 new AttackType.ColumnDef("FlankHits", false, "INT", "FlankHits", GetCellDataFlankHits, GetSqlDataFlankHits, AttackTypeCompareFlankHits));
@@ -1523,19 +1524,19 @@ namespace NWParsing_Plugin
         private void FixupMasterSwingData()
         {
             MasterSwing.ColumnDefs.Clear();
-            MasterSwing.ColumnDefs.Add("EncId", new MasterSwing.ColumnDef("EncId", false, "CHAR(8)", "EncId", (Data) => { return string.Empty; }, (Data) => { return Data.ParentEncounter.EncId; }, (Left, Right) => { return 0; }));
-            MasterSwing.ColumnDefs.Add("Time", new MasterSwing.ColumnDef("Time", true, "TIMESTAMP", "STime", (Data) => { return Data.Time.ToString("T"); }, (Data) => { return Data.Time.ToString("u").TrimEnd(new char[] { 'Z' }); }, (Left, Right) => { return Left.Time.CompareTo(Right.Time); }));
-            MasterSwing.ColumnDefs.Add("Attacker", new MasterSwing.ColumnDef("Attacker", true, "VARCHAR(64)", "Attacker", (Data) => { return Data.Attacker; }, (Data) => { return Data.Attacker; }, (Left, Right) => { return Left.Attacker.CompareTo(Right.Attacker); }));
-            MasterSwing.ColumnDefs.Add("SwingType", new MasterSwing.ColumnDef("SwingType", false, "TINYINT", "SwingType", (Data) => { return Data.SwingType.ToString(); }, (Data) => { return Data.SwingType.ToString(); }, (Left, Right) => { return Left.SwingType.CompareTo(Right.SwingType); })); // TODO make human-readable
-            MasterSwing.ColumnDefs.Add("AttackType", new MasterSwing.ColumnDef("AttackType", true, "VARCHAR(64)", "AttackType", (Data) => { return Data.AttackType; }, (Data) => { return Data.AttackType; }, (Left, Right) => { return Left.AttackType.CompareTo(Right.AttackType); }));
-            MasterSwing.ColumnDefs.Add("DamageType", new MasterSwing.ColumnDef("DamageType", true, "VARCHAR(64)", "DamageType", (Data) => { return Data.DamageType; }, (Data) => { return Data.DamageType; }, (Left, Right) => { return Left.DamageType.CompareTo(Right.DamageType); }));
-            MasterSwing.ColumnDefs.Add("Victim", new MasterSwing.ColumnDef("Victim", true, "VARCHAR(64)", "Victim", (Data) => { return Data.Victim; }, (Data) => { return Data.Victim; }, (Left, Right) => { return Left.Victim.CompareTo(Right.Victim); }));
-            MasterSwing.ColumnDefs.Add("DamageNum", new MasterSwing.ColumnDef("DamageNum", false, "INT", "Damage", (Data) => { return ((int)Data.Damage).ToString(); }, (Data) => { return ((int)Data.Damage).ToString(); }, (Left, Right) => { return Left.Damage.CompareTo(Right.Damage); }));
+            MasterSwing.ColumnDefs.Add("EncId", new MasterSwing.ColumnDef("EncId", false, "CHAR(8)", "EncId", (Data) => string.Empty, (Data) => Data.ParentEncounter.EncId, (Left, Right) => 0));
+            MasterSwing.ColumnDefs.Add("Time", new MasterSwing.ColumnDef("Time", true, "TIMESTAMP", "STime", (Data) => Data.Time.ToString("T"), (Data) => Data.Time.ToString("u").TrimEnd(new char[] { 'Z' }), (Left, Right) => Left.Time.CompareTo(Right.Time)));
+            MasterSwing.ColumnDefs.Add("Attacker", new MasterSwing.ColumnDef("Attacker", true, "VARCHAR(64)", "Attacker", (Data) => Data.Attacker, (Data) => Data.Attacker, (Left, Right) => Left.Attacker.CompareTo(Right.Attacker)));
+            MasterSwing.ColumnDefs.Add("SwingType", new MasterSwing.ColumnDef("SwingType", false, "TINYINT", "SwingType", (Data) => Data.SwingType.ToString(), (Data) => Data.SwingType.ToString(), (Left, Right) => Left.SwingType.CompareTo(Right.SwingType))); // TODO make human-readable
+            MasterSwing.ColumnDefs.Add("AttackType", new MasterSwing.ColumnDef("AttackType", true, "VARCHAR(64)", "AttackType", (Data) => Data.AttackType, (Data) => Data.AttackType, (Left, Right) => Left.AttackType.CompareTo(Right.AttackType)));
+            MasterSwing.ColumnDefs.Add("DamageType", new MasterSwing.ColumnDef("DamageType", true, "VARCHAR(64)", "DamageType", (Data) => Data.DamageType, (Data) => Data.DamageType, (Left, Right) => Left.DamageType.CompareTo(Right.DamageType)));
+            MasterSwing.ColumnDefs.Add("Victim", new MasterSwing.ColumnDef("Victim", true, "VARCHAR(64)", "Victim", (Data) => Data.Victim, (Data) => Data.Victim, (Left, Right) => Left.Victim.CompareTo(Right.Victim)));
+            MasterSwing.ColumnDefs.Add("DamageNum", new MasterSwing.ColumnDef("DamageNum", false, "INT", "Damage", (Data) => ((int)Data.Damage).ToString(), (Data) => ((int)Data.Damage).ToString(), (Left, Right) => Left.Damage.CompareTo(Right.Damage)));
             //MasterSwing.ColumnDefs.Add("Damage", new MasterSwing.ColumnDef("Damage", true, "VARCHAR(128)", "DamageString", /* lambda */ (Data) => { return Data.Damage.ToString(); }, (Data) => { return Data.Damage.ToString(); }, (Left, Right) => { return Left.Damage.CompareTo(Right.Damage); }));
             // As a C# lesson, the above lines(lambda expressions) can also be written as(anonymous methods):
 
             MasterSwing.ColumnDefs.Add("Damage",
-                new MasterSwing.ColumnDef("Damage", true, "VARCHAR(128)", "DamageString", GetCellDataDamage, (Data) => { return Data.Damage.ToString(); }, (Left, Right) => { return Left.Damage.CompareTo(Right.Damage); }));
+                new MasterSwing.ColumnDef("Damage", true, "VARCHAR(128)", "DamageString", GetCellDataDamage, (Data) => Data.Damage.ToString(), (Left, Right) => Left.Damage.CompareTo(Right.Damage)));
 
             MasterSwing.ColumnDefs.Add("Critical", new MasterSwing.ColumnDef("Critical", true, "CHAR(1)", "Critical", /* anonymous */ delegate (MasterSwing Data) { return Data.Critical.ToString(); }, delegate (MasterSwing Data) { return Data.Critical.ToString(usCulture)[0].ToString(); }, delegate (MasterSwing Left, MasterSwing Right) { return Left.Critical.CompareTo(Right.Critical); }));
             // Or also written as(delegated methods):
@@ -3217,8 +3218,8 @@ namespace NWParsing_Plugin
 
         private void textBox_player_TextChanged(object sender, EventArgs e)
         {
-            bool not_empty = (this.textBox_player.Text.Length > 0);
-            this.button_remove.Enabled = this.button_add.Enabled = not_empty;
+            bool not_empty = (textBox_player.Text.Length > 0);
+            button_remove.Enabled = button_add.Enabled = not_empty;
 
             if (!not_empty)
             {
@@ -3266,8 +3267,8 @@ namespace NWParsing_Plugin
 
     internal class PetOwnerRegistery : OwnerRegistery
     {
-        private Dictionary<string, OwnerInfo> petPlayerCache = new Dictionary<string, OwnerInfo>();
-        private Dictionary<string, OwnerInfo> playerPetCache = new Dictionary<string, OwnerInfo>();
+        private readonly Dictionary<string, OwnerInfo> petPlayerCache = new Dictionary<string, OwnerInfo>();
+        private readonly Dictionary<string, OwnerInfo> playerPetCache = new Dictionary<string, OwnerInfo>();
 
         public void Clear()
         {
@@ -3327,7 +3328,7 @@ namespace NWParsing_Plugin
 
     internal class EntityOwnerRegistery : OwnerRegistery
     {
-        private Dictionary<string, OwnerInfo> entityPlayerCache = new Dictionary<string, OwnerInfo>();
+        private readonly Dictionary<string, OwnerInfo> entityPlayerCache = new Dictionary<string, OwnerInfo>();
 
         public void Clear()
         {
@@ -3376,10 +3377,10 @@ namespace NWParsing_Plugin
     {
         // Added new lines to end to maintain FIFO/Time ordering.
         // Should act as a FIFO if 100% matches.
-        private LinkedList<ShieldLine> active = new LinkedList<ShieldLine>();
+        private readonly LinkedList<ShieldLine> active = new LinkedList<ShieldLine>();
 
         // Keep a pointer to the parser so we can add damage events for attacks that are never matched.
-        private NW_Parser parser;
+        private readonly NW_Parser parser;
 
         public UnmatchedShieldLines(NW_Parser p)
         {
@@ -3543,7 +3544,7 @@ namespace NWParsing_Plugin
             // 13:07:08:14:57:31.4::Wolf       ,C[42358 Monster_Wolf]                    ,                  ,*                     ,Fiolnir    ,P[201259732@7545190 Fiolnir@lodur42]     ,Bite  ,Pn.Lp6b6g1,Physical,Flank,43.4474,47.6017
 
             this.logInfo = logInfo;
-            this.timeSorter = ++ActGlobals.oFormActMain.GlobalTimeSorter;
+            timeSorter = ++ActGlobals.oFormActMain.GlobalTimeSorter;
             string line = logInfo.logLine;
             string[] split = line.Split(NW_Parser.separatorLog, StringSplitOptions.None);
 
@@ -3557,7 +3558,7 @@ namespace NWParsing_Plugin
             if (split.Length != 13)
             {
                 // Still not right, give up.
-                this.error = true;
+                error = true;
                 return;
             }
 
