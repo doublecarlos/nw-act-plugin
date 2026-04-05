@@ -181,6 +181,7 @@ namespace NWParsing_Plugin
             this.checkBox_mergeNPC.UseVisualStyleBackColor = true;
             this.checkBox_mergeNPC.MouseEnter += new System.EventHandler(this.checkBox_mergeNPC_MouseEnter);
             this.checkBox_mergeNPC.MouseLeave += new System.EventHandler(this.control_MouseLeave);
+            this.checkBox_mergeNPC.CheckedChanged += (s, e) => parserSettings.MergeNPC = this.checkBox_mergeNPC.Checked;
             // 
             // checkBox_mergePets
             // 
@@ -193,6 +194,7 @@ namespace NWParsing_Plugin
             this.checkBox_mergePets.UseVisualStyleBackColor = true;
             this.checkBox_mergePets.MouseEnter += new System.EventHandler(this.checkBox_mergePets_MouseEnter);
             this.checkBox_mergePets.MouseLeave += new System.EventHandler(this.control_MouseLeave);
+            this.checkBox_mergePets.CheckedChanged += (s, e) => parserSettings.MergePets = this.checkBox_mergePets.Checked;
             // 
             // checkBox_flankSkill
             // 
@@ -205,6 +207,7 @@ namespace NWParsing_Plugin
             this.checkBox_flankSkill.UseVisualStyleBackColor = true;
             this.checkBox_flankSkill.MouseEnter += new System.EventHandler(this.checkBox_flankSkill_MouseEnter);
             this.checkBox_flankSkill.MouseLeave += new System.EventHandler(this.control_MouseLeave);
+            this.checkBox_flankSkill.CheckedChanged += (s, e) => parserSettings.ShowFlankOnAttackType = this.checkBox_flankSkill.Checked;
             // 
             // groupBox1
             // 
@@ -357,7 +360,6 @@ namespace NWParsing_Plugin
 
         private UnmatchedShieldLines unmatchedShieldLines = null;
 
-        private Dictionary<string, bool> playerCharacterNames = new Dictionary<string, bool>();
         private bool playersCharacterFound = false;
 
         // FIXME changing some of these Inc/Out___Name strings breaks columns in Combatant list in Encounter view for some reason
@@ -425,6 +427,8 @@ namespace NWParsing_Plugin
             "Pn.Bdzbls", // "Instructional Aid" from Tutor
             "Pn.3kzn9w1", // "Instructional Aid" from Tutor
         };
+
+        private ParserSettings parserSettings = new ParserSettings();
 
         public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
         {
@@ -2125,7 +2129,7 @@ namespace NWParsing_Plugin
             {
                 if (pl.ownerEntityType == EntityType.Player)
                 {
-                    if (playerCharacterNames.ContainsKey(pl.ownerDisplayName))
+                    if (parserSettings.PlayerCharacterNames.Contains(pl.ownerDisplayName))
                     {
                         ActGlobals.charName = pl.ownerDisplayName;
                         playersCharacterFound = true;
@@ -2285,7 +2289,7 @@ namespace NWParsing_Plugin
 
                 line.encounterAttackerName = line.ownerDisplayName;
                 line.unitAttackerName = attackerName;
-                if (this.checkBox_mergePets.Checked)
+                if (parserSettings.MergePets)
                 {
                     line.unitAttackerName = line.ownerDisplayName;
                 }
@@ -2298,7 +2302,7 @@ namespace NWParsing_Plugin
 
                 // Pet name:
                 line.unitAttackerName = line.sourceDisplayName + " [" + line.ownerDisplayName + "'s Pet]";
-                if (this.checkBox_mergePets.Checked)
+                if (parserSettings.MergePets)
                 {
                     line.unitAttackerName = line.ownerDisplayName;
                 }
@@ -2313,7 +2317,7 @@ namespace NWParsing_Plugin
                 line.encounterAttackerName = line.ownerDisplayName;
                 String creatureId = line.ownerInternalName.Split()[0].Substring(2);
 
-                if (checkBox_mergeNPC.Checked)
+                if (parserSettings.MergeNPC)
                 {
                     // Merge all NPCs to a single name.
                     line.unitAttackerName = line.ownerDisplayName;
@@ -2349,7 +2353,7 @@ namespace NWParsing_Plugin
 
                             // Pet name:
                             line.unitAttackerName = line.sourceDisplayName + " [" + owner.ownerDsp + "'s Pet]";
-                            if (this.checkBox_mergePets.Checked)
+                            if (parserSettings.MergePets)
                             {
                                 line.unitAttackerName = owner.ownerDsp;
                             }
@@ -2372,7 +2376,7 @@ namespace NWParsing_Plugin
                             {
                                 line.encounterAttackerName = owner.ownerDsp;
 
-                                if (checkBox_mergeNPC.Checked)
+                                if (parserSettings.MergeNPC)
                                 {
                                     // Merge all NPCs to a single name.
                                     line.unitAttackerName = owner.ownerDsp;
@@ -2402,7 +2406,7 @@ namespace NWParsing_Plugin
                     {
                         line.encounterAttackerName = line.sourceDisplayName;
 
-                        if (checkBox_mergeNPC.Checked)
+                        if (parserSettings.MergeNPC)
                         {
                             // Merge all NPCs to a single name.
                             line.unitAttackerName = line.sourceDisplayName;
@@ -2451,7 +2455,7 @@ namespace NWParsing_Plugin
 
                             // Pet name:
                             line.unitTargetName = line.targetDisplayName + " [" + line.targetOwnerInfo.ownerDsp + "'s Pet]";
-                            if (this.checkBox_mergePets.Checked)
+                            if (parserSettings.MergePets)
                             {
                                 line.unitTargetName = line.targetOwnerInfo.ownerDsp;
                             }
@@ -2490,7 +2494,7 @@ namespace NWParsing_Plugin
                             line.encounterTargetName = line.targetDisplayName;
                             String creatureId = line.targetInternalName.Split()[0].Substring(2);
 
-                            if (checkBox_mergeNPC.Checked)
+                            if (parserSettings.MergeNPC)
                             {
                                 // Merge all NPCs to a single name.
                                 line.unitTargetName = line.targetDisplayName;
@@ -3037,7 +3041,7 @@ namespace NWParsing_Plugin
             {
                 // add Flank to AttackType if setting is set
                 string tempAttack = theAttackType;
-                if (line.flank && this.checkBox_flankSkill.Checked) tempAttack = theAttackType + ": Flank";
+                if (line.flank && parserSettings.ShowFlankOnAttackType) tempAttack = theAttackType + ": Flank";
 
                 if (line.sourceInternalName.Contains("Artifact_Weapon_Illusion_Clone"))
                 {
@@ -3147,7 +3151,7 @@ namespace NWParsing_Plugin
 
             foreach (string i in listBox_players.Items)
             {
-                playerCharacterNames.Add(i.ToString(), true);
+                parserSettings.PlayerCharacterNames.Add(i.ToString());
             }
         }
 
@@ -3172,10 +3176,10 @@ namespace NWParsing_Plugin
         private void button_add_Click(object sender, EventArgs e)
         {
             string name = textBox_player.Text;
-            if (!listBox_players.Items.Contains(name))
+            if (!parserSettings.PlayerCharacterNames.Contains(name))
             {
+                parserSettings.PlayerCharacterNames.Add(name);
                 listBox_players.Items.Add(name);
-                playerCharacterNames.Add(name, true);
                 textBox_player.Clear();
             }
         }
@@ -3183,18 +3187,18 @@ namespace NWParsing_Plugin
         private void button_remove_Click(object sender, EventArgs e)
         {
             string name = textBox_player.Text;
-            if (listBox_players.Items.Contains(name))
+            if (parserSettings.PlayerCharacterNames.Contains(name))
             {
+                parserSettings.PlayerCharacterNames.Remove(name);
                 listBox_players.Items.Remove(name);
-                playerCharacterNames.Remove(name);
                 textBox_player.Clear();
             }
         }
 
         private void button_clearAll_Click(object sender, EventArgs e)
         {
+            parserSettings.PlayerCharacterNames.Clear();
             listBox_players.Items.Clear();
-            playerCharacterNames.Clear();
             textBox_player.Clear();
         }
 
@@ -3628,5 +3632,31 @@ namespace NWParsing_Plugin
                 attackType = NW_Parser.unknownAbility;
             }
         }
+    }
+
+    /// <summary>
+    /// Simple class to hold parser settings, and decouple them from the UI
+    /// </summary>
+    internal class ParserSettings
+    {
+        /// <summary>
+        /// True if damage from pets (companions) should be merged into the owner's damage.
+        /// </summary>
+        public bool MergePets;
+
+        /// <summary>
+        /// True if damage from non-pet NPCs should be merged into their owner's damage.
+        /// </summary>
+        public bool MergeNPC;
+
+        /// <summary>
+        /// True if flank (combat advantage) damage should be separated into ": Flanked" sections.
+        /// </summary>
+        public bool ShowFlankOnAttackType;
+
+        /// <summary>
+        /// List of player character names
+        /// </summary>
+        public List<string> PlayerCharacterNames = new List<string>();
     }
 }
