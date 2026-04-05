@@ -11,7 +11,7 @@ using Advanced_Combat_Tracker;
 
 using NUnit.Framework;
 
-using NWParsing_Plugin;
+using NWLogParsing;
 
 namespace TestHarness
 {
@@ -94,7 +94,7 @@ namespace TestHarness
             ActGlobals.oFormActMain = form;
             ActGlobals.charName = "";
 
-            var parser = new NW_Parser();
+            var parser = new NWParserActPlugin();
             parser.InitPlugin(new TabPage(), new Label());
 
             using (var reader = new StreamReader(logFile, Encoding.UTF8))

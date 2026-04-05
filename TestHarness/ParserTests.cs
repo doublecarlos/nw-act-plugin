@@ -6,7 +6,7 @@ using Advanced_Combat_Tracker;
 
 using NUnit.Framework;
 
-using NWParsing_Plugin;
+using NWLogParsing;
 
 namespace TestHarness
 {
@@ -16,7 +16,7 @@ namespace TestHarness
     public class ParserTests
     {
         private FormActMain _form;
-        private NW_Parser _parser;
+        private NWParserActPlugin _parser;
 
         [SetUp]
         public void SetUp()
@@ -27,7 +27,7 @@ namespace TestHarness
             ActGlobals.oFormActMain = _form;
             ActGlobals.charName = "";
 
-            _parser = new NW_Parser();
+            _parser = new NWParserActPlugin();
             _parser.InitPlugin(new TabPage(), new Label());
         }
 

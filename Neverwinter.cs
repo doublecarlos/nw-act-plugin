@@ -124,9 +124,9 @@ using Advanced_Combat_Tracker;
  */
 
 
-namespace NWParsing_Plugin
+namespace NWLogParsing
 {
-    public class NW_Parser : UserControl, IActPluginV1
+    public class NWParserActPlugin : UserControl, IActPluginV1
     {
 
         #region Designer Created Code (Avoid editing)
@@ -340,7 +340,7 @@ namespace NWParsing_Plugin
 
         #endregion
 
-        public NW_Parser()
+        public NWParserActPlugin()
         {
             InitializeComponent();
         }
@@ -2278,7 +2278,7 @@ namespace NWParsing_Plugin
             line.encounterAttackerName = line.ownerDisplayName;
             line.unitAttackerName = line.ownerDisplayName;
 
-            if (Array.IndexOf(NW_Parser.companionEntityPowers, line.eventInternalName) != -1)
+            if (Array.IndexOf(NWParserActPlugin.companionEntityPowers, line.eventInternalName) != -1)
             {
                 OwnerInfo info = petOwnerRegistery.ResolveByPlayer(line.ownerInternalName);
                 string attackerName = unknownDisplayName;
@@ -3287,7 +3287,7 @@ namespace NWParsing_Plugin
             OwnerInfo OwnerInfo = null;
 
             // Record owner of all pets we see.
-            if (line.sourceEntityType == EntityType.Pet && Array.IndexOf(NW_Parser.companionEntityPowers, line.eventInternalName) == -1)
+            if (line.sourceEntityType == EntityType.Pet && Array.IndexOf(NWParserActPlugin.companionEntityPowers, line.eventInternalName) == -1)
             {
                 OwnerInfo = new OwnerInfo();
                 OwnerInfo.ownerDsp = line.ownerDisplayName;
@@ -3380,9 +3380,9 @@ namespace NWParsing_Plugin
         private readonly LinkedList<ShieldLine> active = new LinkedList<ShieldLine>();
 
         // Keep a pointer to the parser so we can add damage events for attacks that are never matched.
-        private readonly NW_Parser parser;
+        private readonly NWParserActPlugin parser;
 
-        public UnmatchedShieldLines(NW_Parser p)
+        public UnmatchedShieldLines(NWParserActPlugin p)
         {
             parser = p;
         }
@@ -3546,14 +3546,14 @@ namespace NWParsing_Plugin
             this.logInfo = logInfo;
             timeSorter = ++ActGlobals.oFormActMain.GlobalTimeSorter;
             string line = logInfo.logLine;
-            string[] split = line.Split(NW_Parser.separatorLog, StringSplitOptions.None);
+            string[] split = line.Split(NWParserActPlugin.separatorLog, StringSplitOptions.None);
 
             // TODO ouch. Implement this in a cleaner, more reliable way.
             if (split.Length > 13)
             {
                 // Too many fields, probably one of the names has a comma in it.
                 string overloadfix = line.Replace(", ", " ");
-                split = overloadfix.Split(NW_Parser.separatorLog, StringSplitOptions.None);
+                split = overloadfix.Split(NWParserActPlugin.separatorLog, StringSplitOptions.None);
             }
             if (split.Length != 13)
             {
@@ -3572,8 +3572,8 @@ namespace NWParsing_Plugin
             eventInternalName = split[8];
             type = split[9];
             flags = split[10];
-            damage = float.Parse(split[11], NW_Parser.cultureLog);
-            baseDamage = float.Parse(split[12], NW_Parser.cultureLog);
+            damage = float.Parse(split[11], NWParserActPlugin.cultureLog);
+            baseDamage = float.Parse(split[12], NWParserActPlugin.cultureLog);
 
             ownerEntityType = EntityType.Unknown;
             sourceEntityType = EntityType.Unknown;
@@ -3630,7 +3630,7 @@ namespace NWParsing_Plugin
             if (attackType.Trim().Length == 0)
             {
                 // Uggly fix for missing attack type
-                attackType = NW_Parser.unknownAbility;
+                attackType = NWParserActPlugin.unknownAbility;
             }
         }
     }
